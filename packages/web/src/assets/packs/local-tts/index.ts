@@ -21,6 +21,15 @@ export interface LocalTtsManifestEntry {
   readonly confirmed: boolean;
   /** 导入来源备注（图集 URL 指纹、切片索引等，便于人工核对） */
   readonly source?: string;
+  /**
+   * 卡面印的英文卡名（DT-OCR-001 由卡图 OCR + 视觉复核得到；仅 card 条目有）。
+   * 只是「库存情报」，不参与 resolve；UI 永远按逻辑 id 查，不会读这个字段。
+   */
+  readonly cardName?: string;
+  /** cardName 的来源：ocr = 直接识别；canonical = 经基准表（视觉复核）校正 */
+  readonly nameSource?: 'ocr' | 'canonical';
+  /** 卡名 OCR 置信度 0–100，供人工复核排序（越低越该先看） */
+  readonly ocrConfidence?: number;
 }
 
 export interface LocalTtsManifest {

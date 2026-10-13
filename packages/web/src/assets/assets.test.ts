@@ -37,7 +37,7 @@ test('catalog：覆盖两个已实现英雄的面板/能力/骰面/卡牌', () =
     assert.equal(listCatalogIds('dieFace').filter((x) => x.id.startsWith(`${hero}:face:`)).length, 6, `${hero} 应有 6 个骰面`);
   }
   assert.ok(listCatalogIds('card').length >= 16, 'common + 两英雄升级卡应 ≥16');
-  assert.equal(listCatalogIds('statusIcon').length, 4, '应有 4 个 common 状态');
+  assert.equal(listCatalogIds('statusIcon').length, 7, '应有 7 个 common 状态（含 stun/concussion/knockdown）');
 });
 
 // ── placeholder 兜底 ─────────────────────────────────────────────

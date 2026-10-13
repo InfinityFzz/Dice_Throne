@@ -28,11 +28,12 @@ export const COMMON_STATUSES: readonly StatusDef[] = [
     },
   },
   {
+    // 官方值（Pyromancer 技能板原图，2026-10-13）：Stack limit 1；回合开始受 2 伤害；Persistent
     id: 'common:burn',
     name: '灼烧',
     polarity: 'negative',
-    stackLimit: 3,
-    persistent: false,
+    stackLimit: 1,
+    persistent: true,
     spendable: false,
     upkeep: {
       order: 'damage',
@@ -46,6 +47,37 @@ export const COMMON_STATUSES: readonly StatusDef[] = [
         },
       }],
     },
+  },
+  {
+    // 官方值（Barbarian 技能板原图）：Stack limit 1。
+    // 机制在引擎层：被晕者在当前攻击中不得执行任何动作（含响应窗口）；
+    // 攻击结束后施加者移除此 token 并获得一次额外进攻掷骰阶段（grantExtraOffensiveRollPhase）。
+    id: 'common:stun',
+    name: '眩晕',
+    polarity: 'negative',
+    stackLimit: 1,
+    persistent: true,
+    spendable: false,
+  },
+  {
+    // 官方值（Barbarian 技能板原图）：Stack limit 1。
+    // 机制在引擎层：持有者跳过其收入阶段，然后移除此 token（skipPhase income）。
+    id: 'common:concussion',
+    name: '脑震荡',
+    polarity: 'negative',
+    stackLimit: 1,
+    persistent: true,
+    spendable: false,
+  },
+  {
+    // 官方值（Pyromancer 技能板原图）：Stack limit 1；赎金 2 CP。
+    // 机制在引擎层：进入进攻掷骰阶段前可支付 2 CP 免除本次攻击（挂起点 knockdownPay）。
+    id: 'common:knockdown',
+    name: '击倒',
+    polarity: 'negative',
+    stackLimit: 1,
+    persistent: true,
+    spendable: false,
   },
   {
     id: 'common:evasive',

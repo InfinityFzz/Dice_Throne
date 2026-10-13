@@ -12,6 +12,16 @@ packages/web/src/assets/packs/local-tts/images/
 packages/web/src/assets/packs/reskin/images/
 .tts-cache/
 
+# ── OCR（DT-OCR-001）──
+# 卡名识别结果 ocr-results.json 入库（只有卡名，属元数据）；
+# 卡面效果正文的原始 OCR **绝不入库**（官方规则文本），仅人工核对数值时用。
+packages/web/src/assets/packs/local-tts/ocr-raw-text.json
+# OCR/挖掘的临时工作目录（切片预览、卡名带裁剪、联系表）
+.ocr-work/
+# tesseract.js 首次运行会把语言包下到 CWD（默认行为），别让它污染仓库根
+eng.traineddata
+*.traineddata
+
 # 本地临时文件
 *.local
 .DS_Store

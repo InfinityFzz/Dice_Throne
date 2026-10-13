@@ -1,0 +1,4423 @@
+{
+  "generatedAt": "2026-10-13T07:57:17.440Z",
+  "engine": "tesseract.js (eng, psm7)",
+  "method": "卡名带自适应定位（行墨迹剖面）→ 灰度/反相/归一化/4x/阈值 → OCR",
+  "summary": {
+    "total": 230,
+    "named": 230,
+    "unresolved": 0,
+    "mappedToSharedContent": 5,
+    "avgConfidence": 79.4,
+    "byHero": {
+      "gunslinger": {
+        "total": 33,
+        "named": 33,
+        "avgConfidence": 77.6
+      },
+      "pyromancer": {
+        "total": 33,
+        "named": 33,
+        "avgConfidence": 78.2
+      },
+      "shadowthief": {
+        "total": 33,
+        "named": 33,
+        "avgConfidence": 80.7
+      },
+      "moonelf": {
+        "total": 33,
+        "named": 33,
+        "avgConfidence": 77.3
+      },
+      "barbarian": {
+        "total": 33,
+        "named": 33,
+        "avgConfidence": 80.1
+      },
+      "ninja": {
+        "total": 33,
+        "named": 33,
+        "avgConfidence": 84.3
+      },
+      "raveness": {
+        "total": 32,
+        "named": 32,
+        "avgConfidence": 77.6
+      }
+    },
+    "ocrExactVsCanonical": 183,
+    "canonicalNameSource": "人工视觉复核（卡名带 + 整卡缩略图联系表逐行目读）"
+  },
+  "entries": [
+    {
+      "file": "gunslinger/cards/card-00.webp",
+      "hero": "gunslinger",
+      "index": 0,
+      "rawText": "TRANSFERENCE!",
+      "cleanedText": "Transference!",
+      "ocrCleanedText": "Transference!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-00",
+      "proposedId": "tts-gunslinger-transference",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-01.webp",
+      "hero": "gunslinger",
+      "index": 1,
+      "rawText": "WHAT STATUS EFFECTS?",
+      "cleanedText": "What Status Effects?",
+      "ocrCleanedText": "What Status Effects?",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-01",
+      "proposedId": "tts-gunslinger-what-status-effects",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-02.webp",
+      "hero": "gunslinger",
+      "index": 2,
+      "rawText": "VEGAS BABY!",
+      "cleanedText": "Vegas Baby!",
+      "ocrCleanedText": "Vegas Baby!",
+      "nameSource": "ocr",
+      "confidence": 83,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-02",
+      "proposedId": "tts-gunslinger-vegas-baby",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-03.webp",
+      "hero": "gunslinger",
+      "index": 3,
+      "rawText": "GET THAT OUTTA HERE!",
+      "cleanedText": "Get That Outta Here!",
+      "ocrCleanedText": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-03",
+      "proposedId": "tts-gunslinger-get-that-outta-here",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-04.webp",
+      "hero": "gunslinger",
+      "index": 4,
+      "rawText": "TRIPLE UP!",
+      "cleanedText": "Triple Up!",
+      "ocrCleanedText": "Triple Up!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-04",
+      "proposedId": "tts-gunslinger-triple-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-05.webp",
+      "hero": "gunslinger",
+      "index": 5,
+      "rawText": "DOUBLE UP!",
+      "cleanedText": "Double Up!",
+      "ocrCleanedText": "Double Up!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-05",
+      "proposedId": "tts-gunslinger-double-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-06.webp",
+      "hero": "gunslinger",
+      "index": 6,
+      "rawText": "BUH. BYE!",
+      "cleanedText": "Buh, Bye!",
+      "ocrCleanedText": "Buh. Bye!",
+      "nameSource": "canonical",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-06",
+      "proposedId": "tts-gunslinger-buh-bye",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-07.webp",
+      "hero": "gunslinger",
+      "index": 7,
+      "rawText": "TIP IM",
+      "cleanedText": "Tip It!",
+      "ocrCleanedText": "Tip Im",
+      "nameSource": "canonical",
+      "confidence": 0,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-07",
+      "proposedId": "tts-gunslinger-tip-it",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-08.webp",
+      "hero": "gunslinger",
+      "index": 8,
+      "rawText": "GETTING PAID!",
+      "cleanedText": "Getting Paid!",
+      "ocrCleanedText": "Getting Paid!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-08",
+      "proposedId": "tts-gunslinger-getting-paid",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-09.webp",
+      "hero": "gunslinger",
+      "index": 9,
+      "rawText": "NOT THIS TIME!",
+      "cleanedText": "Not This Time!",
+      "ocrCleanedText": "Not This Time!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-09",
+      "proposedId": "tts-gunslinger-not-this-time",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-10.webp",
+      "hero": "gunslinger",
+      "index": 10,
+      "rawText": "TWICE AS WILD!",
+      "cleanedText": "Twice As Wild!",
+      "ocrCleanedText": "Twice As Wild!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-10",
+      "proposedId": "tts-gunslinger-twice-as-wild",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-11.webp",
+      "hero": "gunslinger",
+      "index": 11,
+      "rawText": "TRY. TRY AGAIN!",
+      "cleanedText": "Try, Try Again!",
+      "ocrCleanedText": "Try. Try Again!",
+      "nameSource": "canonical",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-11",
+      "proposedId": "tts-gunslinger-try-try-again",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-12.webp",
+      "hero": "gunslinger",
+      "index": 12,
+      "rawText": "SO WILD!",
+      "cleanedText": "So Wild!",
+      "ocrCleanedText": "So Wild!",
+      "nameSource": "ocr",
+      "confidence": 91,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-12",
+      "proposedId": "tts-gunslinger-so-wild",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-13.webp",
+      "hero": "gunslinger",
+      "index": 13,
+      "rawText": "SAMESIES!",
+      "cleanedText": "Samesies!",
+      "ocrCleanedText": "Samesies!",
+      "nameSource": "ocr",
+      "confidence": 89,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-13",
+      "proposedId": "tts-gunslinger-samesies",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-14.webp",
+      "hero": "gunslinger",
+      "index": 14,
+      "rawText": "i ONE MORE TIME!",
+      "cleanedText": "One More Time!",
+      "ocrCleanedText": "One More Time!",
+      "nameSource": "ocr",
+      "confidence": 83,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-14",
+      "proposedId": "tts-gunslinger-one-more-time",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-15.webp",
+      "hero": "gunslinger",
+      "index": 15,
+      "rawText": "i HELPING HAND",
+      "cleanedText": "Helping Hand",
+      "ocrCleanedText": "Helping Hand",
+      "nameSource": "ocr",
+      "confidence": 80,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-15",
+      "proposedId": "tts-gunslinger-helping-hand",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-16.webp",
+      "hero": "gunslinger",
+      "index": 16,
+      "rawText": "i BETTER D!",
+      "cleanedText": "Better D!",
+      "ocrCleanedText": "Better D!",
+      "nameSource": "ocr",
+      "confidence": 79,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-16",
+      "proposedId": "tts-gunslinger-better-d",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-17.webp",
+      "hero": "gunslinger",
+      "index": 17,
+      "rawText": "! SIX-IT!",
+      "cleanedText": "Six-It!",
+      "ocrCleanedText": "Six-it!",
+      "nameSource": "canonical",
+      "confidence": 40,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-17",
+      "proposedId": "tts-gunslinger-six-it",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-18.webp",
+      "hero": "gunslinger",
+      "index": 18,
+      "rawText": "DUEL II",
+      "cleanedText": "Duel II",
+      "ocrCleanedText": "Duel II",
+      "nameSource": "ocr",
+      "confidence": 65,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-18",
+      "proposedId": "tts-gunslinger-duel-ii",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-19.webp",
+      "hero": "gunslinger",
+      "index": 19,
+      "rawText": "! SHOWDOWN II",
+      "cleanedText": "Showdown II",
+      "ocrCleanedText": "Showdown II",
+      "nameSource": "ocr",
+      "confidence": 63,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-19",
+      "proposedId": "tts-gunslinger-showdown-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-20.webp",
+      "hero": "gunslinger",
+      "index": 20,
+      "rawText": "SHOWDOWN Ill j",
+      "cleanedText": "Showdown III",
+      "ocrCleanedText": "Showdown III",
+      "nameSource": "ocr",
+      "confidence": 47,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-20",
+      "proposedId": "tts-gunslinger-showdown-iii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-21.webp",
+      "hero": "gunslinger",
+      "index": 21,
+      "rawText": "REVOLVER I",
+      "cleanedText": "Revolver II",
+      "ocrCleanedText": "Revolver I",
+      "nameSource": "canonical",
+      "confidence": 54,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-21",
+      "proposedId": "tts-gunslinger-revolver-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-22.webp",
+      "hero": "gunslinger",
+      "index": 22,
+      "rawText": "FAN THE HAMMERNE",
+      "cleanedText": "Fan The Hammer II",
+      "ocrCleanedText": "Fan The Hammerne",
+      "nameSource": "canonical",
+      "confidence": 32,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-22",
+      "proposedId": "tts-gunslinger-fan-the-hammer-ii",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "B"
+    },
+    {
+      "file": "gunslinger/cards/card-23.webp",
+      "hero": "gunslinger",
+      "index": 23,
+      "rawText": ". BOUNTY HUNTER NI",
+      "cleanedText": "Bounty Hunter II",
+      "ocrCleanedText": "Bounty Hunter II",
+      "nameSource": "ocr",
+      "confidence": 41,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-23",
+      "proposedId": "tts-gunslinger-bounty-hunter-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-24.webp",
+      "hero": "gunslinger",
+      "index": 24,
+      "rawText": "TAKE COVER",
+      "cleanedText": "Take Cover II",
+      "ocrCleanedText": "Take Cover",
+      "nameSource": "canonical",
+      "confidence": 57,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-24",
+      "proposedId": "tts-gunslinger-take-cover-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-25.webp",
+      "hero": "gunslinger",
+      "index": 25,
+      "rawText": "DEADEYE Il",
+      "cleanedText": "Deadeye II",
+      "ocrCleanedText": "Deadeye II",
+      "nameSource": "ocr",
+      "confidence": 74,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-25",
+      "proposedId": "tts-gunslinger-deadeye-ii",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-26.webp",
+      "hero": "gunslinger",
+      "index": 26,
+      "rawText": "i WILD WEST!",
+      "cleanedText": "Wild West!",
+      "ocrCleanedText": "Wild West!",
+      "nameSource": "ocr",
+      "confidence": 80,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-26",
+      "proposedId": "tts-gunslinger-wild-west",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-27.webp",
+      "hero": "gunslinger",
+      "index": 27,
+      "rawText": "WANTED!",
+      "cleanedText": "Wanted!",
+      "ocrCleanedText": "Wanted!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-27",
+      "proposedId": "tts-gunslinger-wanted",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-28.webp",
+      "hero": "gunslinger",
+      "index": 28,
+      "rawText": "SPIN THE CHAMBER!",
+      "cleanedText": "Spin The Chamber!",
+      "ocrCleanedText": "Spin The Chamber!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-28",
+      "proposedId": "tts-gunslinger-spin-the-chamber",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-29.webp",
+      "hero": "gunslinger",
+      "index": 29,
+      "rawText": "ROULETTE!",
+      "cleanedText": "Roulette!",
+      "ocrCleanedText": "Roulette!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-29",
+      "proposedId": "tts-gunslinger-roulette",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-30.webp",
+      "hero": "gunslinger",
+      "index": 30,
+      "rawText": "EAT LEAD!",
+      "cleanedText": "Eat Lead!",
+      "ocrCleanedText": "Eat Lead!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-30",
+      "proposedId": "tts-gunslinger-eat-lead",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-31.webp",
+      "hero": "gunslinger",
+      "index": 31,
+      "rawText": "QUICK DRAW II",
+      "cleanedText": "Quick Draw II",
+      "ocrCleanedText": "Quick Draw II",
+      "nameSource": "ocr",
+      "confidence": 86,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-31",
+      "proposedId": "tts-gunslinger-quick-draw-ii",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "gunslinger/cards/card-32.webp",
+      "hero": "gunslinger",
+      "index": 32,
+      "rawText": "RUN AND GUN!",
+      "cleanedText": "Run And Gun!",
+      "ocrCleanedText": "Run And Gun!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-gunslinger-card-32",
+      "proposedId": "tts-gunslinger-run-and-gun",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-00.webp",
+      "hero": "pyromancer",
+      "index": 0,
+      "rawText": "TRANSFERENCE!",
+      "cleanedText": "Transference!",
+      "ocrCleanedText": "Transference!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-00",
+      "proposedId": "tts-pyromancer-transference",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-01.webp",
+      "hero": "pyromancer",
+      "index": 1,
+      "rawText": "WHAT STATUS EFFECTS?",
+      "cleanedText": "What Status Effects?",
+      "ocrCleanedText": "What Status Effects?",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-01",
+      "proposedId": "tts-pyromancer-what-status-effects",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-02.webp",
+      "hero": "pyromancer",
+      "index": 2,
+      "rawText": "VEGAS BABY!",
+      "cleanedText": "Vegas Baby!",
+      "ocrCleanedText": "Vegas Baby!",
+      "nameSource": "ocr",
+      "confidence": 83,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-02",
+      "proposedId": "tts-pyromancer-vegas-baby",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-03.webp",
+      "hero": "pyromancer",
+      "index": 3,
+      "rawText": "GET THAT OUTTA HERE!",
+      "cleanedText": "Get That Outta Here!",
+      "ocrCleanedText": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-03",
+      "proposedId": "tts-pyromancer-get-that-outta-here",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-04.webp",
+      "hero": "pyromancer",
+      "index": 4,
+      "rawText": "TRIPLE UP!",
+      "cleanedText": "Triple Up!",
+      "ocrCleanedText": "Triple Up!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-04",
+      "proposedId": "tts-pyromancer-triple-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-05.webp",
+      "hero": "pyromancer",
+      "index": 5,
+      "rawText": "DOUBLE UP!",
+      "cleanedText": "Double Up!",
+      "ocrCleanedText": "Double Up!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-05",
+      "proposedId": "tts-pyromancer-double-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-06.webp",
+      "hero": "pyromancer",
+      "index": 6,
+      "rawText": "BUH. BYE!",
+      "cleanedText": "Buh, Bye!",
+      "ocrCleanedText": "Buh. Bye!",
+      "nameSource": "canonical",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-06",
+      "proposedId": "tts-pyromancer-buh-bye",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-07.webp",
+      "hero": "pyromancer",
+      "index": 7,
+      "rawText": "TIP ITM",
+      "cleanedText": "Tip It!",
+      "ocrCleanedText": "Tip Itm",
+      "nameSource": "canonical",
+      "confidence": 43,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-07",
+      "proposedId": "tts-pyromancer-tip-it",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-08.webp",
+      "hero": "pyromancer",
+      "index": 8,
+      "rawText": "GETTING PAID!",
+      "cleanedText": "Getting Paid!",
+      "ocrCleanedText": "Getting Paid!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-08",
+      "proposedId": "tts-pyromancer-getting-paid",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-09.webp",
+      "hero": "pyromancer",
+      "index": 9,
+      "rawText": "NOT THIS TIME!",
+      "cleanedText": "Not This Time!",
+      "ocrCleanedText": "Not This Time!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-09",
+      "proposedId": "tts-pyromancer-not-this-time",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-10.webp",
+      "hero": "pyromancer",
+      "index": 10,
+      "rawText": "TWICE AS WILD!",
+      "cleanedText": "Twice As Wild!",
+      "ocrCleanedText": "Twice As Wild!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-10",
+      "proposedId": "tts-pyromancer-twice-as-wild",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-11.webp",
+      "hero": "pyromancer",
+      "index": 11,
+      "rawText": "TRY. TRY AGAIN!",
+      "cleanedText": "Try, Try Again!",
+      "ocrCleanedText": "Try. Try Again!",
+      "nameSource": "canonical",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-11",
+      "proposedId": "tts-pyromancer-try-try-again",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-12.webp",
+      "hero": "pyromancer",
+      "index": 12,
+      "rawText": "SO WILD!",
+      "cleanedText": "So Wild!",
+      "ocrCleanedText": "So Wild!",
+      "nameSource": "ocr",
+      "confidence": 91,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-12",
+      "proposedId": "tts-pyromancer-so-wild",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-13.webp",
+      "hero": "pyromancer",
+      "index": 13,
+      "rawText": "SAMESIES!",
+      "cleanedText": "Samesies!",
+      "ocrCleanedText": "Samesies!",
+      "nameSource": "ocr",
+      "confidence": 89,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-13",
+      "proposedId": "tts-pyromancer-samesies",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-14.webp",
+      "hero": "pyromancer",
+      "index": 14,
+      "rawText": "i ONE MORE TIME!",
+      "cleanedText": "One More Time!",
+      "ocrCleanedText": "One More Time!",
+      "nameSource": "ocr",
+      "confidence": 84,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-14",
+      "proposedId": "tts-pyromancer-one-more-time",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-15.webp",
+      "hero": "pyromancer",
+      "index": 15,
+      "rawText": "i HELPING HAND",
+      "cleanedText": "Helping Hand",
+      "ocrCleanedText": "Helping Hand",
+      "nameSource": "ocr",
+      "confidence": 80,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-15",
+      "proposedId": "tts-pyromancer-helping-hand",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-16.webp",
+      "hero": "pyromancer",
+      "index": 16,
+      "rawText": "i BETTER D!",
+      "cleanedText": "Better D!",
+      "ocrCleanedText": "Better D!",
+      "nameSource": "ocr",
+      "confidence": 79,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-16",
+      "proposedId": "tts-pyromancer-better-d",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-17.webp",
+      "hero": "pyromancer",
+      "index": 17,
+      "rawText": "! SIX-IT!",
+      "cleanedText": "Six-It!",
+      "ocrCleanedText": "Six-it!",
+      "nameSource": "canonical",
+      "confidence": 41,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-17",
+      "proposedId": "tts-pyromancer-six-it",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-18.webp",
+      "hero": "pyromancer",
+      "index": 18,
+      "rawText": "l FIREBALL Il",
+      "cleanedText": "Fireball II",
+      "ocrCleanedText": "Fireball II",
+      "nameSource": "ocr",
+      "confidence": 43,
+      "suggestedId": "pyromancer:fireball:2",
+      "provisionalId": "pyromancer:fireball:2",
+      "proposedId": "pyromancer:fireball:2",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-19.webp",
+      "hero": "pyromancer",
+      "index": 19,
+      "rawText": "! PYROBLAST Il",
+      "cleanedText": "Pyroblast II",
+      "ocrCleanedText": "Pyroblast II",
+      "nameSource": "ocr",
+      "confidence": 51,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-19",
+      "proposedId": "tts-pyromancer-pyroblast-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-20.webp",
+      "hero": "pyromancer",
+      "index": 20,
+      "rawText": "PYROBLAST lil j",
+      "cleanedText": "Pyroblast III",
+      "ocrCleanedText": "Pyroblast III",
+      "nameSource": "ocr",
+      "confidence": 48,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-20",
+      "proposedId": "tts-pyromancer-pyroblast-iii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-21.webp",
+      "hero": "pyromancer",
+      "index": 21,
+      "rawText": "BURNING SOUL II",
+      "cleanedText": "Burning Soul II",
+      "ocrCleanedText": "Burning Soul II",
+      "nameSource": "ocr",
+      "confidence": 76,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-21",
+      "proposedId": "tts-pyromancer-burning-soul-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-22.webp",
+      "hero": "pyromancer",
+      "index": 22,
+      "rawText": "i COMBUSTION NI",
+      "cleanedText": "Combustion II",
+      "ocrCleanedText": "Combustion II",
+      "nameSource": "ocr",
+      "confidence": 46,
+      "suggestedId": "pyromancer:combustion:2",
+      "provisionalId": "pyromancer:combustion:2",
+      "proposedId": "pyromancer:combustion:2",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-23.webp",
+      "hero": "pyromancer",
+      "index": 23,
+      "rawText": "HOT STREAK II",
+      "cleanedText": "Hot Streak II",
+      "ocrCleanedText": "Hot Streak II",
+      "nameSource": "ocr",
+      "confidence": 80,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-23",
+      "proposedId": "tts-pyromancer-hot-streak-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-24.webp",
+      "hero": "pyromancer",
+      "index": 24,
+      "rawText": "! IGNITE Il",
+      "cleanedText": "Ignite II",
+      "ocrCleanedText": "Ignite II",
+      "nameSource": "ocr",
+      "confidence": 49,
+      "suggestedId": "pyromancer:ignite:2",
+      "provisionalId": "pyromancer:ignite:2",
+      "proposedId": "pyromancer:ignite:2",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-25.webp",
+      "hero": "pyromancer",
+      "index": 25,
+      "rawText": "! METEORITE Il",
+      "cleanedText": "Meteorite II",
+      "ocrCleanedText": "Meteorite II",
+      "nameSource": "ocr",
+      "confidence": 51,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-25",
+      "proposedId": "tts-pyromancer-meteorite-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-26.webp",
+      "hero": "pyromancer",
+      "index": 26,
+      "rawText": "MOLTEN ARMOR",
+      "cleanedText": "Molten Armor II",
+      "ocrCleanedText": "Molten Armor",
+      "nameSource": "canonical",
+      "confidence": 75,
+      "suggestedId": "pyromancer:moltenArmor:2",
+      "provisionalId": "pyromancer:moltenArmor:2",
+      "proposedId": "pyromancer:moltenArmor:2",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-27.webp",
+      "hero": "pyromancer",
+      "index": 27,
+      "rawText": "MOLTEN ARMOR II",
+      "cleanedText": "Molten Armor III",
+      "ocrCleanedText": "Molten Armor II",
+      "nameSource": "canonical",
+      "confidence": 60,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-27",
+      "proposedId": "tts-pyromancer-molten-armor-iii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-28.webp",
+      "hero": "pyromancer",
+      "index": 28,
+      "rawText": "WARM UP!",
+      "cleanedText": "Warm Up!",
+      "ocrCleanedText": "Warm Up!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-28",
+      "proposedId": "tts-pyromancer-warm-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-29.webp",
+      "hero": "pyromancer",
+      "index": 29,
+      "rawText": "FIRE UP!",
+      "cleanedText": "Fire Up!",
+      "ocrCleanedText": "Fire Up!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-29",
+      "proposedId": "tts-pyromancer-fire-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "B"
+    },
+    {
+      "file": "pyromancer/cards/card-30.webp",
+      "hero": "pyromancer",
+      "index": 30,
+      "rawText": "RED HOT!",
+      "cleanedText": "Red Hot!",
+      "ocrCleanedText": "Red Hot!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-30",
+      "proposedId": "tts-pyromancer-red-hot",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "pyromancer/cards/card-31.webp",
+      "hero": "pyromancer",
+      "index": 31,
+      "rawText": "HUZZAH!",
+      "cleanedText": "Huzzah!",
+      "ocrCleanedText": "Huzzah!",
+      "nameSource": "ocr",
+      "confidence": 87,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-31",
+      "proposedId": "tts-pyromancer-huzzah",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "B"
+    },
+    {
+      "file": "pyromancer/cards/card-32.webp",
+      "hero": "pyromancer",
+      "index": 32,
+      "rawText": "INFERNAL INFUSION!",
+      "cleanedText": "Infernal Infusion!",
+      "ocrCleanedText": "Infernal Infusion!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-pyromancer-card-32",
+      "proposedId": "tts-pyromancer-infernal-infusion",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-00.webp",
+      "hero": "shadowthief",
+      "index": 0,
+      "rawText": "TRANSFERENCE!",
+      "cleanedText": "Transference!",
+      "ocrCleanedText": "Transference!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-00",
+      "proposedId": "tts-shadowthief-transference",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-01.webp",
+      "hero": "shadowthief",
+      "index": 1,
+      "rawText": "WHAT STATUS EFFECTS?",
+      "cleanedText": "What Status Effects?",
+      "ocrCleanedText": "What Status Effects?",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-01",
+      "proposedId": "tts-shadowthief-what-status-effects",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-02.webp",
+      "hero": "shadowthief",
+      "index": 2,
+      "rawText": "VEGAS BABY!",
+      "cleanedText": "Vegas Baby!",
+      "ocrCleanedText": "Vegas Baby!",
+      "nameSource": "ocr",
+      "confidence": 83,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-02",
+      "proposedId": "tts-shadowthief-vegas-baby",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-03.webp",
+      "hero": "shadowthief",
+      "index": 3,
+      "rawText": "GET THAT OUTTA HERE!",
+      "cleanedText": "Get That Outta Here!",
+      "ocrCleanedText": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-03",
+      "proposedId": "tts-shadowthief-get-that-outta-here",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-04.webp",
+      "hero": "shadowthief",
+      "index": 4,
+      "rawText": "TRIPLE UP!",
+      "cleanedText": "Triple Up!",
+      "ocrCleanedText": "Triple Up!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-04",
+      "proposedId": "tts-shadowthief-triple-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-05.webp",
+      "hero": "shadowthief",
+      "index": 5,
+      "rawText": "DOUBLE UP!",
+      "cleanedText": "Double Up!",
+      "ocrCleanedText": "Double Up!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-05",
+      "proposedId": "tts-shadowthief-double-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-06.webp",
+      "hero": "shadowthief",
+      "index": 6,
+      "rawText": "BUH. BYE!",
+      "cleanedText": "Buh, Bye!",
+      "ocrCleanedText": "Buh. Bye!",
+      "nameSource": "canonical",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-06",
+      "proposedId": "tts-shadowthief-buh-bye",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-07.webp",
+      "hero": "shadowthief",
+      "index": 7,
+      "rawText": "TIP ITM",
+      "cleanedText": "Tip It!",
+      "ocrCleanedText": "Tip Itm",
+      "nameSource": "canonical",
+      "confidence": 43,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-07",
+      "proposedId": "tts-shadowthief-tip-it",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-08.webp",
+      "hero": "shadowthief",
+      "index": 8,
+      "rawText": "GETTING PAID!",
+      "cleanedText": "Getting Paid!",
+      "ocrCleanedText": "Getting Paid!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-08",
+      "proposedId": "tts-shadowthief-getting-paid",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-09.webp",
+      "hero": "shadowthief",
+      "index": 9,
+      "rawText": "NOT THIS TIME!",
+      "cleanedText": "Not This Time!",
+      "ocrCleanedText": "Not This Time!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-09",
+      "proposedId": "tts-shadowthief-not-this-time",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-10.webp",
+      "hero": "shadowthief",
+      "index": 10,
+      "rawText": "TWICE AS WILD!",
+      "cleanedText": "Twice As Wild!",
+      "ocrCleanedText": "Twice As Wild!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-10",
+      "proposedId": "tts-shadowthief-twice-as-wild",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-11.webp",
+      "hero": "shadowthief",
+      "index": 11,
+      "rawText": "TRY. TRY AGAIN!",
+      "cleanedText": "Try, Try Again!",
+      "ocrCleanedText": "Try. Try Again!",
+      "nameSource": "canonical",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-11",
+      "proposedId": "tts-shadowthief-try-try-again",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-12.webp",
+      "hero": "shadowthief",
+      "index": 12,
+      "rawText": "SO WILD!",
+      "cleanedText": "So Wild!",
+      "ocrCleanedText": "So Wild!",
+      "nameSource": "ocr",
+      "confidence": 91,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-12",
+      "proposedId": "tts-shadowthief-so-wild",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-13.webp",
+      "hero": "shadowthief",
+      "index": 13,
+      "rawText": "SAMESIES!",
+      "cleanedText": "Samesies!",
+      "ocrCleanedText": "Samesies!",
+      "nameSource": "ocr",
+      "confidence": 89,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-13",
+      "proposedId": "tts-shadowthief-samesies",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-14.webp",
+      "hero": "shadowthief",
+      "index": 14,
+      "rawText": "i ONE MORE TIME!",
+      "cleanedText": "One More Time!",
+      "ocrCleanedText": "One More Time!",
+      "nameSource": "ocr",
+      "confidence": 84,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-14",
+      "proposedId": "tts-shadowthief-one-more-time",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-15.webp",
+      "hero": "shadowthief",
+      "index": 15,
+      "rawText": "i HELPING HAND",
+      "cleanedText": "Helping Hand",
+      "ocrCleanedText": "Helping Hand",
+      "nameSource": "ocr",
+      "confidence": 80,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-15",
+      "proposedId": "tts-shadowthief-helping-hand",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-16.webp",
+      "hero": "shadowthief",
+      "index": 16,
+      "rawText": "i BETTER D!",
+      "cleanedText": "Better D!",
+      "ocrCleanedText": "Better D!",
+      "nameSource": "ocr",
+      "confidence": 79,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-16",
+      "proposedId": "tts-shadowthief-better-d",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-17.webp",
+      "hero": "shadowthief",
+      "index": 17,
+      "rawText": "! SIX-IT!",
+      "cleanedText": "Six-It!",
+      "ocrCleanedText": "Six-it!",
+      "nameSource": "canonical",
+      "confidence": 41,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-17",
+      "proposedId": "tts-shadowthief-six-it",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-18.webp",
+      "hero": "shadowthief",
+      "index": 18,
+      "rawText": "DAGGER STRIKE II",
+      "cleanedText": "Dagger Strike II",
+      "ocrCleanedText": "Dagger Strike II",
+      "nameSource": "ocr",
+      "confidence": 83,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-18",
+      "proposedId": "tts-shadowthief-dagger-strike-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-19.webp",
+      "hero": "shadowthief",
+      "index": 19,
+      "rawText": "l PICKPOCKET Ii",
+      "cleanedText": "Pickpocket II",
+      "ocrCleanedText": "Pickpocket II",
+      "nameSource": "ocr",
+      "confidence": 50,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-19",
+      "proposedId": "tts-shadowthief-pickpocket-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-20.webp",
+      "hero": "shadowthief",
+      "index": 20,
+      "rawText": "SHIFTY STRIKE II j",
+      "cleanedText": "Shifty Strike II",
+      "ocrCleanedText": "Shifty Strike II",
+      "nameSource": "ocr",
+      "confidence": 63,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-20",
+      "proposedId": "tts-shadowthief-shifty-strike-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-21.webp",
+      "hero": "shadowthief",
+      "index": 21,
+      "rawText": "INSIDIOUS STRIKENl",
+      "cleanedText": "Insidious Strike II",
+      "ocrCleanedText": "Insidious Strikenl",
+      "nameSource": "canonical",
+      "confidence": 46,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-21",
+      "proposedId": "tts-shadowthief-insidious-strike-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-22.webp",
+      "hero": "shadowthief",
+      "index": 22,
+      "rawText": "i SHADOW DANCE II",
+      "cleanedText": "Shadow Dance II",
+      "ocrCleanedText": "Shadow Dance II",
+      "nameSource": "ocr",
+      "confidence": 57,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-22",
+      "proposedId": "tts-shadowthief-shadow-dance-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-23.webp",
+      "hero": "shadowthief",
+      "index": 23,
+      "rawText": "i CARDUCOPIAN",
+      "cleanedText": "Carducopia II",
+      "ocrCleanedText": "Carducopian",
+      "nameSource": "canonical",
+      "confidence": 49,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-23",
+      "proposedId": "tts-shadowthief-carducopia-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-24.webp",
+      "hero": "shadowthief",
+      "index": 24,
+      "rawText": "SHADOW DEFENSE II",
+      "cleanedText": "Shadow Defense II",
+      "ocrCleanedText": "Shadow Defense II",
+      "nameSource": "ocr",
+      "confidence": 86,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-24",
+      "proposedId": "tts-shadowthief-shadow-defense-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-25.webp",
+      "hero": "shadowthief",
+      "index": 25,
+      "rawText": "COUNTERSTRIKE NI",
+      "cleanedText": "Counter Strike II",
+      "ocrCleanedText": "Counterstrike II",
+      "nameSource": "canonical",
+      "confidence": 66,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-25",
+      "proposedId": "tts-shadowthief-counter-strike-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-26.webp",
+      "hero": "shadowthief",
+      "index": 26,
+      "rawText": "SNEAKY!",
+      "cleanedText": "Sneaky!",
+      "ocrCleanedText": "Sneaky!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-26",
+      "proposedId": "tts-shadowthief-sneaky",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-27.webp",
+      "hero": "shadowthief",
+      "index": 27,
+      "rawText": "POISON WOUND!",
+      "cleanedText": "Poison Wound!",
+      "ocrCleanedText": "Poison Wound!",
+      "nameSource": "ocr",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-27",
+      "proposedId": "tts-shadowthief-poison-wound",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-28.webp",
+      "hero": "shadowthief",
+      "index": 28,
+      "rawText": "! WILD SHADOW!",
+      "cleanedText": "Wild Shadow!",
+      "ocrCleanedText": "Wild Shadow!",
+      "nameSource": "ocr",
+      "confidence": 63,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-28",
+      "proposedId": "tts-shadowthief-wild-shadow",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-29.webp",
+      "hero": "shadowthief",
+      "index": 29,
+      "rawText": "SHADOW COIN!",
+      "cleanedText": "Shadow Coin!",
+      "ocrCleanedText": "Shadow Coin!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-29",
+      "proposedId": "tts-shadowthief-shadow-coin",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-30.webp",
+      "hero": "shadowthief",
+      "index": 30,
+      "rawText": "ENTER THE SHADOWS!",
+      "cleanedText": "Enter The Shadows!",
+      "ocrCleanedText": "Enter The Shadows!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-30",
+      "proposedId": "tts-shadowthief-enter-the-shadows",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-31.webp",
+      "hero": "shadowthief",
+      "index": 31,
+      "rawText": "CARD TRICK!",
+      "cleanedText": "Card Trick!",
+      "ocrCleanedText": "Card Trick!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-31",
+      "proposedId": "tts-shadowthief-card-trick",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "shadowthief/cards/card-32.webp",
+      "hero": "shadowthief",
+      "index": 32,
+      "rawText": "SHADOW MELD!",
+      "cleanedText": "Shadow Meld!",
+      "ocrCleanedText": "Shadow Meld!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-shadowthief-card-32",
+      "proposedId": "tts-shadowthief-shadow-meld",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-00.webp",
+      "hero": "moonelf",
+      "index": 0,
+      "rawText": "TRANSFERENCE!",
+      "cleanedText": "Transference!",
+      "ocrCleanedText": "Transference!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-00",
+      "proposedId": "tts-moonelf-transference",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-01.webp",
+      "hero": "moonelf",
+      "index": 1,
+      "rawText": "WHAT STATUS EFFECTS?",
+      "cleanedText": "What Status Effects?",
+      "ocrCleanedText": "What Status Effects?",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-01",
+      "proposedId": "tts-moonelf-what-status-effects",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-02.webp",
+      "hero": "moonelf",
+      "index": 2,
+      "rawText": "VEGAS BABY!",
+      "cleanedText": "Vegas Baby!",
+      "ocrCleanedText": "Vegas Baby!",
+      "nameSource": "ocr",
+      "confidence": 82,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-02",
+      "proposedId": "tts-moonelf-vegas-baby",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-03.webp",
+      "hero": "moonelf",
+      "index": 3,
+      "rawText": "GET THAT OUTTA HERE!",
+      "cleanedText": "Get That Outta Here!",
+      "ocrCleanedText": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-03",
+      "proposedId": "tts-moonelf-get-that-outta-here",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-04.webp",
+      "hero": "moonelf",
+      "index": 4,
+      "rawText": "TRIPLE UP!",
+      "cleanedText": "Triple Up!",
+      "ocrCleanedText": "Triple Up!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-04",
+      "proposedId": "tts-moonelf-triple-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-05.webp",
+      "hero": "moonelf",
+      "index": 5,
+      "rawText": "DOUBLE UP!",
+      "cleanedText": "Double Up!",
+      "ocrCleanedText": "Double Up!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-05",
+      "proposedId": "tts-moonelf-double-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-06.webp",
+      "hero": "moonelf",
+      "index": 6,
+      "rawText": "BUH. BYE!",
+      "cleanedText": "Buh, Bye!",
+      "ocrCleanedText": "Buh. Bye!",
+      "nameSource": "canonical",
+      "confidence": 89,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-06",
+      "proposedId": "tts-moonelf-buh-bye",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-07.webp",
+      "hero": "moonelf",
+      "index": 7,
+      "rawText": "TIPIM",
+      "cleanedText": "Tip It!",
+      "ocrCleanedText": "Tipim",
+      "nameSource": "canonical",
+      "confidence": 57,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-07",
+      "proposedId": "tts-moonelf-tip-it",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-08.webp",
+      "hero": "moonelf",
+      "index": 8,
+      "rawText": "GETTING PAID!",
+      "cleanedText": "Getting Paid!",
+      "ocrCleanedText": "Getting Paid!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-08",
+      "proposedId": "tts-moonelf-getting-paid",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-09.webp",
+      "hero": "moonelf",
+      "index": 9,
+      "rawText": "NOT THIS TIME! j",
+      "cleanedText": "Not This Time!",
+      "ocrCleanedText": "Not This Time!",
+      "nameSource": "ocr",
+      "confidence": 71,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-09",
+      "proposedId": "tts-moonelf-not-this-time",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-10.webp",
+      "hero": "moonelf",
+      "index": 10,
+      "rawText": "TWICE AS WILD!",
+      "cleanedText": "Twice As Wild!",
+      "ocrCleanedText": "Twice As Wild!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-10",
+      "proposedId": "tts-moonelf-twice-as-wild",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-11.webp",
+      "hero": "moonelf",
+      "index": 11,
+      "rawText": "TRY. TRY AGAIN! j",
+      "cleanedText": "Try, Try Again!",
+      "ocrCleanedText": "Try. Try Again!",
+      "nameSource": "canonical",
+      "confidence": 71,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-11",
+      "proposedId": "tts-moonelf-try-try-again",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-12.webp",
+      "hero": "moonelf",
+      "index": 12,
+      "rawText": "SO WILD!",
+      "cleanedText": "So Wild!",
+      "ocrCleanedText": "So Wild!",
+      "nameSource": "ocr",
+      "confidence": 92,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-12",
+      "proposedId": "tts-moonelf-so-wild",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-13.webp",
+      "hero": "moonelf",
+      "index": 13,
+      "rawText": "SAMESIES!",
+      "cleanedText": "Samesies!",
+      "ocrCleanedText": "Samesies!",
+      "nameSource": "ocr",
+      "confidence": 90,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-13",
+      "proposedId": "tts-moonelf-samesies",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-14.webp",
+      "hero": "moonelf",
+      "index": 14,
+      "rawText": "ONE MORE TIME! j",
+      "cleanedText": "One More Time!",
+      "ocrCleanedText": "One More Time!",
+      "nameSource": "ocr",
+      "confidence": 71,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-14",
+      "proposedId": "tts-moonelf-one-more-time",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-15.webp",
+      "hero": "moonelf",
+      "index": 15,
+      "rawText": "HELPING HAND! j",
+      "cleanedText": "Helping Hand",
+      "ocrCleanedText": "Helping Hand!",
+      "nameSource": "canonical",
+      "confidence": 63,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-15",
+      "proposedId": "tts-moonelf-helping-hand",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-16.webp",
+      "hero": "moonelf",
+      "index": 16,
+      "rawText": "BETTER D!",
+      "cleanedText": "Better D!",
+      "ocrCleanedText": "Better D!",
+      "nameSource": "ocr",
+      "confidence": 91,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-16",
+      "proposedId": "tts-moonelf-better-d",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-17.webp",
+      "hero": "moonelf",
+      "index": 17,
+      "rawText": "SIX-IT!",
+      "cleanedText": "Six-It!",
+      "ocrCleanedText": "Six-it!",
+      "nameSource": "canonical",
+      "confidence": 84,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-17",
+      "proposedId": "tts-moonelf-six-it",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-18.webp",
+      "hero": "moonelf",
+      "index": 18,
+      "rawText": "LONGBOW Ii",
+      "cleanedText": "Longbow II",
+      "ocrCleanedText": "Longbow II",
+      "nameSource": "ocr",
+      "confidence": 72,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-18",
+      "proposedId": "tts-moonelf-longbow-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-19.webp",
+      "hero": "moonelf",
+      "index": 19,
+      "rawText": ", LONGBOW Ill",
+      "cleanedText": "Longbow III",
+      "ocrCleanedText": "Longbow III",
+      "nameSource": "ocr",
+      "confidence": 72,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-19",
+      "proposedId": "tts-moonelf-longbow-iii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-20.webp",
+      "hero": "moonelf",
+      "index": 20,
+      "rawText": "DEMISING SHOT lI",
+      "cleanedText": "Demising Shot II",
+      "ocrCleanedText": "Demising Shot II",
+      "nameSource": "ocr",
+      "confidence": 74,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-20",
+      "proposedId": "tts-moonelf-demising-shot-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-21.webp",
+      "hero": "moonelf",
+      "index": 21,
+      "rawText": "COVERED SHOT I",
+      "cleanedText": "Covered Shot II",
+      "ocrCleanedText": "Covered Shot I",
+      "nameSource": "canonical",
+      "confidence": 46,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-21",
+      "proposedId": "tts-moonelf-covered-shot-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-22.webp",
+      "hero": "moonelf",
+      "index": 22,
+      "rawText": ". EXPLODING ARROW INH",
+      "cleanedText": "Exploding Arrow II",
+      "ocrCleanedText": "Exploding Arrow Inh",
+      "nameSource": "canonical",
+      "confidence": 47,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-22",
+      "proposedId": "tts-moonelf-exploding-arrow-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "B"
+    },
+    {
+      "file": "moonelf/cards/card-23.webp",
+      "hero": "moonelf",
+      "index": 23,
+      "rawText": "EXPLODING ARROW III",
+      "cleanedText": "Exploding Arrow III",
+      "ocrCleanedText": "Exploding Arrow III",
+      "nameSource": "ocr",
+      "confidence": 84,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-23",
+      "proposedId": "tts-moonelf-exploding-arrow-iii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-24.webp",
+      "hero": "moonelf",
+      "index": 24,
+      "rawText": ". ENTANGLING SHOT",
+      "cleanedText": "Entangling Shot II",
+      "ocrCleanedText": "Entangling Shot",
+      "nameSource": "canonical",
+      "confidence": 30,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-24",
+      "proposedId": "tts-moonelf-entangling-shot-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "B"
+    },
+    {
+      "file": "moonelf/cards/card-25.webp",
+      "hero": "moonelf",
+      "index": 25,
+      "rawText": "BLINDING SHOT II",
+      "cleanedText": "Blinding Shot II",
+      "ocrCleanedText": "Blinding Shot II",
+      "nameSource": "ocr",
+      "confidence": 82,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-25",
+      "proposedId": "tts-moonelf-blinding-shot-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-26.webp",
+      "hero": "moonelf",
+      "index": 26,
+      "rawText": "ECLIPSE II",
+      "cleanedText": "Eclipse II",
+      "ocrCleanedText": "Eclipse II",
+      "nameSource": "ocr",
+      "confidence": 81,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-26",
+      "proposedId": "tts-moonelf-eclipse-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-27.webp",
+      "hero": "moonelf",
+      "index": 27,
+      "rawText": "MISSED ME II j",
+      "cleanedText": "Missed Me II",
+      "ocrCleanedText": "Missed Me II",
+      "nameSource": "ocr",
+      "confidence": 57,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-27",
+      "proposedId": "tts-moonelf-missed-me-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-28.webp",
+      "hero": "moonelf",
+      "index": 28,
+      "rawText": "MOON MAGIC!",
+      "cleanedText": "Moon Magic!",
+      "ocrCleanedText": "Moon Magic!",
+      "nameSource": "ocr",
+      "confidence": 92,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-28",
+      "proposedId": "tts-moonelf-moon-magic",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-29.webp",
+      "hero": "moonelf",
+      "index": 29,
+      "rawText": "TAKE THAT! j",
+      "cleanedText": "Take That!",
+      "ocrCleanedText": "Take That!",
+      "nameSource": "ocr",
+      "confidence": 63,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-29",
+      "proposedId": "tts-moonelf-take-that",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-30.webp",
+      "hero": "moonelf",
+      "index": 30,
+      "rawText": "VOLLEY! j",
+      "cleanedText": "Volley!",
+      "ocrCleanedText": "Volley!",
+      "nameSource": "ocr",
+      "confidence": 41,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-30",
+      "proposedId": "tts-moonelf-volley",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-31.webp",
+      "hero": "moonelf",
+      "index": 31,
+      "rawText": "EVADE!",
+      "cleanedText": "Evade!",
+      "ocrCleanedText": "Evade!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-31",
+      "proposedId": "tts-moonelf-evade",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "moonelf/cards/card-32.webp",
+      "hero": "moonelf",
+      "index": 32,
+      "rawText": "LUNAR UMBRA!",
+      "cleanedText": "Lunar Umbra!",
+      "ocrCleanedText": "Lunar Umbra!",
+      "nameSource": "ocr",
+      "confidence": 91,
+      "suggestedId": null,
+      "provisionalId": "tts-moonelf-card-32",
+      "proposedId": "tts-moonelf-lunar-umbra",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-00.webp",
+      "hero": "barbarian",
+      "index": 0,
+      "rawText": "TRANSFERENCE!",
+      "cleanedText": "Transference!",
+      "ocrCleanedText": "Transference!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-00",
+      "proposedId": "tts-barbarian-transference",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-01.webp",
+      "hero": "barbarian",
+      "index": 1,
+      "rawText": "WHAT STATUS EFFECTS?",
+      "cleanedText": "What Status Effects?",
+      "ocrCleanedText": "What Status Effects?",
+      "nameSource": "ocr",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-01",
+      "proposedId": "tts-barbarian-what-status-effects",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-02.webp",
+      "hero": "barbarian",
+      "index": 2,
+      "rawText": "VEGAS BABY!",
+      "cleanedText": "Vegas Baby!",
+      "ocrCleanedText": "Vegas Baby!",
+      "nameSource": "ocr",
+      "confidence": 75,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-02",
+      "proposedId": "tts-barbarian-vegas-baby",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-03.webp",
+      "hero": "barbarian",
+      "index": 3,
+      "rawText": "GET THAT OUTTA HERE!",
+      "cleanedText": "Get That Outta Here!",
+      "ocrCleanedText": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-03",
+      "proposedId": "tts-barbarian-get-that-outta-here",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-04.webp",
+      "hero": "barbarian",
+      "index": 4,
+      "rawText": "TRIPLE UP!",
+      "cleanedText": "Triple Up!",
+      "ocrCleanedText": "Triple Up!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-04",
+      "proposedId": "tts-barbarian-triple-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-05.webp",
+      "hero": "barbarian",
+      "index": 5,
+      "rawText": "DOUBLE UP!",
+      "cleanedText": "Double Up!",
+      "ocrCleanedText": "Double Up!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-05",
+      "proposedId": "tts-barbarian-double-up",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-06.webp",
+      "hero": "barbarian",
+      "index": 6,
+      "rawText": "BUH. BYE!",
+      "cleanedText": "Buh, Bye!",
+      "ocrCleanedText": "Buh. Bye!",
+      "nameSource": "canonical",
+      "confidence": 92,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-06",
+      "proposedId": "tts-barbarian-buh-bye",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-07.webp",
+      "hero": "barbarian",
+      "index": 7,
+      "rawText": "TIP ITM",
+      "cleanedText": "Tip It!",
+      "ocrCleanedText": "Tip Itm",
+      "nameSource": "canonical",
+      "confidence": 76,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-07",
+      "proposedId": "tts-barbarian-tip-it",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-08.webp",
+      "hero": "barbarian",
+      "index": 8,
+      "rawText": "GETTING PAID!",
+      "cleanedText": "Getting Paid!",
+      "ocrCleanedText": "Getting Paid!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-08",
+      "proposedId": "tts-barbarian-getting-paid",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-09.webp",
+      "hero": "barbarian",
+      "index": 9,
+      "rawText": "NOT THIS TIME!",
+      "cleanedText": "Not This Time!",
+      "ocrCleanedText": "Not This Time!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-09",
+      "proposedId": "tts-barbarian-not-this-time",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-10.webp",
+      "hero": "barbarian",
+      "index": 10,
+      "rawText": "TWICE AS WILD!",
+      "cleanedText": "Twice As Wild!",
+      "ocrCleanedText": "Twice As Wild!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-10",
+      "proposedId": "tts-barbarian-twice-as-wild",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-11.webp",
+      "hero": "barbarian",
+      "index": 11,
+      "rawText": "TRY. TRY AGAIN!",
+      "cleanedText": "Try, Try Again!",
+      "ocrCleanedText": "Try. Try Again!",
+      "nameSource": "canonical",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-11",
+      "proposedId": "tts-barbarian-try-try-again",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-12.webp",
+      "hero": "barbarian",
+      "index": 12,
+      "rawText": "SO WILD!",
+      "cleanedText": "So Wild!",
+      "ocrCleanedText": "So Wild!",
+      "nameSource": "ocr",
+      "confidence": 83,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-12",
+      "proposedId": "tts-barbarian-so-wild",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-13.webp",
+      "hero": "barbarian",
+      "index": 13,
+      "rawText": "SAMESIES!",
+      "cleanedText": "Samesies!",
+      "ocrCleanedText": "Samesies!",
+      "nameSource": "ocr",
+      "confidence": 88,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-13",
+      "proposedId": "tts-barbarian-samesies",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-14.webp",
+      "hero": "barbarian",
+      "index": 14,
+      "rawText": "i ONE MORE TIME!",
+      "cleanedText": "One More Time!",
+      "ocrCleanedText": "One More Time!",
+      "nameSource": "ocr",
+      "confidence": 84,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-14",
+      "proposedId": "tts-barbarian-one-more-time",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-15.webp",
+      "hero": "barbarian",
+      "index": 15,
+      "rawText": "i HELPING HAND",
+      "cleanedText": "Helping Hand",
+      "ocrCleanedText": "Helping Hand",
+      "nameSource": "ocr",
+      "confidence": 81,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-15",
+      "proposedId": "tts-barbarian-helping-hand",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-16.webp",
+      "hero": "barbarian",
+      "index": 16,
+      "rawText": "i BETTER D!",
+      "cleanedText": "Better D!",
+      "ocrCleanedText": "Better D!",
+      "nameSource": "ocr",
+      "confidence": 76,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-16",
+      "proposedId": "tts-barbarian-better-d",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-17.webp",
+      "hero": "barbarian",
+      "index": 17,
+      "rawText": "! SIX-IT!",
+      "cleanedText": "Six-It!",
+      "ocrCleanedText": "Six-it!",
+      "nameSource": "canonical",
+      "confidence": 42,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-17",
+      "proposedId": "tts-barbarian-six-it",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-18.webp",
+      "hero": "barbarian",
+      "index": 18,
+      "rawText": "SMACK",
+      "cleanedText": "Smack II",
+      "ocrCleanedText": "Smack",
+      "nameSource": "canonical",
+      "confidence": 55,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-18",
+      "proposedId": "tts-barbarian-smack-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-19.webp",
+      "hero": "barbarian",
+      "index": 19,
+      "rawText": "SMACK INI",
+      "cleanedText": "Smack III",
+      "ocrCleanedText": "Smack III",
+      "nameSource": "ocr",
+      "confidence": 70,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-19",
+      "proposedId": "tts-barbarian-smack-iii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-20.webp",
+      "hero": "barbarian",
+      "index": 20,
+      "rawText": "STURDY BLOW II j",
+      "cleanedText": "Sturdy Blow II",
+      "ocrCleanedText": "Sturdy Blow II",
+      "nameSource": "ocr",
+      "confidence": 63,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-20",
+      "proposedId": "tts-barbarian-sturdy-blow-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-21.webp",
+      "hero": "barbarian",
+      "index": 21,
+      "rawText": "STURDY BLOW Ill",
+      "cleanedText": "Sturdy Blow III",
+      "ocrCleanedText": "Sturdy Blow III",
+      "nameSource": "ocr",
+      "confidence": 85,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-21",
+      "proposedId": "tts-barbarian-sturdy-blow-iii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-22.webp",
+      "hero": "barbarian",
+      "index": 22,
+      "rawText": "i MIGHTY BLOW II",
+      "cleanedText": "Mighty Blow II",
+      "ocrCleanedText": "Mighty Blow II",
+      "nameSource": "ocr",
+      "confidence": 73,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-22",
+      "proposedId": "tts-barbarian-mighty-blow-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-23.webp",
+      "hero": "barbarian",
+      "index": 23,
+      "rawText": "i CRITBASH II",
+      "cleanedText": "Crit Bash II",
+      "ocrCleanedText": "Critbash II",
+      "nameSource": "canonical",
+      "confidence": 55,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-23",
+      "proposedId": "tts-barbarian-crit-bash-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-24.webp",
+      "hero": "barbarian",
+      "index": 24,
+      "rawText": "! FORTITUDE II",
+      "cleanedText": "Fortitude II",
+      "ocrCleanedText": "Fortitude II",
+      "nameSource": "ocr",
+      "confidence": 53,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-24",
+      "proposedId": "tts-barbarian-fortitude-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-25.webp",
+      "hero": "barbarian",
+      "index": 25,
+      "rawText": "OVERPOWER NN",
+      "cleanedText": "Overpower II",
+      "ocrCleanedText": "Overpower II",
+      "nameSource": "ocr",
+      "confidence": 48,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-25",
+      "proposedId": "tts-barbarian-overpower-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "B"
+    },
+    {
+      "file": "barbarian/cards/card-26.webp",
+      "hero": "barbarian",
+      "index": 26,
+      "rawText": "! RECKLESS Il",
+      "cleanedText": "Reckless II",
+      "ocrCleanedText": "Reckless II",
+      "nameSource": "ocr",
+      "confidence": 54,
+      "suggestedId": "barbarian:reckless:2",
+      "provisionalId": "barbarian:reckless:2",
+      "proposedId": "barbarian:reckless:2",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-27.webp",
+      "hero": "barbarian",
+      "index": 27,
+      "rawText": "THICK SKIN II",
+      "cleanedText": "Thick Skin II",
+      "ocrCleanedText": "Thick Skin II",
+      "nameSource": "ocr",
+      "confidence": 83,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-27",
+      "proposedId": "tts-barbarian-thick-skin-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-28.webp",
+      "hero": "barbarian",
+      "index": 28,
+      "rawText": "CONCUSS!",
+      "cleanedText": "Concuss!",
+      "ocrCleanedText": "Concuss!",
+      "nameSource": "ocr",
+      "confidence": 79,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-28",
+      "proposedId": "tts-barbarian-concuss",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-29.webp",
+      "hero": "barbarian",
+      "index": 29,
+      "rawText": "HEAD BASH!",
+      "cleanedText": "Head Bash!",
+      "ocrCleanedText": "Head Bash!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-29",
+      "proposedId": "tts-barbarian-head-bash",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-30.webp",
+      "hero": "barbarian",
+      "index": 30,
+      "rawText": "GET SOME!",
+      "cleanedText": "Get Some!",
+      "ocrCleanedText": "Get Some!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-30",
+      "proposedId": "tts-barbarian-get-some",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-31.webp",
+      "hero": "barbarian",
+      "index": 31,
+      "rawText": "FEELIN' GOOD!",
+      "cleanedText": "Feelin' Good!",
+      "ocrCleanedText": "Feelin' Good!",
+      "nameSource": "ocr",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-31",
+      "proposedId": "tts-barbarian-feelin-good",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "barbarian/cards/card-32.webp",
+      "hero": "barbarian",
+      "index": 32,
+      "rawText": "ADRENALINE SURGE!",
+      "cleanedText": "Adrenaline Surge!",
+      "ocrCleanedText": "Adrenaline Surge!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-barbarian-card-32",
+      "proposedId": "tts-barbarian-adrenaline-surge",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-00.webp",
+      "hero": "ninja",
+      "index": 0,
+      "rawText": "TRANSFERENCE!",
+      "cleanedText": "Transference!",
+      "ocrCleanedText": "Transference!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-00",
+      "proposedId": "tts-ninja-transference",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-01.webp",
+      "hero": "ninja",
+      "index": 1,
+      "rawText": "WHAT STATUS EFFECTS?",
+      "cleanedText": "What Status Effects?",
+      "ocrCleanedText": "What Status Effects?",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-01",
+      "proposedId": "tts-ninja-what-status-effects",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-02.webp",
+      "hero": "ninja",
+      "index": 2,
+      "rawText": "VEGAS BABY!",
+      "cleanedText": "Vegas Baby!",
+      "ocrCleanedText": "Vegas Baby!",
+      "nameSource": "ocr",
+      "confidence": 77,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-02",
+      "proposedId": "tts-ninja-vegas-baby",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-03.webp",
+      "hero": "ninja",
+      "index": 3,
+      "rawText": "GET THAT OUTTA HERE!",
+      "cleanedText": "Get That Outta Here!",
+      "ocrCleanedText": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-03",
+      "proposedId": "tts-ninja-get-that-outta-here",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-04.webp",
+      "hero": "ninja",
+      "index": 4,
+      "rawText": "TRIPLE UP!",
+      "cleanedText": "Triple Up!",
+      "ocrCleanedText": "Triple Up!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-04",
+      "proposedId": "tts-ninja-triple-up",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-05.webp",
+      "hero": "ninja",
+      "index": 5,
+      "rawText": "DOUBLE UP!",
+      "cleanedText": "Double Up!",
+      "ocrCleanedText": "Double Up!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-05",
+      "proposedId": "tts-ninja-double-up",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-06.webp",
+      "hero": "ninja",
+      "index": 6,
+      "rawText": "BUH. BYE!",
+      "cleanedText": "Buh, Bye!",
+      "ocrCleanedText": "Buh. Bye!",
+      "nameSource": "canonical",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-06",
+      "proposedId": "tts-ninja-buh-bye",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-07.webp",
+      "hero": "ninja",
+      "index": 7,
+      "rawText": "TIP IT!",
+      "cleanedText": "Tip It!",
+      "ocrCleanedText": "Tip It!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-07",
+      "proposedId": "tts-ninja-tip-it",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-08.webp",
+      "hero": "ninja",
+      "index": 8,
+      "rawText": "GETTING PAID!",
+      "cleanedText": "Getting Paid!",
+      "ocrCleanedText": "Getting Paid!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-08",
+      "proposedId": "tts-ninja-getting-paid",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-09.webp",
+      "hero": "ninja",
+      "index": 9,
+      "rawText": "NOT THIS TIME!",
+      "cleanedText": "Not This Time!",
+      "ocrCleanedText": "Not This Time!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-09",
+      "proposedId": "tts-ninja-not-this-time",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-10.webp",
+      "hero": "ninja",
+      "index": 10,
+      "rawText": "TWICE AS WILD! j",
+      "cleanedText": "Twice As Wild!",
+      "ocrCleanedText": "Twice As Wild!",
+      "nameSource": "ocr",
+      "confidence": 71,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-10",
+      "proposedId": "tts-ninja-twice-as-wild",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-11.webp",
+      "hero": "ninja",
+      "index": 11,
+      "rawText": "TRY. TRY AGAIN!",
+      "cleanedText": "Try, Try Again!",
+      "ocrCleanedText": "Try. Try Again!",
+      "nameSource": "canonical",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-11",
+      "proposedId": "tts-ninja-try-try-again",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-12.webp",
+      "hero": "ninja",
+      "index": 12,
+      "rawText": "SO WILD!",
+      "cleanedText": "So Wild!",
+      "ocrCleanedText": "So Wild!",
+      "nameSource": "ocr",
+      "confidence": 85,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-12",
+      "proposedId": "tts-ninja-so-wild",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-13.webp",
+      "hero": "ninja",
+      "index": 13,
+      "rawText": "SAMESIES!",
+      "cleanedText": "Samesies!",
+      "ocrCleanedText": "Samesies!",
+      "nameSource": "ocr",
+      "confidence": 89,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-13",
+      "proposedId": "tts-ninja-samesies",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-14.webp",
+      "hero": "ninja",
+      "index": 14,
+      "rawText": "ONE MORE TIME!",
+      "cleanedText": "One More Time!",
+      "ocrCleanedText": "One More Time!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-14",
+      "proposedId": "tts-ninja-one-more-time",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-15.webp",
+      "hero": "ninja",
+      "index": 15,
+      "rawText": "HELPING HAND",
+      "cleanedText": "Helping Hand",
+      "ocrCleanedText": "Helping Hand",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-15",
+      "proposedId": "tts-ninja-helping-hand",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-16.webp",
+      "hero": "ninja",
+      "index": 16,
+      "rawText": "BETTER D!",
+      "cleanedText": "Better D!",
+      "ocrCleanedText": "Better D!",
+      "nameSource": "ocr",
+      "confidence": 92,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-16",
+      "proposedId": "tts-ninja-better-d",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-17.webp",
+      "hero": "ninja",
+      "index": 17,
+      "rawText": "SIX-IT!",
+      "cleanedText": "Six-It!",
+      "ocrCleanedText": "Six-it!",
+      "nameSource": "canonical",
+      "confidence": 71,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-17",
+      "proposedId": "tts-ninja-six-it",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-18.webp",
+      "hero": "ninja",
+      "index": 18,
+      "rawText": "SLASH II",
+      "cleanedText": "Slash II",
+      "ocrCleanedText": "Slash II",
+      "nameSource": "ocr",
+      "confidence": 53,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-18",
+      "proposedId": "tts-ninja-slash-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-19.webp",
+      "hero": "ninja",
+      "index": 19,
+      "rawText": "DEATH BLOSSOM II",
+      "cleanedText": "Death Blossom II",
+      "ocrCleanedText": "Death Blossom II",
+      "nameSource": "ocr",
+      "confidence": 78,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-19",
+      "proposedId": "tts-ninja-death-blossom-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-20.webp",
+      "hero": "ninja",
+      "index": 20,
+      "rawText": ": SMOKESCREEN II j",
+      "cleanedText": "Smokescreen II",
+      "ocrCleanedText": "Smokescreen II",
+      "nameSource": "ocr",
+      "confidence": 44,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-20",
+      "proposedId": "tts-ninja-smokescreen-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-21.webp",
+      "hero": "ninja",
+      "index": 21,
+      "rawText": "WALK THE LINE",
+      "cleanedText": "Walk The Line II",
+      "ocrCleanedText": "Walk The Line",
+      "nameSource": "canonical",
+      "confidence": 62,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-21",
+      "proposedId": "tts-ninja-walk-the-line-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "B"
+    },
+    {
+      "file": "ninja/cards/card-22.webp",
+      "hero": "ninja",
+      "index": 22,
+      "rawText": "POISON BLADE Il",
+      "cleanedText": "Poison Blade II",
+      "ocrCleanedText": "Poison Blade II",
+      "nameSource": "ocr",
+      "confidence": 63,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-22",
+      "proposedId": "tts-ninja-poison-blade-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-23.webp",
+      "hero": "ninja",
+      "index": 23,
+      "rawText": ": SHADOW FANG II",
+      "cleanedText": "Shadow Fang II",
+      "ocrCleanedText": "Shadow Fang II",
+      "nameSource": "ocr",
+      "confidence": 74,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-23",
+      "proposedId": "tts-ninja-shadow-fang-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-24.webp",
+      "hero": "ninja",
+      "index": 24,
+      "rawText": ": SHADEWALK Ii",
+      "cleanedText": "Shadewalk II",
+      "ocrCleanedText": "Shadewalk II",
+      "nameSource": "ocr",
+      "confidence": 57,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-24",
+      "proposedId": "tts-ninja-shadewalk-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-25.webp",
+      "hero": "ninja",
+      "index": 25,
+      "rawText": "SHADE SHIFT ii",
+      "cleanedText": "Shade Shift II",
+      "ocrCleanedText": "Shade Shift II",
+      "nameSource": "ocr",
+      "confidence": 76,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-25",
+      "proposedId": "tts-ninja-shade-shift-ii",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-26.webp",
+      "hero": "ninja",
+      "index": 26,
+      "rawText": "POISON DART!",
+      "cleanedText": "Poison Dart!",
+      "ocrCleanedText": "Poison Dart!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-26",
+      "proposedId": "tts-ninja-poison-dart",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-27.webp",
+      "hero": "ninja",
+      "index": 27,
+      "rawText": "THROWING STARS!",
+      "cleanedText": "Throwing Stars!",
+      "ocrCleanedText": "Throwing Stars!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-27",
+      "proposedId": "tts-ninja-throwing-stars",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-28.webp",
+      "hero": "ninja",
+      "index": 28,
+      "rawText": "FAN OF KNIVES!",
+      "cleanedText": "Fan Of Knives!",
+      "ocrCleanedText": "Fan Of Knives!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-28",
+      "proposedId": "tts-ninja-fan-of-knives",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-29.webp",
+      "hero": "ninja",
+      "index": 29,
+      "rawText": "SMOKE OFFERING!",
+      "cleanedText": "Smoke Offering!",
+      "ocrCleanedText": "Smoke Offering!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-29",
+      "proposedId": "tts-ninja-smoke-offering",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-30.webp",
+      "hero": "ninja",
+      "index": 30,
+      "rawText": "TRAIN!",
+      "cleanedText": "Train!",
+      "ocrCleanedText": "Train!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-30",
+      "proposedId": "tts-ninja-train",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-31.webp",
+      "hero": "ninja",
+      "index": 31,
+      "rawText": "ESCAPE!",
+      "cleanedText": "Escape!",
+      "ocrCleanedText": "Escape!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-31",
+      "proposedId": "tts-ninja-escape",
+      "source": "ocr",
+      "band": {
+        "top": 39,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "ninja/cards/card-32.webp",
+      "hero": "ninja",
+      "index": 32,
+      "rawText": "DOJO!",
+      "cleanedText": "Dojo!",
+      "ocrCleanedText": "Dojo!",
+      "nameSource": "ocr",
+      "confidence": 88,
+      "suggestedId": null,
+      "provisionalId": "tts-ninja-card-32",
+      "proposedId": "tts-ninja-dojo",
+      "source": "ocr",
+      "band": {
+        "top": 40,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-00.webp",
+      "hero": "raveness",
+      "index": 0,
+      "rawText": "TRANSFERENCE!",
+      "cleanedText": "Transference!",
+      "ocrCleanedText": "Transference!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-00",
+      "proposedId": "tts-raveness-transference",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-01.webp",
+      "hero": "raveness",
+      "index": 1,
+      "rawText": "WHAT STATUS EFFECTS?",
+      "cleanedText": "What Status Effects?",
+      "ocrCleanedText": "What Status Effects?",
+      "nameSource": "ocr",
+      "confidence": 92,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-01",
+      "proposedId": "tts-raveness-what-status-effects",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-02.webp",
+      "hero": "raveness",
+      "index": 2,
+      "rawText": "VEGAS BABY!",
+      "cleanedText": "Vegas Baby!",
+      "ocrCleanedText": "Vegas Baby!",
+      "nameSource": "ocr",
+      "confidence": 87,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-02",
+      "proposedId": "tts-raveness-vegas-baby",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-03.webp",
+      "hero": "raveness",
+      "index": 3,
+      "rawText": "GET THAT OUTTA HERE!",
+      "cleanedText": "Get That Outta Here!",
+      "ocrCleanedText": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-03",
+      "proposedId": "tts-raveness-get-that-outta-here",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-04.webp",
+      "hero": "raveness",
+      "index": 4,
+      "rawText": "TRIPLE UP!",
+      "cleanedText": "Triple Up!",
+      "ocrCleanedText": "Triple Up!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-04",
+      "proposedId": "tts-raveness-triple-up",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-05.webp",
+      "hero": "raveness",
+      "index": 5,
+      "rawText": "DOUBLE UP!",
+      "cleanedText": "Double Up!",
+      "ocrCleanedText": "Double Up!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-05",
+      "proposedId": "tts-raveness-double-up",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-06.webp",
+      "hero": "raveness",
+      "index": 6,
+      "rawText": "BUH. BYE!",
+      "cleanedText": "Buh, Bye!",
+      "ocrCleanedText": "Buh. Bye!",
+      "nameSource": "canonical",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-06",
+      "proposedId": "tts-raveness-buh-bye",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-07.webp",
+      "hero": "raveness",
+      "index": 7,
+      "rawText": "TIPIT",
+      "cleanedText": "Tip It!",
+      "ocrCleanedText": "Tipit",
+      "nameSource": "canonical",
+      "confidence": 73,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-07",
+      "proposedId": "tts-raveness-tip-it",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-08.webp",
+      "hero": "raveness",
+      "index": 8,
+      "rawText": "GETTING PAID!",
+      "cleanedText": "Getting Paid!",
+      "ocrCleanedText": "Getting Paid!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-08",
+      "proposedId": "tts-raveness-getting-paid",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-09.webp",
+      "hero": "raveness",
+      "index": 9,
+      "rawText": "! NOT THIS TIME!",
+      "cleanedText": "Not This Time!",
+      "ocrCleanedText": "Not This Time!",
+      "nameSource": "ocr",
+      "confidence": 71,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-09",
+      "proposedId": "tts-raveness-not-this-time",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-10.webp",
+      "hero": "raveness",
+      "index": 10,
+      "rawText": "! TWICE AS WILD!",
+      "cleanedText": "Twice As Wild!",
+      "ocrCleanedText": "Twice As Wild!",
+      "nameSource": "ocr",
+      "confidence": 71,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-10",
+      "proposedId": "tts-raveness-twice-as-wild",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-11.webp",
+      "hero": "raveness",
+      "index": 11,
+      "rawText": "! TRY. TRY AGAIN!",
+      "cleanedText": "Try, Try Again!",
+      "ocrCleanedText": "Try. Try Again!",
+      "nameSource": "canonical",
+      "confidence": 70,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-11",
+      "proposedId": "tts-raveness-try-try-again",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-12.webp",
+      "hero": "raveness",
+      "index": 12,
+      "rawText": "f SO WILD!",
+      "cleanedText": "So Wild!",
+      "ocrCleanedText": "So Wild!",
+      "nameSource": "ocr",
+      "confidence": 66,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-12",
+      "proposedId": "tts-raveness-so-wild",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-13.webp",
+      "hero": "raveness",
+      "index": 13,
+      "rawText": "SAMESIES!",
+      "cleanedText": "Samesies!",
+      "ocrCleanedText": "Samesies!",
+      "nameSource": "ocr",
+      "confidence": 88,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-13",
+      "proposedId": "tts-raveness-samesies",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-14.webp",
+      "hero": "raveness",
+      "index": 14,
+      "rawText": "! ONE MORE TIME!",
+      "cleanedText": "One More Time!",
+      "ocrCleanedText": "One More Time!",
+      "nameSource": "ocr",
+      "confidence": 71,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-14",
+      "proposedId": "tts-raveness-one-more-time",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-15.webp",
+      "hero": "raveness",
+      "index": 15,
+      "rawText": "f HELPING HAND!",
+      "cleanedText": "Helping Hand",
+      "ocrCleanedText": "Helping Hand!",
+      "nameSource": "canonical",
+      "confidence": 62,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-15",
+      "proposedId": "tts-raveness-helping-hand",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-16.webp",
+      "hero": "raveness",
+      "index": 16,
+      "rawText": "! BETTER D!",
+      "cleanedText": "Better D!",
+      "ocrCleanedText": "Better D!",
+      "nameSource": "ocr",
+      "confidence": 59,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-16",
+      "proposedId": "tts-raveness-better-d",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-17.webp",
+      "hero": "raveness",
+      "index": 17,
+      "rawText": "! SIX-IT!",
+      "cleanedText": "Six-It!",
+      "ocrCleanedText": "Six-it!",
+      "nameSource": "canonical",
+      "confidence": 35,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-17",
+      "proposedId": "tts-raveness-six-it",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-18.webp",
+      "hero": "raveness",
+      "index": 18,
+      "rawText": "PECK I",
+      "cleanedText": "Peck II",
+      "ocrCleanedText": "Peck I",
+      "nameSource": "canonical",
+      "confidence": 75,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-18",
+      "proposedId": "tts-raveness-peck-ii",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-19.webp",
+      "hero": "raveness",
+      "index": 19,
+      "rawText": "FOWL FRIEND II '",
+      "cleanedText": "Fowl Friend II",
+      "ocrCleanedText": "Fowl Friend II",
+      "nameSource": "ocr",
+      "confidence": 64,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-19",
+      "proposedId": "tts-raveness-fowl-friend-ii",
+      "source": "ocr",
+      "band": {
+        "top": 43,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-20.webp",
+      "hero": "raveness",
+      "index": 20,
+      "rawText": "CRAVEN II '",
+      "cleanedText": "Craven II",
+      "ocrCleanedText": "Craven II",
+      "nameSource": "ocr",
+      "confidence": 55,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-20",
+      "proposedId": "tts-raveness-craven-ii",
+      "source": "ocr",
+      "band": {
+        "top": 45,
+        "height": 22
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-21.webp",
+      "hero": "raveness",
+      "index": 21,
+      "rawText": "CHAMBER I",
+      "cleanedText": "Chamber II",
+      "ocrCleanedText": "Chamber I",
+      "nameSource": "canonical",
+      "confidence": 60,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-21",
+      "proposedId": "tts-raveness-chamber-ii",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-22.webp",
+      "hero": "raveness",
+      "index": 22,
+      "rawText": "MURDER OF CROWSIII",
+      "cleanedText": "Murder Of Crows II",
+      "ocrCleanedText": "Murder Of Crowsiii",
+      "nameSource": "canonical",
+      "confidence": 69,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-22",
+      "proposedId": "tts-raveness-murder-of-crows-ii",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-23.webp",
+      "hero": "raveness",
+      "index": 23,
+      "rawText": "RAVEN SIGHT II",
+      "cleanedText": "Raven Sight II",
+      "ocrCleanedText": "Raven Sight II",
+      "nameSource": "ocr",
+      "confidence": 85,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-23",
+      "proposedId": "tts-raveness-raven-sight-ii",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-24.webp",
+      "hero": "raveness",
+      "index": 24,
+      "rawText": "BEGUILE Il",
+      "cleanedText": "Beguile II",
+      "ocrCleanedText": "Beguile II",
+      "nameSource": "ocr",
+      "confidence": 76,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-24",
+      "proposedId": "tts-raveness-beguile-ii",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-25.webp",
+      "hero": "raveness",
+      "index": 25,
+      "rawText": "! NOTHING MORE II",
+      "cleanedText": "Nothing More II",
+      "ocrCleanedText": "Nothing More II",
+      "nameSource": "ocr",
+      "confidence": 52,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-25",
+      "proposedId": "tts-raveness-nothing-more-ii",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-26.webp",
+      "hero": "raveness",
+      "index": 26,
+      "rawText": "MIDNIGHT DREARY!",
+      "cleanedText": "Midnight Dreary!",
+      "ocrCleanedText": "Midnight Dreary!",
+      "nameSource": "ocr",
+      "confidence": 94,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-26",
+      "proposedId": "tts-raveness-midnight-dreary",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-27.webp",
+      "hero": "raveness",
+      "index": 27,
+      "rawText": "NEVERMORE ATTACK!",
+      "cleanedText": "Nevermore Attack!",
+      "ocrCleanedText": "Nevermore Attack!",
+      "nameSource": "ocr",
+      "confidence": 93,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-27",
+      "proposedId": "tts-raveness-nevermore-attack",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-28.webp",
+      "hero": "raveness",
+      "index": 28,
+      "rawText": "TALON STRIKE!",
+      "cleanedText": "Talon Strike!",
+      "ocrCleanedText": "Talon Strike!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-28",
+      "proposedId": "tts-raveness-talon-strike",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-29.webp",
+      "hero": "raveness",
+      "index": 29,
+      "rawText": "f STONE BEAK?",
+      "cleanedText": "Stone Beak!",
+      "ocrCleanedText": "Stone Beak?",
+      "nameSource": "canonical",
+      "confidence": 61,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-29",
+      "proposedId": "tts-raveness-stone-beak",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 24
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-30.webp",
+      "hero": "raveness",
+      "index": 30,
+      "rawText": "BROKEN STILLNESS!",
+      "cleanedText": "Broken Stillness!",
+      "ocrCleanedText": "Broken Stillness!",
+      "nameSource": "ocr",
+      "confidence": 96,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-30",
+      "proposedId": "tts-raveness-broken-stillness",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 25
+      },
+      "variant": "A"
+    },
+    {
+      "file": "raveness/cards/card-31.webp",
+      "hero": "raveness",
+      "index": 31,
+      "rawText": "CULL!",
+      "cleanedText": "Cull!",
+      "ocrCleanedText": "Cull!",
+      "nameSource": "ocr",
+      "confidence": 95,
+      "suggestedId": null,
+      "provisionalId": "tts-raveness-card-31",
+      "proposedId": "tts-raveness-cull",
+      "source": "ocr",
+      "band": {
+        "top": 41,
+        "height": 24
+      },
+      "variant": "A"
+    }
+  ]
+}

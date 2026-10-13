@@ -10,7 +10,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=0"
+      "source": "tts:908560170 Gunslinger idx=0",
+      "cardName": "Transference!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-gunslinger-card-01",
@@ -19,7 +22,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=1"
+      "source": "tts:908560170 Gunslinger idx=1",
+      "cardName": "What Status Effects?",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-gunslinger-card-02",
@@ -28,7 +34,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=2"
+      "source": "tts:908560170 Gunslinger idx=2",
+      "cardName": "Vegas Baby!",
+      "nameSource": "ocr",
+      "ocrConfidence": 83
     },
     {
       "logicalId": "tts-gunslinger-card-03",
@@ -37,7 +46,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=3"
+      "source": "tts:908560170 Gunslinger idx=3",
+      "cardName": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-gunslinger-card-04",
@@ -46,7 +58,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=4"
+      "source": "tts:908560170 Gunslinger idx=4",
+      "cardName": "Triple Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-gunslinger-card-05",
@@ -55,7 +70,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=5"
+      "source": "tts:908560170 Gunslinger idx=5",
+      "cardName": "Double Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-gunslinger-card-06",
@@ -64,7 +82,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=6"
+      "source": "tts:908560170 Gunslinger idx=6",
+      "cardName": "Buh, Bye!",
+      "nameSource": "canonical",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-gunslinger-card-07",
@@ -73,7 +94,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=7"
+      "source": "tts:908560170 Gunslinger idx=7",
+      "cardName": "Tip It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 0
     },
     {
       "logicalId": "tts-gunslinger-card-08",
@@ -82,7 +106,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=8"
+      "source": "tts:908560170 Gunslinger idx=8",
+      "cardName": "Getting Paid!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-gunslinger-card-09",
@@ -91,7 +118,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=9"
+      "source": "tts:908560170 Gunslinger idx=9",
+      "cardName": "Not This Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-gunslinger-card-10",
@@ -100,7 +130,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=10"
+      "source": "tts:908560170 Gunslinger idx=10",
+      "cardName": "Twice As Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-gunslinger-card-11",
@@ -109,7 +142,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=11"
+      "source": "tts:908560170 Gunslinger idx=11",
+      "cardName": "Try, Try Again!",
+      "nameSource": "canonical",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-gunslinger-card-12",
@@ -118,7 +154,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=12"
+      "source": "tts:908560170 Gunslinger idx=12",
+      "cardName": "So Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 91
     },
     {
       "logicalId": "tts-gunslinger-card-13",
@@ -127,7 +166,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=13"
+      "source": "tts:908560170 Gunslinger idx=13",
+      "cardName": "Samesies!",
+      "nameSource": "ocr",
+      "ocrConfidence": 89
     },
     {
       "logicalId": "tts-gunslinger-card-14",
@@ -136,7 +178,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=14"
+      "source": "tts:908560170 Gunslinger idx=14",
+      "cardName": "One More Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 83
     },
     {
       "logicalId": "tts-gunslinger-card-15",
@@ -145,7 +190,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=15"
+      "source": "tts:908560170 Gunslinger idx=15",
+      "cardName": "Helping Hand",
+      "nameSource": "ocr",
+      "ocrConfidence": 80
     },
     {
       "logicalId": "tts-gunslinger-card-16",
@@ -154,7 +202,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=16"
+      "source": "tts:908560170 Gunslinger idx=16",
+      "cardName": "Better D!",
+      "nameSource": "ocr",
+      "ocrConfidence": 79
     },
     {
       "logicalId": "tts-gunslinger-card-17",
@@ -163,7 +214,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=17"
+      "source": "tts:908560170 Gunslinger idx=17",
+      "cardName": "Six-It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 40
     },
     {
       "logicalId": "tts-gunslinger-card-18",
@@ -172,7 +226,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=18"
+      "source": "tts:908560170 Gunslinger idx=18",
+      "cardName": "Duel II",
+      "nameSource": "ocr",
+      "ocrConfidence": 65
     },
     {
       "logicalId": "tts-gunslinger-card-19",
@@ -181,7 +238,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=19"
+      "source": "tts:908560170 Gunslinger idx=19",
+      "cardName": "Showdown II",
+      "nameSource": "ocr",
+      "ocrConfidence": 63
     },
     {
       "logicalId": "tts-gunslinger-card-20",
@@ -190,7 +250,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=20"
+      "source": "tts:908560170 Gunslinger idx=20",
+      "cardName": "Showdown III",
+      "nameSource": "ocr",
+      "ocrConfidence": 47
     },
     {
       "logicalId": "tts-gunslinger-card-21",
@@ -199,7 +262,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=21"
+      "source": "tts:908560170 Gunslinger idx=21",
+      "cardName": "Revolver II",
+      "nameSource": "canonical",
+      "ocrConfidence": 54
     },
     {
       "logicalId": "tts-gunslinger-card-22",
@@ -208,7 +274,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=22"
+      "source": "tts:908560170 Gunslinger idx=22",
+      "cardName": "Fan The Hammer II",
+      "nameSource": "canonical",
+      "ocrConfidence": 32
     },
     {
       "logicalId": "tts-gunslinger-card-23",
@@ -217,7 +286,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=23"
+      "source": "tts:908560170 Gunslinger idx=23",
+      "cardName": "Bounty Hunter II",
+      "nameSource": "ocr",
+      "ocrConfidence": 41
     },
     {
       "logicalId": "tts-gunslinger-card-24",
@@ -226,7 +298,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=24"
+      "source": "tts:908560170 Gunslinger idx=24",
+      "cardName": "Take Cover II",
+      "nameSource": "canonical",
+      "ocrConfidence": 57
     },
     {
       "logicalId": "tts-gunslinger-card-25",
@@ -235,7 +310,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=25"
+      "source": "tts:908560170 Gunslinger idx=25",
+      "cardName": "Deadeye II",
+      "nameSource": "ocr",
+      "ocrConfidence": 74
     },
     {
       "logicalId": "tts-gunslinger-card-26",
@@ -244,7 +322,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=26"
+      "source": "tts:908560170 Gunslinger idx=26",
+      "cardName": "Wild West!",
+      "nameSource": "ocr",
+      "ocrConfidence": 80
     },
     {
       "logicalId": "tts-gunslinger-card-27",
@@ -253,7 +334,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=27"
+      "source": "tts:908560170 Gunslinger idx=27",
+      "cardName": "Wanted!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-gunslinger-card-28",
@@ -262,7 +346,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=28"
+      "source": "tts:908560170 Gunslinger idx=28",
+      "cardName": "Spin The Chamber!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-gunslinger-card-29",
@@ -271,7 +358,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=29"
+      "source": "tts:908560170 Gunslinger idx=29",
+      "cardName": "Roulette!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-gunslinger-card-30",
@@ -280,7 +370,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=30"
+      "source": "tts:908560170 Gunslinger idx=30",
+      "cardName": "Eat Lead!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-gunslinger-card-31",
@@ -289,7 +382,10 @@
       "width": 400,
       "height": 623,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=31"
+      "source": "tts:908560170 Gunslinger idx=31",
+      "cardName": "Quick Draw II",
+      "nameSource": "ocr",
+      "ocrConfidence": 86
     },
     {
       "logicalId": "tts-gunslinger-card-32",
@@ -298,7 +394,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Gunslinger idx=32"
+      "source": "tts:908560170 Gunslinger idx=32",
+      "cardName": "Run And Gun!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-gunslinger-panel",
@@ -406,7 +505,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=0"
+      "source": "tts:908560170 Pyromancer idx=0",
+      "cardName": "Transference!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-pyromancer-card-01",
@@ -415,7 +517,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=1"
+      "source": "tts:908560170 Pyromancer idx=1",
+      "cardName": "What Status Effects?",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-pyromancer-card-02",
@@ -424,7 +529,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=2"
+      "source": "tts:908560170 Pyromancer idx=2",
+      "cardName": "Vegas Baby!",
+      "nameSource": "ocr",
+      "ocrConfidence": 83
     },
     {
       "logicalId": "tts-pyromancer-card-03",
@@ -433,7 +541,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=3"
+      "source": "tts:908560170 Pyromancer idx=3",
+      "cardName": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-pyromancer-card-04",
@@ -442,7 +553,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=4"
+      "source": "tts:908560170 Pyromancer idx=4",
+      "cardName": "Triple Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-pyromancer-card-05",
@@ -451,7 +565,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=5"
+      "source": "tts:908560170 Pyromancer idx=5",
+      "cardName": "Double Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-pyromancer-card-06",
@@ -460,7 +577,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=6"
+      "source": "tts:908560170 Pyromancer idx=6",
+      "cardName": "Buh, Bye!",
+      "nameSource": "canonical",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-pyromancer-card-07",
@@ -469,7 +589,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=7"
+      "source": "tts:908560170 Pyromancer idx=7",
+      "cardName": "Tip It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 43
     },
     {
       "logicalId": "tts-pyromancer-card-08",
@@ -478,7 +601,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=8"
+      "source": "tts:908560170 Pyromancer idx=8",
+      "cardName": "Getting Paid!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-pyromancer-card-09",
@@ -487,7 +613,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=9"
+      "source": "tts:908560170 Pyromancer idx=9",
+      "cardName": "Not This Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-pyromancer-card-10",
@@ -496,7 +625,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=10"
+      "source": "tts:908560170 Pyromancer idx=10",
+      "cardName": "Twice As Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-pyromancer-card-11",
@@ -505,7 +637,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=11"
+      "source": "tts:908560170 Pyromancer idx=11",
+      "cardName": "Try, Try Again!",
+      "nameSource": "canonical",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-pyromancer-card-12",
@@ -514,7 +649,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=12"
+      "source": "tts:908560170 Pyromancer idx=12",
+      "cardName": "So Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 91
     },
     {
       "logicalId": "tts-pyromancer-card-13",
@@ -523,7 +661,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=13"
+      "source": "tts:908560170 Pyromancer idx=13",
+      "cardName": "Samesies!",
+      "nameSource": "ocr",
+      "ocrConfidence": 89
     },
     {
       "logicalId": "tts-pyromancer-card-14",
@@ -532,7 +673,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=14"
+      "source": "tts:908560170 Pyromancer idx=14",
+      "cardName": "One More Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 84
     },
     {
       "logicalId": "tts-pyromancer-card-15",
@@ -541,7 +685,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=15"
+      "source": "tts:908560170 Pyromancer idx=15",
+      "cardName": "Helping Hand",
+      "nameSource": "ocr",
+      "ocrConfidence": 80
     },
     {
       "logicalId": "tts-pyromancer-card-16",
@@ -550,7 +697,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=16"
+      "source": "tts:908560170 Pyromancer idx=16",
+      "cardName": "Better D!",
+      "nameSource": "ocr",
+      "ocrConfidence": 79
     },
     {
       "logicalId": "tts-pyromancer-card-17",
@@ -559,16 +709,22 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=17"
+      "source": "tts:908560170 Pyromancer idx=17",
+      "cardName": "Six-It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 41
     },
     {
-      "logicalId": "tts-pyromancer-card-18",
+      "logicalId": "pyromancer:fireball:2",
       "kind": "card",
       "file": "pyromancer/cards/card-18.webp",
       "width": 400,
       "height": 622,
-      "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=18"
+      "confirmed": true,
+      "source": "tts:908560170 Pyromancer idx=18",
+      "cardName": "Fireball II",
+      "nameSource": "ocr",
+      "ocrConfidence": 43
     },
     {
       "logicalId": "tts-pyromancer-card-19",
@@ -577,7 +733,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=19"
+      "source": "tts:908560170 Pyromancer idx=19",
+      "cardName": "Pyroblast II",
+      "nameSource": "ocr",
+      "ocrConfidence": 51
     },
     {
       "logicalId": "tts-pyromancer-card-20",
@@ -586,7 +745,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=20"
+      "source": "tts:908560170 Pyromancer idx=20",
+      "cardName": "Pyroblast III",
+      "nameSource": "ocr",
+      "ocrConfidence": 48
     },
     {
       "logicalId": "tts-pyromancer-card-21",
@@ -595,16 +757,22 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=21"
+      "source": "tts:908560170 Pyromancer idx=21",
+      "cardName": "Burning Soul II",
+      "nameSource": "ocr",
+      "ocrConfidence": 76
     },
     {
-      "logicalId": "tts-pyromancer-card-22",
+      "logicalId": "pyromancer:combustion:2",
       "kind": "card",
       "file": "pyromancer/cards/card-22.webp",
       "width": 400,
       "height": 621,
-      "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=22"
+      "confirmed": true,
+      "source": "tts:908560170 Pyromancer idx=22",
+      "cardName": "Combustion II",
+      "nameSource": "ocr",
+      "ocrConfidence": 46
     },
     {
       "logicalId": "tts-pyromancer-card-23",
@@ -613,16 +781,22 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=23"
+      "source": "tts:908560170 Pyromancer idx=23",
+      "cardName": "Hot Streak II",
+      "nameSource": "ocr",
+      "ocrConfidence": 80
     },
     {
-      "logicalId": "tts-pyromancer-card-24",
+      "logicalId": "pyromancer:ignite:2",
       "kind": "card",
       "file": "pyromancer/cards/card-24.webp",
       "width": 400,
       "height": 621,
-      "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=24"
+      "confirmed": true,
+      "source": "tts:908560170 Pyromancer idx=24",
+      "cardName": "Ignite II",
+      "nameSource": "ocr",
+      "ocrConfidence": 49
     },
     {
       "logicalId": "tts-pyromancer-card-25",
@@ -631,16 +805,22 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=25"
+      "source": "tts:908560170 Pyromancer idx=25",
+      "cardName": "Meteorite II",
+      "nameSource": "ocr",
+      "ocrConfidence": 51
     },
     {
-      "logicalId": "tts-pyromancer-card-26",
+      "logicalId": "pyromancer:moltenArmor:2",
       "kind": "card",
       "file": "pyromancer/cards/card-26.webp",
       "width": 400,
       "height": 622,
-      "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=26"
+      "confirmed": true,
+      "source": "tts:908560170 Pyromancer idx=26",
+      "cardName": "Molten Armor II",
+      "nameSource": "canonical",
+      "ocrConfidence": 75
     },
     {
       "logicalId": "tts-pyromancer-card-27",
@@ -649,7 +829,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=27"
+      "source": "tts:908560170 Pyromancer idx=27",
+      "cardName": "Molten Armor III",
+      "nameSource": "canonical",
+      "ocrConfidence": 60
     },
     {
       "logicalId": "tts-pyromancer-card-28",
@@ -658,7 +841,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=28"
+      "source": "tts:908560170 Pyromancer idx=28",
+      "cardName": "Warm Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-pyromancer-card-29",
@@ -667,7 +853,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=29"
+      "source": "tts:908560170 Pyromancer idx=29",
+      "cardName": "Fire Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-pyromancer-card-30",
@@ -676,7 +865,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=30"
+      "source": "tts:908560170 Pyromancer idx=30",
+      "cardName": "Red Hot!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-pyromancer-card-31",
@@ -685,7 +877,10 @@
       "width": 400,
       "height": 623,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=31"
+      "source": "tts:908560170 Pyromancer idx=31",
+      "cardName": "Huzzah!",
+      "nameSource": "ocr",
+      "ocrConfidence": 87
     },
     {
       "logicalId": "tts-pyromancer-card-32",
@@ -694,7 +889,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Pyromancer idx=32"
+      "source": "tts:908560170 Pyromancer idx=32",
+      "cardName": "Infernal Infusion!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "pyromancer",
@@ -802,7 +1000,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=0"
+      "source": "tts:908560170 ShadowThief idx=0",
+      "cardName": "Transference!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-shadowthief-card-01",
@@ -811,7 +1012,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=1"
+      "source": "tts:908560170 ShadowThief idx=1",
+      "cardName": "What Status Effects?",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-shadowthief-card-02",
@@ -820,7 +1024,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=2"
+      "source": "tts:908560170 ShadowThief idx=2",
+      "cardName": "Vegas Baby!",
+      "nameSource": "ocr",
+      "ocrConfidence": 83
     },
     {
       "logicalId": "tts-shadowthief-card-03",
@@ -829,7 +1036,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=3"
+      "source": "tts:908560170 ShadowThief idx=3",
+      "cardName": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-shadowthief-card-04",
@@ -838,7 +1048,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=4"
+      "source": "tts:908560170 ShadowThief idx=4",
+      "cardName": "Triple Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-shadowthief-card-05",
@@ -847,7 +1060,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=5"
+      "source": "tts:908560170 ShadowThief idx=5",
+      "cardName": "Double Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-shadowthief-card-06",
@@ -856,7 +1072,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=6"
+      "source": "tts:908560170 ShadowThief idx=6",
+      "cardName": "Buh, Bye!",
+      "nameSource": "canonical",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-shadowthief-card-07",
@@ -865,7 +1084,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=7"
+      "source": "tts:908560170 ShadowThief idx=7",
+      "cardName": "Tip It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 43
     },
     {
       "logicalId": "tts-shadowthief-card-08",
@@ -874,7 +1096,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=8"
+      "source": "tts:908560170 ShadowThief idx=8",
+      "cardName": "Getting Paid!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-shadowthief-card-09",
@@ -883,7 +1108,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=9"
+      "source": "tts:908560170 ShadowThief idx=9",
+      "cardName": "Not This Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-shadowthief-card-10",
@@ -892,7 +1120,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=10"
+      "source": "tts:908560170 ShadowThief idx=10",
+      "cardName": "Twice As Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-shadowthief-card-11",
@@ -901,7 +1132,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=11"
+      "source": "tts:908560170 ShadowThief idx=11",
+      "cardName": "Try, Try Again!",
+      "nameSource": "canonical",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-shadowthief-card-12",
@@ -910,7 +1144,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=12"
+      "source": "tts:908560170 ShadowThief idx=12",
+      "cardName": "So Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 91
     },
     {
       "logicalId": "tts-shadowthief-card-13",
@@ -919,7 +1156,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=13"
+      "source": "tts:908560170 ShadowThief idx=13",
+      "cardName": "Samesies!",
+      "nameSource": "ocr",
+      "ocrConfidence": 89
     },
     {
       "logicalId": "tts-shadowthief-card-14",
@@ -928,7 +1168,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=14"
+      "source": "tts:908560170 ShadowThief idx=14",
+      "cardName": "One More Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 84
     },
     {
       "logicalId": "tts-shadowthief-card-15",
@@ -937,7 +1180,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=15"
+      "source": "tts:908560170 ShadowThief idx=15",
+      "cardName": "Helping Hand",
+      "nameSource": "ocr",
+      "ocrConfidence": 80
     },
     {
       "logicalId": "tts-shadowthief-card-16",
@@ -946,7 +1192,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=16"
+      "source": "tts:908560170 ShadowThief idx=16",
+      "cardName": "Better D!",
+      "nameSource": "ocr",
+      "ocrConfidence": 79
     },
     {
       "logicalId": "tts-shadowthief-card-17",
@@ -955,7 +1204,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=17"
+      "source": "tts:908560170 ShadowThief idx=17",
+      "cardName": "Six-It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 41
     },
     {
       "logicalId": "tts-shadowthief-card-18",
@@ -964,7 +1216,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=18"
+      "source": "tts:908560170 ShadowThief idx=18",
+      "cardName": "Dagger Strike II",
+      "nameSource": "ocr",
+      "ocrConfidence": 83
     },
     {
       "logicalId": "tts-shadowthief-card-19",
@@ -973,7 +1228,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=19"
+      "source": "tts:908560170 ShadowThief idx=19",
+      "cardName": "Pickpocket II",
+      "nameSource": "ocr",
+      "ocrConfidence": 50
     },
     {
       "logicalId": "tts-shadowthief-card-20",
@@ -982,7 +1240,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=20"
+      "source": "tts:908560170 ShadowThief idx=20",
+      "cardName": "Shifty Strike II",
+      "nameSource": "ocr",
+      "ocrConfidence": 63
     },
     {
       "logicalId": "tts-shadowthief-card-21",
@@ -991,7 +1252,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=21"
+      "source": "tts:908560170 ShadowThief idx=21",
+      "cardName": "Insidious Strike II",
+      "nameSource": "canonical",
+      "ocrConfidence": 46
     },
     {
       "logicalId": "tts-shadowthief-card-22",
@@ -1000,7 +1264,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=22"
+      "source": "tts:908560170 ShadowThief idx=22",
+      "cardName": "Shadow Dance II",
+      "nameSource": "ocr",
+      "ocrConfidence": 57
     },
     {
       "logicalId": "tts-shadowthief-card-23",
@@ -1009,7 +1276,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=23"
+      "source": "tts:908560170 ShadowThief idx=23",
+      "cardName": "Carducopia II",
+      "nameSource": "canonical",
+      "ocrConfidence": 49
     },
     {
       "logicalId": "tts-shadowthief-card-24",
@@ -1018,7 +1288,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=24"
+      "source": "tts:908560170 ShadowThief idx=24",
+      "cardName": "Shadow Defense II",
+      "nameSource": "ocr",
+      "ocrConfidence": 86
     },
     {
       "logicalId": "tts-shadowthief-card-25",
@@ -1027,7 +1300,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=25"
+      "source": "tts:908560170 ShadowThief idx=25",
+      "cardName": "Counter Strike II",
+      "nameSource": "canonical",
+      "ocrConfidence": 66
     },
     {
       "logicalId": "tts-shadowthief-card-26",
@@ -1036,7 +1312,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=26"
+      "source": "tts:908560170 ShadowThief idx=26",
+      "cardName": "Sneaky!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-shadowthief-card-27",
@@ -1045,7 +1324,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=27"
+      "source": "tts:908560170 ShadowThief idx=27",
+      "cardName": "Poison Wound!",
+      "nameSource": "ocr",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-shadowthief-card-28",
@@ -1054,7 +1336,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=28"
+      "source": "tts:908560170 ShadowThief idx=28",
+      "cardName": "Wild Shadow!",
+      "nameSource": "ocr",
+      "ocrConfidence": 63
     },
     {
       "logicalId": "tts-shadowthief-card-29",
@@ -1063,7 +1348,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=29"
+      "source": "tts:908560170 ShadowThief idx=29",
+      "cardName": "Shadow Coin!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-shadowthief-card-30",
@@ -1072,7 +1360,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=30"
+      "source": "tts:908560170 ShadowThief idx=30",
+      "cardName": "Enter The Shadows!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-shadowthief-card-31",
@@ -1081,7 +1372,10 @@
       "width": 400,
       "height": 623,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=31"
+      "source": "tts:908560170 ShadowThief idx=31",
+      "cardName": "Card Trick!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-shadowthief-card-32",
@@ -1090,7 +1384,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 ShadowThief idx=32"
+      "source": "tts:908560170 ShadowThief idx=32",
+      "cardName": "Shadow Meld!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-shadowthief-panel",
@@ -1189,7 +1486,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=0"
+      "source": "tts:908560170 MoonElf idx=0",
+      "cardName": "Transference!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-moonelf-card-01",
@@ -1198,7 +1498,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=1"
+      "source": "tts:908560170 MoonElf idx=1",
+      "cardName": "What Status Effects?",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-moonelf-card-02",
@@ -1207,7 +1510,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=2"
+      "source": "tts:908560170 MoonElf idx=2",
+      "cardName": "Vegas Baby!",
+      "nameSource": "ocr",
+      "ocrConfidence": 82
     },
     {
       "logicalId": "tts-moonelf-card-03",
@@ -1216,7 +1522,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=3"
+      "source": "tts:908560170 MoonElf idx=3",
+      "cardName": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-moonelf-card-04",
@@ -1225,7 +1534,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=4"
+      "source": "tts:908560170 MoonElf idx=4",
+      "cardName": "Triple Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-moonelf-card-05",
@@ -1234,7 +1546,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=5"
+      "source": "tts:908560170 MoonElf idx=5",
+      "cardName": "Double Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-moonelf-card-06",
@@ -1243,7 +1558,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=6"
+      "source": "tts:908560170 MoonElf idx=6",
+      "cardName": "Buh, Bye!",
+      "nameSource": "canonical",
+      "ocrConfidence": 89
     },
     {
       "logicalId": "tts-moonelf-card-07",
@@ -1252,7 +1570,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=7"
+      "source": "tts:908560170 MoonElf idx=7",
+      "cardName": "Tip It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 57
     },
     {
       "logicalId": "tts-moonelf-card-08",
@@ -1261,7 +1582,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=8"
+      "source": "tts:908560170 MoonElf idx=8",
+      "cardName": "Getting Paid!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-moonelf-card-09",
@@ -1270,7 +1594,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=9"
+      "source": "tts:908560170 MoonElf idx=9",
+      "cardName": "Not This Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 71
     },
     {
       "logicalId": "tts-moonelf-card-10",
@@ -1279,7 +1606,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=10"
+      "source": "tts:908560170 MoonElf idx=10",
+      "cardName": "Twice As Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-moonelf-card-11",
@@ -1288,7 +1618,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=11"
+      "source": "tts:908560170 MoonElf idx=11",
+      "cardName": "Try, Try Again!",
+      "nameSource": "canonical",
+      "ocrConfidence": 71
     },
     {
       "logicalId": "tts-moonelf-card-12",
@@ -1297,7 +1630,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=12"
+      "source": "tts:908560170 MoonElf idx=12",
+      "cardName": "So Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 92
     },
     {
       "logicalId": "tts-moonelf-card-13",
@@ -1306,7 +1642,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=13"
+      "source": "tts:908560170 MoonElf idx=13",
+      "cardName": "Samesies!",
+      "nameSource": "ocr",
+      "ocrConfidence": 90
     },
     {
       "logicalId": "tts-moonelf-card-14",
@@ -1315,7 +1654,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=14"
+      "source": "tts:908560170 MoonElf idx=14",
+      "cardName": "One More Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 71
     },
     {
       "logicalId": "tts-moonelf-card-15",
@@ -1324,7 +1666,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=15"
+      "source": "tts:908560170 MoonElf idx=15",
+      "cardName": "Helping Hand",
+      "nameSource": "canonical",
+      "ocrConfidence": 63
     },
     {
       "logicalId": "tts-moonelf-card-16",
@@ -1333,7 +1678,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=16"
+      "source": "tts:908560170 MoonElf idx=16",
+      "cardName": "Better D!",
+      "nameSource": "ocr",
+      "ocrConfidence": 91
     },
     {
       "logicalId": "tts-moonelf-card-17",
@@ -1342,7 +1690,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=17"
+      "source": "tts:908560170 MoonElf idx=17",
+      "cardName": "Six-It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 84
     },
     {
       "logicalId": "tts-moonelf-card-18",
@@ -1351,7 +1702,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=18"
+      "source": "tts:908560170 MoonElf idx=18",
+      "cardName": "Longbow II",
+      "nameSource": "ocr",
+      "ocrConfidence": 72
     },
     {
       "logicalId": "tts-moonelf-card-19",
@@ -1360,7 +1714,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=19"
+      "source": "tts:908560170 MoonElf idx=19",
+      "cardName": "Longbow III",
+      "nameSource": "ocr",
+      "ocrConfidence": 72
     },
     {
       "logicalId": "tts-moonelf-card-20",
@@ -1369,7 +1726,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=20"
+      "source": "tts:908560170 MoonElf idx=20",
+      "cardName": "Demising Shot II",
+      "nameSource": "ocr",
+      "ocrConfidence": 74
     },
     {
       "logicalId": "tts-moonelf-card-21",
@@ -1378,7 +1738,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=21"
+      "source": "tts:908560170 MoonElf idx=21",
+      "cardName": "Covered Shot II",
+      "nameSource": "canonical",
+      "ocrConfidence": 46
     },
     {
       "logicalId": "tts-moonelf-card-22",
@@ -1387,7 +1750,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=22"
+      "source": "tts:908560170 MoonElf idx=22",
+      "cardName": "Exploding Arrow II",
+      "nameSource": "canonical",
+      "ocrConfidence": 47
     },
     {
       "logicalId": "tts-moonelf-card-23",
@@ -1396,7 +1762,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=23"
+      "source": "tts:908560170 MoonElf idx=23",
+      "cardName": "Exploding Arrow III",
+      "nameSource": "ocr",
+      "ocrConfidence": 84
     },
     {
       "logicalId": "tts-moonelf-card-24",
@@ -1405,7 +1774,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=24"
+      "source": "tts:908560170 MoonElf idx=24",
+      "cardName": "Entangling Shot II",
+      "nameSource": "canonical",
+      "ocrConfidence": 30
     },
     {
       "logicalId": "tts-moonelf-card-25",
@@ -1414,7 +1786,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=25"
+      "source": "tts:908560170 MoonElf idx=25",
+      "cardName": "Blinding Shot II",
+      "nameSource": "ocr",
+      "ocrConfidence": 82
     },
     {
       "logicalId": "tts-moonelf-card-26",
@@ -1423,7 +1798,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=26"
+      "source": "tts:908560170 MoonElf idx=26",
+      "cardName": "Eclipse II",
+      "nameSource": "ocr",
+      "ocrConfidence": 81
     },
     {
       "logicalId": "tts-moonelf-card-27",
@@ -1432,7 +1810,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=27"
+      "source": "tts:908560170 MoonElf idx=27",
+      "cardName": "Missed Me II",
+      "nameSource": "ocr",
+      "ocrConfidence": 57
     },
     {
       "logicalId": "tts-moonelf-card-28",
@@ -1441,7 +1822,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=28"
+      "source": "tts:908560170 MoonElf idx=28",
+      "cardName": "Moon Magic!",
+      "nameSource": "ocr",
+      "ocrConfidence": 92
     },
     {
       "logicalId": "tts-moonelf-card-29",
@@ -1450,7 +1834,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=29"
+      "source": "tts:908560170 MoonElf idx=29",
+      "cardName": "Take That!",
+      "nameSource": "ocr",
+      "ocrConfidence": 63
     },
     {
       "logicalId": "tts-moonelf-card-30",
@@ -1459,7 +1846,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=30"
+      "source": "tts:908560170 MoonElf idx=30",
+      "cardName": "Volley!",
+      "nameSource": "ocr",
+      "ocrConfidence": 41
     },
     {
       "logicalId": "tts-moonelf-card-31",
@@ -1468,7 +1858,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=31"
+      "source": "tts:908560170 MoonElf idx=31",
+      "cardName": "Evade!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-moonelf-card-32",
@@ -1477,7 +1870,10 @@
       "width": 400,
       "height": 625,
       "confirmed": false,
-      "source": "tts:908560170 MoonElf idx=32"
+      "source": "tts:908560170 MoonElf idx=32",
+      "cardName": "Lunar Umbra!",
+      "nameSource": "ocr",
+      "ocrConfidence": 91
     },
     {
       "logicalId": "tts-moonelf-panel",
@@ -1585,7 +1981,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=0"
+      "source": "tts:908560170 Barbarian idx=0",
+      "cardName": "Transference!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-barbarian-card-01",
@@ -1594,7 +1993,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=1"
+      "source": "tts:908560170 Barbarian idx=1",
+      "cardName": "What Status Effects?",
+      "nameSource": "ocr",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-barbarian-card-02",
@@ -1603,7 +2005,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=2"
+      "source": "tts:908560170 Barbarian idx=2",
+      "cardName": "Vegas Baby!",
+      "nameSource": "ocr",
+      "ocrConfidence": 75
     },
     {
       "logicalId": "tts-barbarian-card-03",
@@ -1612,7 +2017,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=3"
+      "source": "tts:908560170 Barbarian idx=3",
+      "cardName": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-barbarian-card-04",
@@ -1621,7 +2029,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=4"
+      "source": "tts:908560170 Barbarian idx=4",
+      "cardName": "Triple Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-barbarian-card-05",
@@ -1630,7 +2041,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=5"
+      "source": "tts:908560170 Barbarian idx=5",
+      "cardName": "Double Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-barbarian-card-06",
@@ -1639,7 +2053,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=6"
+      "source": "tts:908560170 Barbarian idx=6",
+      "cardName": "Buh, Bye!",
+      "nameSource": "canonical",
+      "ocrConfidence": 92
     },
     {
       "logicalId": "tts-barbarian-card-07",
@@ -1648,7 +2065,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=7"
+      "source": "tts:908560170 Barbarian idx=7",
+      "cardName": "Tip It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 76
     },
     {
       "logicalId": "tts-barbarian-card-08",
@@ -1657,7 +2077,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=8"
+      "source": "tts:908560170 Barbarian idx=8",
+      "cardName": "Getting Paid!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-barbarian-card-09",
@@ -1666,7 +2089,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=9"
+      "source": "tts:908560170 Barbarian idx=9",
+      "cardName": "Not This Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-barbarian-card-10",
@@ -1675,7 +2101,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=10"
+      "source": "tts:908560170 Barbarian idx=10",
+      "cardName": "Twice As Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-barbarian-card-11",
@@ -1684,7 +2113,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=11"
+      "source": "tts:908560170 Barbarian idx=11",
+      "cardName": "Try, Try Again!",
+      "nameSource": "canonical",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-barbarian-card-12",
@@ -1693,7 +2125,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=12"
+      "source": "tts:908560170 Barbarian idx=12",
+      "cardName": "So Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 83
     },
     {
       "logicalId": "tts-barbarian-card-13",
@@ -1702,7 +2137,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=13"
+      "source": "tts:908560170 Barbarian idx=13",
+      "cardName": "Samesies!",
+      "nameSource": "ocr",
+      "ocrConfidence": 88
     },
     {
       "logicalId": "tts-barbarian-card-14",
@@ -1711,7 +2149,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=14"
+      "source": "tts:908560170 Barbarian idx=14",
+      "cardName": "One More Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 84
     },
     {
       "logicalId": "tts-barbarian-card-15",
@@ -1720,7 +2161,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=15"
+      "source": "tts:908560170 Barbarian idx=15",
+      "cardName": "Helping Hand",
+      "nameSource": "ocr",
+      "ocrConfidence": 81
     },
     {
       "logicalId": "tts-barbarian-card-16",
@@ -1729,7 +2173,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=16"
+      "source": "tts:908560170 Barbarian idx=16",
+      "cardName": "Better D!",
+      "nameSource": "ocr",
+      "ocrConfidence": 76
     },
     {
       "logicalId": "tts-barbarian-card-17",
@@ -1738,7 +2185,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=17"
+      "source": "tts:908560170 Barbarian idx=17",
+      "cardName": "Six-It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 42
     },
     {
       "logicalId": "tts-barbarian-card-18",
@@ -1747,7 +2197,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=18"
+      "source": "tts:908560170 Barbarian idx=18",
+      "cardName": "Smack II",
+      "nameSource": "canonical",
+      "ocrConfidence": 55
     },
     {
       "logicalId": "tts-barbarian-card-19",
@@ -1756,7 +2209,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=19"
+      "source": "tts:908560170 Barbarian idx=19",
+      "cardName": "Smack III",
+      "nameSource": "ocr",
+      "ocrConfidence": 70
     },
     {
       "logicalId": "tts-barbarian-card-20",
@@ -1765,7 +2221,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=20"
+      "source": "tts:908560170 Barbarian idx=20",
+      "cardName": "Sturdy Blow II",
+      "nameSource": "ocr",
+      "ocrConfidence": 63
     },
     {
       "logicalId": "tts-barbarian-card-21",
@@ -1774,7 +2233,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=21"
+      "source": "tts:908560170 Barbarian idx=21",
+      "cardName": "Sturdy Blow III",
+      "nameSource": "ocr",
+      "ocrConfidence": 85
     },
     {
       "logicalId": "tts-barbarian-card-22",
@@ -1783,7 +2245,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=22"
+      "source": "tts:908560170 Barbarian idx=22",
+      "cardName": "Mighty Blow II",
+      "nameSource": "ocr",
+      "ocrConfidence": 73
     },
     {
       "logicalId": "tts-barbarian-card-23",
@@ -1792,7 +2257,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=23"
+      "source": "tts:908560170 Barbarian idx=23",
+      "cardName": "Crit Bash II",
+      "nameSource": "canonical",
+      "ocrConfidence": 55
     },
     {
       "logicalId": "tts-barbarian-card-24",
@@ -1801,7 +2269,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=24"
+      "source": "tts:908560170 Barbarian idx=24",
+      "cardName": "Fortitude II",
+      "nameSource": "ocr",
+      "ocrConfidence": 53
     },
     {
       "logicalId": "tts-barbarian-card-25",
@@ -1810,16 +2281,22 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=25"
+      "source": "tts:908560170 Barbarian idx=25",
+      "cardName": "Overpower II",
+      "nameSource": "ocr",
+      "ocrConfidence": 48
     },
     {
-      "logicalId": "tts-barbarian-card-26",
+      "logicalId": "barbarian:reckless:2",
       "kind": "card",
       "file": "barbarian/cards/card-26.webp",
       "width": 400,
       "height": 622,
-      "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=26"
+      "confirmed": true,
+      "source": "tts:908560170 Barbarian idx=26",
+      "cardName": "Reckless II",
+      "nameSource": "ocr",
+      "ocrConfidence": 54
     },
     {
       "logicalId": "tts-barbarian-card-27",
@@ -1828,7 +2305,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=27"
+      "source": "tts:908560170 Barbarian idx=27",
+      "cardName": "Thick Skin II",
+      "nameSource": "ocr",
+      "ocrConfidence": 83
     },
     {
       "logicalId": "tts-barbarian-card-28",
@@ -1837,7 +2317,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=28"
+      "source": "tts:908560170 Barbarian idx=28",
+      "cardName": "Concuss!",
+      "nameSource": "ocr",
+      "ocrConfidence": 79
     },
     {
       "logicalId": "tts-barbarian-card-29",
@@ -1846,7 +2329,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=29"
+      "source": "tts:908560170 Barbarian idx=29",
+      "cardName": "Head Bash!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-barbarian-card-30",
@@ -1855,7 +2341,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=30"
+      "source": "tts:908560170 Barbarian idx=30",
+      "cardName": "Get Some!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-barbarian-card-31",
@@ -1864,7 +2353,10 @@
       "width": 400,
       "height": 623,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=31"
+      "source": "tts:908560170 Barbarian idx=31",
+      "cardName": "Feelin' Good!",
+      "nameSource": "ocr",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-barbarian-card-32",
@@ -1873,7 +2365,10 @@
       "width": 400,
       "height": 622,
       "confirmed": false,
-      "source": "tts:908560170 Barbarian idx=32"
+      "source": "tts:908560170 Barbarian idx=32",
+      "cardName": "Adrenaline Surge!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "barbarian",
@@ -1963,7 +2458,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=0"
+      "source": "tts:908560170 Ninja idx=0",
+      "cardName": "Transference!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-ninja-card-01",
@@ -1972,7 +2470,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=1"
+      "source": "tts:908560170 Ninja idx=1",
+      "cardName": "What Status Effects?",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-ninja-card-02",
@@ -1981,7 +2482,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=2"
+      "source": "tts:908560170 Ninja idx=2",
+      "cardName": "Vegas Baby!",
+      "nameSource": "ocr",
+      "ocrConfidence": 77
     },
     {
       "logicalId": "tts-ninja-card-03",
@@ -1990,7 +2494,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=3"
+      "source": "tts:908560170 Ninja idx=3",
+      "cardName": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-ninja-card-04",
@@ -1999,7 +2506,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=4"
+      "source": "tts:908560170 Ninja idx=4",
+      "cardName": "Triple Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-ninja-card-05",
@@ -2008,7 +2518,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=5"
+      "source": "tts:908560170 Ninja idx=5",
+      "cardName": "Double Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-ninja-card-06",
@@ -2017,7 +2530,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=6"
+      "source": "tts:908560170 Ninja idx=6",
+      "cardName": "Buh, Bye!",
+      "nameSource": "canonical",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-ninja-card-07",
@@ -2026,7 +2542,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=7"
+      "source": "tts:908560170 Ninja idx=7",
+      "cardName": "Tip It!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-ninja-card-08",
@@ -2035,7 +2554,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=8"
+      "source": "tts:908560170 Ninja idx=8",
+      "cardName": "Getting Paid!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-ninja-card-09",
@@ -2044,7 +2566,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=9"
+      "source": "tts:908560170 Ninja idx=9",
+      "cardName": "Not This Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-ninja-card-10",
@@ -2053,7 +2578,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=10"
+      "source": "tts:908560170 Ninja idx=10",
+      "cardName": "Twice As Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 71
     },
     {
       "logicalId": "tts-ninja-card-11",
@@ -2062,7 +2590,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=11"
+      "source": "tts:908560170 Ninja idx=11",
+      "cardName": "Try, Try Again!",
+      "nameSource": "canonical",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-ninja-card-12",
@@ -2071,7 +2602,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=12"
+      "source": "tts:908560170 Ninja idx=12",
+      "cardName": "So Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 85
     },
     {
       "logicalId": "tts-ninja-card-13",
@@ -2080,7 +2614,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=13"
+      "source": "tts:908560170 Ninja idx=13",
+      "cardName": "Samesies!",
+      "nameSource": "ocr",
+      "ocrConfidence": 89
     },
     {
       "logicalId": "tts-ninja-card-14",
@@ -2089,7 +2626,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=14"
+      "source": "tts:908560170 Ninja idx=14",
+      "cardName": "One More Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-ninja-card-15",
@@ -2098,7 +2638,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=15"
+      "source": "tts:908560170 Ninja idx=15",
+      "cardName": "Helping Hand",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-ninja-card-16",
@@ -2107,7 +2650,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=16"
+      "source": "tts:908560170 Ninja idx=16",
+      "cardName": "Better D!",
+      "nameSource": "ocr",
+      "ocrConfidence": 92
     },
     {
       "logicalId": "tts-ninja-card-17",
@@ -2116,7 +2662,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=17"
+      "source": "tts:908560170 Ninja idx=17",
+      "cardName": "Six-It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 71
     },
     {
       "logicalId": "tts-ninja-card-18",
@@ -2125,7 +2674,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=18"
+      "source": "tts:908560170 Ninja idx=18",
+      "cardName": "Slash II",
+      "nameSource": "ocr",
+      "ocrConfidence": 53
     },
     {
       "logicalId": "tts-ninja-card-19",
@@ -2134,7 +2686,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=19"
+      "source": "tts:908560170 Ninja idx=19",
+      "cardName": "Death Blossom II",
+      "nameSource": "ocr",
+      "ocrConfidence": 78
     },
     {
       "logicalId": "tts-ninja-card-20",
@@ -2143,7 +2698,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=20"
+      "source": "tts:908560170 Ninja idx=20",
+      "cardName": "Smokescreen II",
+      "nameSource": "ocr",
+      "ocrConfidence": 44
     },
     {
       "logicalId": "tts-ninja-card-21",
@@ -2152,7 +2710,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=21"
+      "source": "tts:908560170 Ninja idx=21",
+      "cardName": "Walk The Line II",
+      "nameSource": "canonical",
+      "ocrConfidence": 62
     },
     {
       "logicalId": "tts-ninja-card-22",
@@ -2161,7 +2722,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=22"
+      "source": "tts:908560170 Ninja idx=22",
+      "cardName": "Poison Blade II",
+      "nameSource": "ocr",
+      "ocrConfidence": 63
     },
     {
       "logicalId": "tts-ninja-card-23",
@@ -2170,7 +2734,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=23"
+      "source": "tts:908560170 Ninja idx=23",
+      "cardName": "Shadow Fang II",
+      "nameSource": "ocr",
+      "ocrConfidence": 74
     },
     {
       "logicalId": "tts-ninja-card-24",
@@ -2179,7 +2746,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=24"
+      "source": "tts:908560170 Ninja idx=24",
+      "cardName": "Shadewalk II",
+      "nameSource": "ocr",
+      "ocrConfidence": 57
     },
     {
       "logicalId": "tts-ninja-card-25",
@@ -2188,7 +2758,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=25"
+      "source": "tts:908560170 Ninja idx=25",
+      "cardName": "Shade Shift II",
+      "nameSource": "ocr",
+      "ocrConfidence": 76
     },
     {
       "logicalId": "tts-ninja-card-26",
@@ -2197,7 +2770,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=26"
+      "source": "tts:908560170 Ninja idx=26",
+      "cardName": "Poison Dart!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-ninja-card-27",
@@ -2206,7 +2782,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=27"
+      "source": "tts:908560170 Ninja idx=27",
+      "cardName": "Throwing Stars!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-ninja-card-28",
@@ -2215,7 +2794,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=28"
+      "source": "tts:908560170 Ninja idx=28",
+      "cardName": "Fan Of Knives!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-ninja-card-29",
@@ -2224,7 +2806,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=29"
+      "source": "tts:908560170 Ninja idx=29",
+      "cardName": "Smoke Offering!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-ninja-card-30",
@@ -2233,7 +2818,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=30"
+      "source": "tts:908560170 Ninja idx=30",
+      "cardName": "Train!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-ninja-card-31",
@@ -2242,7 +2830,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=31"
+      "source": "tts:908560170 Ninja idx=31",
+      "cardName": "Escape!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-ninja-card-32",
@@ -2251,7 +2842,10 @@
       "width": 400,
       "height": 624,
       "confirmed": false,
-      "source": "tts:908560170 Ninja idx=32"
+      "source": "tts:908560170 Ninja idx=32",
+      "cardName": "Dojo!",
+      "nameSource": "ocr",
+      "ocrConfidence": 88
     },
     {
       "logicalId": "tts-ninja-panel",
@@ -2350,7 +2944,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=0"
+      "source": "tts:908560170 Raveness idx=0",
+      "cardName": "Transference!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-raveness-card-01",
@@ -2359,7 +2956,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=1"
+      "source": "tts:908560170 Raveness idx=1",
+      "cardName": "What Status Effects?",
+      "nameSource": "ocr",
+      "ocrConfidence": 92
     },
     {
       "logicalId": "tts-raveness-card-02",
@@ -2368,7 +2968,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=2"
+      "source": "tts:908560170 Raveness idx=2",
+      "cardName": "Vegas Baby!",
+      "nameSource": "ocr",
+      "ocrConfidence": 87
     },
     {
       "logicalId": "tts-raveness-card-03",
@@ -2377,7 +2980,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=3"
+      "source": "tts:908560170 Raveness idx=3",
+      "cardName": "Get That Outta Here!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-raveness-card-04",
@@ -2386,7 +2992,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=4"
+      "source": "tts:908560170 Raveness idx=4",
+      "cardName": "Triple Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-raveness-card-05",
@@ -2395,7 +3004,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=5"
+      "source": "tts:908560170 Raveness idx=5",
+      "cardName": "Double Up!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-raveness-card-06",
@@ -2404,7 +3016,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=6"
+      "source": "tts:908560170 Raveness idx=6",
+      "cardName": "Buh, Bye!",
+      "nameSource": "canonical",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-raveness-card-07",
@@ -2413,7 +3028,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=7"
+      "source": "tts:908560170 Raveness idx=7",
+      "cardName": "Tip It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 73
     },
     {
       "logicalId": "tts-raveness-card-08",
@@ -2422,7 +3040,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=8"
+      "source": "tts:908560170 Raveness idx=8",
+      "cardName": "Getting Paid!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-raveness-card-09",
@@ -2431,7 +3052,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=9"
+      "source": "tts:908560170 Raveness idx=9",
+      "cardName": "Not This Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 71
     },
     {
       "logicalId": "tts-raveness-card-10",
@@ -2440,7 +3064,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=10"
+      "source": "tts:908560170 Raveness idx=10",
+      "cardName": "Twice As Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 71
     },
     {
       "logicalId": "tts-raveness-card-11",
@@ -2449,7 +3076,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=11"
+      "source": "tts:908560170 Raveness idx=11",
+      "cardName": "Try, Try Again!",
+      "nameSource": "canonical",
+      "ocrConfidence": 70
     },
     {
       "logicalId": "tts-raveness-card-12",
@@ -2458,7 +3088,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=12"
+      "source": "tts:908560170 Raveness idx=12",
+      "cardName": "So Wild!",
+      "nameSource": "ocr",
+      "ocrConfidence": 66
     },
     {
       "logicalId": "tts-raveness-card-13",
@@ -2467,7 +3100,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=13"
+      "source": "tts:908560170 Raveness idx=13",
+      "cardName": "Samesies!",
+      "nameSource": "ocr",
+      "ocrConfidence": 88
     },
     {
       "logicalId": "tts-raveness-card-14",
@@ -2476,7 +3112,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=14"
+      "source": "tts:908560170 Raveness idx=14",
+      "cardName": "One More Time!",
+      "nameSource": "ocr",
+      "ocrConfidence": 71
     },
     {
       "logicalId": "tts-raveness-card-15",
@@ -2485,7 +3124,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=15"
+      "source": "tts:908560170 Raveness idx=15",
+      "cardName": "Helping Hand",
+      "nameSource": "canonical",
+      "ocrConfidence": 62
     },
     {
       "logicalId": "tts-raveness-card-16",
@@ -2494,7 +3136,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=16"
+      "source": "tts:908560170 Raveness idx=16",
+      "cardName": "Better D!",
+      "nameSource": "ocr",
+      "ocrConfidence": 59
     },
     {
       "logicalId": "tts-raveness-card-17",
@@ -2503,7 +3148,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=17"
+      "source": "tts:908560170 Raveness idx=17",
+      "cardName": "Six-It!",
+      "nameSource": "canonical",
+      "ocrConfidence": 35
     },
     {
       "logicalId": "tts-raveness-card-18",
@@ -2512,7 +3160,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=18"
+      "source": "tts:908560170 Raveness idx=18",
+      "cardName": "Peck II",
+      "nameSource": "canonical",
+      "ocrConfidence": 75
     },
     {
       "logicalId": "tts-raveness-card-19",
@@ -2521,7 +3172,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=19"
+      "source": "tts:908560170 Raveness idx=19",
+      "cardName": "Fowl Friend II",
+      "nameSource": "ocr",
+      "ocrConfidence": 64
     },
     {
       "logicalId": "tts-raveness-card-20",
@@ -2530,7 +3184,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=20"
+      "source": "tts:908560170 Raveness idx=20",
+      "cardName": "Craven II",
+      "nameSource": "ocr",
+      "ocrConfidence": 55
     },
     {
       "logicalId": "tts-raveness-card-21",
@@ -2539,7 +3196,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=21"
+      "source": "tts:908560170 Raveness idx=21",
+      "cardName": "Chamber II",
+      "nameSource": "canonical",
+      "ocrConfidence": 60
     },
     {
       "logicalId": "tts-raveness-card-22",
@@ -2548,7 +3208,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=22"
+      "source": "tts:908560170 Raveness idx=22",
+      "cardName": "Murder Of Crows II",
+      "nameSource": "canonical",
+      "ocrConfidence": 69
     },
     {
       "logicalId": "tts-raveness-card-23",
@@ -2557,7 +3220,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=23"
+      "source": "tts:908560170 Raveness idx=23",
+      "cardName": "Raven Sight II",
+      "nameSource": "ocr",
+      "ocrConfidence": 85
     },
     {
       "logicalId": "tts-raveness-card-24",
@@ -2566,7 +3232,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=24"
+      "source": "tts:908560170 Raveness idx=24",
+      "cardName": "Beguile II",
+      "nameSource": "ocr",
+      "ocrConfidence": 76
     },
     {
       "logicalId": "tts-raveness-card-25",
@@ -2575,7 +3244,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=25"
+      "source": "tts:908560170 Raveness idx=25",
+      "cardName": "Nothing More II",
+      "nameSource": "ocr",
+      "ocrConfidence": 52
     },
     {
       "logicalId": "tts-raveness-card-26",
@@ -2584,7 +3256,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=26"
+      "source": "tts:908560170 Raveness idx=26",
+      "cardName": "Midnight Dreary!",
+      "nameSource": "ocr",
+      "ocrConfidence": 94
     },
     {
       "logicalId": "tts-raveness-card-27",
@@ -2593,7 +3268,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=27"
+      "source": "tts:908560170 Raveness idx=27",
+      "cardName": "Nevermore Attack!",
+      "nameSource": "ocr",
+      "ocrConfidence": 93
     },
     {
       "logicalId": "tts-raveness-card-28",
@@ -2602,7 +3280,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=28"
+      "source": "tts:908560170 Raveness idx=28",
+      "cardName": "Talon Strike!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-raveness-card-29",
@@ -2611,7 +3292,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=29"
+      "source": "tts:908560170 Raveness idx=29",
+      "cardName": "Stone Beak!",
+      "nameSource": "canonical",
+      "ocrConfidence": 61
     },
     {
       "logicalId": "tts-raveness-card-30",
@@ -2620,7 +3304,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=30"
+      "source": "tts:908560170 Raveness idx=30",
+      "cardName": "Broken Stillness!",
+      "nameSource": "ocr",
+      "ocrConfidence": 96
     },
     {
       "logicalId": "tts-raveness-card-31",
@@ -2629,7 +3316,10 @@
       "width": 400,
       "height": 621,
       "confirmed": false,
-      "source": "tts:908560170 Raveness idx=31"
+      "source": "tts:908560170 Raveness idx=31",
+      "cardName": "Cull!",
+      "nameSource": "ocr",
+      "ocrConfidence": 95
     },
     {
       "logicalId": "tts-raveness-panel",
