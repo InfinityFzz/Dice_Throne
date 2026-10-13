@@ -60,9 +60,24 @@ scripts/                  M0 脚本对战
 
 ## 尚未实现（后续里程碑）
 
-- M1 本地热座对战（当前脚本 AI 已能完整对局，缺 UI 双人切换）
-- M2 联机完整联调（服务端已可跑，前端未联调）
-- M3 4 英雄完整（当前 2 英雄：Barbarian / Pyromancer）
-- 响应窗口栈（`ResponseWindow` 类型已定义，尚未接入结算流程）
-- `describe(e, lang)` 文案模板（缺一个 kind 即 lint 失败、内容无法上线）
-- 官方数值校准 pass（当前为自制数值）
+进度、缺口与计划的完整清单见 **[docs/PROGRESS.md](docs/PROGRESS.md)**，要点：
+
+**P0（阻塞「能玩起来」）**
+- 前端出牌闭环缺失：引擎已支持 `playCard / buyUpgrade / sellCard / chooseOption`，但 UI 无入口 —— 33 张牌库一张打不出、CP 无处消费
+- `legalActions` 未由服务端下发，前端靠 `pendingKind` 猜按钮
+- T14 投影泄漏属性测试（架构 §2.2.2 明列 M1 前必做）未落地
+
+**P1（阻塞「联机可靠」）**
+- `MatchActor` 串行命令队列；持久化当前只写摘要行、不可恢复；断线重连无 `rejoin` 校验；房间无选人界面
+
+**P2（阻塞「内容完整」）**
+- `describe(e, lang)` 描述层与 lint 守门
+- 引擎条件补全：4-of-a-kind（Smack 不可防御）、3-of-a-kind（Fortitude 移除状态）、防御重掷窗口（Better D!）
+- 双英雄 L1 / Ultimate 官方数值仍为占位
+- M3 其余 5 英雄（Gunslinger / ShadowThief / MoonElf / Ninja / Raveness）
+
+## 官方数值校准现状
+
+已完成 Barbarian / Pyromancer 双英雄的骰面、能力、升级卡、行动卡、专属卡校准（逐张读官方
+TTS 图包卡面，见 `docs/content-audit-report.md`）。真图命中率 66/89（card 类 48/48 全命中）。
+默认不入库任何官方美术资产与卡面文本。

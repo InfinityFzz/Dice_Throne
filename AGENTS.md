@@ -18,10 +18,13 @@ Run from repo root after `npm install`.
 
 ## Gotchas / current state
 
-- **Root `npm run typecheck` is broken** (TS6059). `packages/server/tsconfig.json` sets `rootDir: ./src` but imports shared sources from `../../shared/src`. Use `-w @dt/shared` to typecheck the engine; don't chase this failure as a regression.
-- **`packages/web` does not typecheck** (tsconfig has no DOM lib / `vite/client` types; React event typings fail). Don't assume `tsc` passes for web.
-- **`npm run build` currently fails on Windows**: missing optional `@rollup/rollup-win32-x64-msvc` (npm optional-dependency bug). Fix by deleting `node_modules` + `package-lock.json` and reinstalling, or installing that package directly. Only `packages/web` has a build script.
-- Architecture comments cite `架构 §...`; that design doc is **not in this repo** — don't search for it.
+- **All three packages typecheck clean** (`tsc -p tsconfig.json --noEmit` in `shared`, `server`, `web`). The previously broken `server/tsconfig.json` `rootDir` and `web/tsconfig.json` missing DOM lib / `vite/client` types were fixed — don't reintroduce them.
+- `npm run build` on Windows needs the optional `@rollup/rollup-win32-x64-msvc`; it is now recorded in `packages/web/package.json` optionalDependencies. If it's missing, install it directly rather than wiping `node_modules`.
+- Architecture comments cite `架构 §...`; the design/architecture docs live in **`md/`** (not `docs/`): `md/docs/architecture/dice-throne-architecture.md` + `md/docs/architecture/adr/`, `md/design/`.
+- Progress / gaps / plan: **`docs/PROGRESS.md`**; official-value audit: **`docs/content-audit-report.md`**.
+- Real TTS artwork (`packages/web/src/assets/packs/local-tts/images/**`) is **gitignored** — never commit it, and never let `manifest.json` be the only thing that changes when you meant to import images. Asset pipeline: `npm run assets:import` → `assets:catalog` → `assets:check`; card-name → defId confirmation is `npm run assets:confirm` (table: `packs/local-tts/name-map.json`).
+- `resolveAsset` **throws** on unknown logical ids (not in `ASSET_CATALOG`) — always wrap in try/catch or run `assets:catalog` after adding content.
+- The UI has **no play-card entry points yet** even though the engine supports `playCard / buyUpgrade / sellCard / chooseOption`. See `docs/PROGRESS.md` P0.
 
 ## Conventions
 
