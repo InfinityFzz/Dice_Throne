@@ -31,10 +31,22 @@ export interface BucketEntry {
   readonly fromSeat: Seat;
 }
 
+/**
+ * 条件反噬（官方 Reckless 语义）：flush 时若 triggerToSeat 的 net ≥ 1（至少 1 点伤害成功造成），
+ * 则对 toSeat 造成 amount 点 pure 伤害。amount 在入桶时已求值固化。
+ */
+export interface PendingRecoil {
+  readonly fromSeat: Seat;
+  readonly toSeat: Seat;
+  readonly triggerToSeat: Seat;
+  readonly amount: number;
+}
+
 export interface DamageBucket {
   readonly entries: readonly BucketEntry[];
   readonly heals: readonly { toSeat: Seat; amount: number }[];
   readonly avoid: readonly { toSeat: Seat }[];
+  readonly pendingRecoils: readonly PendingRecoil[];
 }
 
 /** 权限令牌：Ultimate / Stun 剥夺对手行动权 */
@@ -92,6 +104,8 @@ export interface PlayerState {
   /** 已购买的升级：abilityId -> 当前 tier */
   readonly upgrades: Readonly<Record<EntityId, number>>;
   readonly statuses: readonly StatusInstance[];
+  /** 状态堆叠上限的临时覆盖（Fire Up! / Burning Soul II：+1 Fire Mastery stack limit） */
+  readonly statusCapOverrides: Readonly<Record<StatusId, number>>;
   /** 本回合剩余掷骰次数 */
   readonly rollAttemptsLeft: number;
   readonly diceValues: readonly number[];
@@ -126,5 +140,5 @@ export interface GameState {
   readonly finished: boolean;
 }
 
-export const EMPTY_BUCKET: DamageBucket = Object.freeze({ entries: [], heals: [], avoid: [] });
+export const EMPTY_BUCKET: DamageBucket = Object.freeze({ entries: [], heals: [], avoid: [], pendingRecoils: [] });
 export const EMPTY_WINDOWS: WindowStack = Object.freeze({ stack: [], nextSeq: 0 });

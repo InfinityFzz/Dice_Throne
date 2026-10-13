@@ -72,19 +72,19 @@ function fakePack(id: string, hits: ReadonlySet<string>): AssetPack {
 }
 
 test('resolveAsset：指定包缺图时落到 placeholder，并标注缺口来源', () => {
-  const p = fakePack('test-a', new Set(['card:common:focus']));
+  const p = fakePack('test-a', new Set(['card:common:vegasBaby']));
   registerPack(p);
   try {
-    const hit = resolveAsset('common:focus', 'card', { pack: 'test-a' });
+    const hit = resolveAsset('common:vegasBaby', 'card', { pack: 'test-a' });
     assert.equal(hit.pack, 'test-a');
     assert.equal(hit.substituted, false);
 
-    const miss = resolveAsset('common:quickStudy', 'card', { pack: 'test-a' });
+    const miss = resolveAsset('common:gettingPaid', 'card', { pack: 'test-a' });
     assert.equal(miss.pack, 'placeholder');
     assert.equal(miss.source, 'generated');
     assert.equal(miss.substituted, true);
     assert.ok(decodeURIComponent(miss.url).includes('缺图: test-a'), '占位图应标注缺口来源');
-    assert.ok(decodeURIComponent(miss.url).includes('快速研习'), '占位图应带中文展示名');
+    assert.ok(decodeURIComponent(miss.url).includes('结账收钱'), '占位图应带中文展示名');
   } finally {
     unregisterPack('test-a');
   }
@@ -125,7 +125,7 @@ test('resolveAsset：切包生效（setActivePack）', () => {
 test('manifest：placeholder 包不允许覆盖/注销，未注册包抛错', () => {
   assert.throws(() => registerPack({ id: 'placeholder', label: 'x', kind: 'generated', resolve: () => null }), /placeholder/);
   assert.throws(() => unregisterPack('placeholder'), /placeholder/);
-  assert.throws(() => resolveAsset('common:focus', 'card', { pack: 'nope' }), /未注册/);
+  assert.throws(() => resolveAsset('common:vegasBaby', 'card', { pack: 'nope' }), /未注册/);
 });
 
 // ── local-tts 包 ─────────────────────────────────────────────────
@@ -159,7 +159,7 @@ test('local-tts 包：有图给真图，缺图返回 null 走兜底', () => {
 
     // 临时 id 只存在于包内库存，UI 按内容层 id 查询不会命中
     assert.equal(pack.resolve('tts-pyromancer-card-07', 'card', {}), null); // 无 url
-    assert.equal(resolveAsset('common:focus', 'card').pack, 'placeholder');
+    assert.equal(resolveAsset('common:vegasBaby', 'card').pack, 'placeholder');
   } finally {
     setActivePack('placeholder');
     unregisterPack('local-tts');

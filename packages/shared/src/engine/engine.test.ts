@@ -9,11 +9,12 @@ import {
   createDefaultRegistry, createMatch, reduce,
   addDamage, addHeal, addAvoid, addPrevention, flushForSeat, countsAsDamageDealt,
   evaluate, createRng, nextInt,
-  type DamageBucket, type Seat,
+  Draft, EFFECT_HANDLERS, evalExpr,
+  type DamageBucket, type Seat, type EffectDef,
 } from '../index.js';
 
 const content = createDefaultRegistry();
-const EMPTY: DamageBucket = { entries: [], heals: [], avoid: [] };
+const EMPTY: DamageBucket = { entries: [], heals: [], avoid: [], pendingRecoils: [] };
 
 describe('伤害分桶与 flush（P6）', () => {
   test('减伤只吃可防御部分，不可防御伤害不受影响', () => {
@@ -126,14 +127,13 @@ describe('内容自检（content-lint）', () => {
     assert.equal(c.to.r, 'attacker');
   });
 
-  test('自我反噬声明为 pure + sourceKind recoil + target self', () => {
+  test('自我反噬改用 recoilOnHit 声明（官方条件反噬：仅当至少 1 点伤害成功造成）', () => {
     const barb = content.getHero('barbarian');
     const reckless = barb.abilities.find((a) => a.id === 'barbarian:reckless');
-    const eff = reckless?.tiers[0]?.effects[1];
-    const c = eff!.clause as { damageType: string; sourceKind?: string; to: { r: string } };
-    assert.equal(c.damageType, 'pure');
-    assert.equal(c.sourceKind, 'recoil');
-    assert.equal(c.to.r, 'self');
+    const eff = reckless?.tiers[0]?.effects[0];
+    const c = eff!.clause as { recoilOnHit?: { amount: number; to: { r: string } } };
+    assert.equal(c.recoilOnHit?.amount, 4);
+    assert.equal(c.recoilOnHit?.to.r, 'self');
   });
 });
 
@@ -170,5 +170,59 @@ describe('建局与基本规则', () => {
     const r = reduce(s, { seat: offender as Seat, action: { t: 'performRoll' }, clientSeq: 1 }, content);
     assert.equal(r.ok, false);
     if (!r.ok) assert.equal(r.error.code, 'notYourTurn');
+  });
+});
+
+describe('官方校准新增机制', () => {
+  const mkDraft = () => {
+    const s = createMatch(content, { seed: 'mech', heroes: ['barbarian', 'pyromancer'] });
+    return new Draft(s, content);
+  };
+
+  test('ceilDiv：Vegas Baby! 获得 ⌈点数/2⌉ CP', () => {
+    const d = mkDraft();
+    d.s.bindings['vb'] = 5;
+    assert.equal(evalExpr(d, { e: 'ceilDiv', a: { e: 'var', name: 'vb' }, b: 2 }, 0), 3);
+    d.s.bindings['vb'] = 2;
+    assert.equal(evalExpr(d, { e: 'ceilDiv', a: { e: 'var', name: 'vb' }, b: 2 }, 0), 1);
+  });
+
+  test('dealDamage + recoilOnHit：反噬入桶固化（官方 Reckless 条件反噬声明）', () => {
+    const d = mkDraft();
+    EFFECT_HANDLERS.dealDamage(d, {
+      kind: 'dealDamage', amount: 20, damageType: 'attack', to: { r: 'opponent' },
+      recoilOnHit: { amount: 5, to: { r: 'self' } },
+    }, 0);
+    assert.equal(d.s.bucket.entries.length, 1);
+    assert.equal(d.s.bucket.pendingRecoils.length, 1);
+    const rc = d.s.bucket.pendingRecoils[0]!;
+    assert.equal(rc.fromSeat, 0);
+    assert.equal(rc.toSeat, 0); // 反噬承受者 = 自己
+    assert.equal(rc.triggerToSeat, 1); // 触发条件看对手 seat 的 net
+    assert.equal(rc.amount, 5);
+  });
+
+  test('rollDicePool perDie：每颗命中骰各结算一次（官方 Pyroblast「Add 3 × 🔥」）', () => {
+    const d = mkDraft();
+    let queued = 0;
+    const probe: EffectDef = { clause: { kind: 'log', text: 'hit' } };
+    // 拦截不了 handler 返回值以外的副作用，这里直接检查返回的效果条数
+    const out = EFFECT_HANDLERS.rollDicePool(d, {
+      kind: 'rollDicePool', count: 5, perDie: true,
+      cases: [{ on: 'sword', effects: [probe] }],
+    }, 0) ?? [];
+    // Barbarian 骰 1-3 均为 sword（面值 1/2/3），5 骰里 sword 骰数 = 命中面值 1-3 的颗数
+    queued = out.length;
+    const swordCount = d.s.tempDice.filter((v) => v <= 3).length;
+    assert.equal(queued, swordCount);
+    assert.ok(queued >= 0);
+  });
+
+  test('increaseStackLimit + inflictStatus：Fire Mastery 上限可被抬高并截断', () => {
+    const d = mkDraft();
+    EFFECT_HANDLERS.increaseStackLimit(d, { kind: 'increaseStackLimit', status: 'common:fireMastery', by: 1, to: { r: 'self' } }, 1);
+    EFFECT_HANDLERS.inflictStatus(d, { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 99, to: { r: 'self' } }, 1);
+    const st = d.player(1).statuses.find((s) => s.id === 'common:fireMastery');
+    assert.equal(st?.stacks, 6); // 基础 5 + 1
   });
 });

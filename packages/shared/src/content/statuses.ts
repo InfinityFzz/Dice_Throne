@@ -92,13 +92,13 @@ export const COMMON_STATUSES: readonly StatusDef[] = [
     }],
   },
   {
+    // 官方值（Pyromancer 技能板原图，2026-10-13）：Stack limit 5；每回合自己 Upkeep「冷却」移除 1 层
     id: 'common:fireMastery',
     name: '火焰掌控',
     polarity: 'positive',
-    stackLimit: 4,
+    stackLimit: 5,
     persistent: true,
     spendable: false,
-    // decay：每回合末衰减 1 层
     upkeep: {
       order: 'decay',
       effects: [{ clause: { kind: 'removeStatus', status: 'common:fireMastery', stacks: 1, to: { r: 'self' } } }],

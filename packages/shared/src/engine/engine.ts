@@ -64,6 +64,7 @@ export function createMatch(content: ContentRegistry, opts: MatchOptions): GameS
       discard: [],
       upgrades: {},
       statuses: [],
+      statusCapOverrides: {},
       rollAttemptsLeft: MAX_ROLL_ATTEMPTS,
       diceValues: [],
       diceLocked: [],
@@ -296,7 +297,16 @@ function doDefensiveRoll(d: Draft): void {
 
   const tier = currentTier(d, defender, slot.id);
   const t = slot.tiers.find((x) => x.level === tier) ?? slot.tiers[0];
-  if (t) runEffects(d, t.effects, defender);
+  if (t) {
+    // 防御 matcher 以防御骰为作用域（此前从未求值，thickSkin「防御骰出 4」等条件失效）
+    const hero = d.content.getHero(dp.heroId);
+    const symbols: Sym[] = values.flatMap((v) => {
+      const face = hero.dieFaces.find((f) => f.value === v);
+      return face ? [...face.symbols] : [];
+    });
+    const view: DiceView = { values, symbols, locked: values.map(() => true) };
+    if (evaluate(t.matcher, view).matched) runEffects(d, t.effects, defender);
+  }
   d.s.tempDice = [];
   finishResolution(d);
 }
@@ -319,9 +329,13 @@ function finishResolution(d: Draft): void {
 
 function flushNow(d: Draft): void {
   d.s.ladderStep = 'simultaneous';
+  // 条件反噬在清桶前摘取（官方 Reckless 语义：仅当至少 1 点伤害成功造成）
+  const recoils = [...d.s.bucket.pendingRecoils];
+  const results = new Map<Seat, ReturnType<typeof flushForSeat>>();
   for (const seat of [0, 1] as Seat[]) {
     const p = d.player(seat);
     const r = flushForSeat(d.s.bucket, seat, p.hp, p.startHp);
+    results.set(seat, r);
     if (r.net === 0 && !d.s.bucket.heals.some((h) => h.toSeat === seat)) continue;
     p.hp = r.hpAfter;
     if (seat !== d.s.activeSeat) {
@@ -334,6 +348,18 @@ function flushNow(d: Draft): void {
   }
   d.s.bucket = EMPTY_BUCKET;
 
+  for (const rc of recoils) {
+    const trigger = results.get(rc.triggerToSeat);
+    if (!trigger || trigger.net < 1) continue;
+    const p = d.player(rc.toSeat);
+    p.hp = p.hp - rc.amount;
+    d.emit('damageApplied', { seat: rc.toSeat, net: rc.amount, hpAfter: p.hp, defeated: p.hp <= 0, recoil: true });
+  }
+
+  checkDefeat(d);
+}
+
+function checkDefeat(d: Draft): void {
   const dead = ([0, 1] as Seat[]).filter((s) => d.player(s).hp <= 0);
   if (dead.length === 2) {
     d.s.winner = 'draw'; d.s.finished = true;

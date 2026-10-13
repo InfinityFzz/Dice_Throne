@@ -97,7 +97,9 @@ export type Expr =
   | { e: 'hp'; target: TargetRef }
   | { e: 'var'; name: string }
   | { e: 'add' | 'sub' | 'mul'; a: Expr; b: Expr }
-  | { e: 'min' | 'max'; a: Expr; b: Expr };
+  | { e: 'min' | 'max'; a: Expr; b: Expr }
+  /** 向上取整除法（Vegas Baby!：获得 ⌈点数/2⌉ CP） */
+  | { e: 'ceilDiv'; a: Expr; b: Expr };
 
 export type Condition =
   | { c: 'always' }
@@ -111,9 +113,24 @@ export type Condition =
   | { c: 'not'; of: Condition };
 
 // ── 效果 IR（引擎可执行的最小闭包）────────────────────
+export interface RecoilOnHit {
+  /** 反噬量（在 dealDamage 入桶时求值固化） */
+  readonly amount: Expr;
+  /** 反噬承受者（官方 Reckless 语义：必须 self） */
+  readonly to: TargetRef;
+}
+
 export type EffectClause =
   // 伤害 / 治疗
-  | { kind: 'dealDamage'; amount: Expr; damageType: DamageType; to: TargetRef; sourceKind?: DamageSourceKind }
+  | {
+      kind: 'dealDamage'; amount: Expr; damageType: DamageType; to: TargetRef; sourceKind?: DamageSourceKind;
+      /**
+       * 条件反噬（官方 Reckless：「仅当至少 1 点伤害成功造成」）。
+       * 为什么不是 Condition：伤害在 P6 flush 才结算，effectWalk（P3）时无从判定，
+       * 因此作为 dealDamage 的附属延迟效果，flush 时按目标 seat 的 net ≥ 1 触发。
+       */
+      recoilOnHit?: RecoilOnHit;
+    }
   | { kind: 'heal'; amount: Expr; to: TargetRef }
   | { kind: 'preventDamage'; amount: Expr; to: TargetRef }
   | { kind: 'avoidDamage'; to: TargetRef }
@@ -125,13 +142,17 @@ export type EffectClause =
   // 状态
   | { kind: 'inflictStatus'; status: StatusId; stacks: Expr; to: TargetRef }
   | { kind: 'removeStatus'; status: StatusId | 'any'; stacks: Expr; to: TargetRef; bindRemovedTo?: string }
-  | { kind: 'transferStatus'; status: StatusId; from: TargetRef; to: TargetRef }
+  | { kind: 'transferStatus'; status: StatusId | 'any'; from: TargetRef; to: TargetRef }
   | { kind: 'increaseStackLimit'; status: StatusId; by: number; to: TargetRef }
   | { kind: 'spendStatus'; status: StatusId; to: TargetRef }
   // 骰子
-  | { kind: 'rollDicePool'; count: Expr; cases: readonly { on: Sym; effects: readonly EffectDef[] }[]; bindSumTo?: string }
+  | { kind: 'rollDicePool'; count: Expr; cases?: readonly { on: Sym; effects: readonly EffectDef[] }[]; bindSumTo?: string;
+      /** true = 每颗命中骰各结算一次（官方 Pyroblast「Add 3 × 🔥 dmg」语义）；false/缺省 = 每符号至多一次 */
+      perDie?: boolean }
   | { kind: 'setDieFace'; toFace: 1 | 2 | 3 | 4 | 5 | 6; count: Expr }
-  | { kind: 'rerollDice'; count: Expr }
+  | { kind: 'adjustDie'; delta: Expr }
+  | { kind: 'copyDieFace' }
+  | { kind: 'rerollDice'; count: Expr; to?: TargetRef }
   | { kind: 'grantExtraRollAttempt'; amount: number }
   | { kind: 'performRollAttempt' }
   // 流程

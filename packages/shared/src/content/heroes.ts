@@ -38,8 +38,8 @@ const barbarianUpgrades: readonly CardDef[] = [
     timing: ['main1', 'main2'], targetAbilityId: 'barbarian:thickSkin', tier: 2, count: 1, effects: [] },
 ];
 
-/** graded 的条件分支展开（官方 Smack/Fortitude 为 3/4/5 档） */
-function gradedBranch(symbol: 'sword' | 'life', tierDmg: readonly [number, number, number], mk: (n: number) => EffectDef): EffectDef {
+/** graded 的条件分支展开（官方 Smack/Fortitude/Fireball 为 3 档） */
+function gradedBranch(symbol: 'sword' | 'life' | 'flame', tierDmg: readonly [number, number, number], mk: (n: number) => EffectDef): EffectDef {
   return {
     clause: {
       kind: 'conditional',
@@ -153,21 +153,20 @@ export const BARBARIAN: HeroDef = {
       ],
     },
     {
-      // 官方 L2: 大顺 → 20 伤害 + 反噬 5；
-      // ⚠️ 官方反噬为条件性（仅当至少 1 点伤害成功造成 = hitSuccess 语义），引擎 Condition 暂无该类型，现为无条件，待扩展
+      // 官方 L2（card-26）：大顺 → 20 伤害 + 条件反噬 5（仅当至少 1 点伤害成功造成）
       id: 'barbarian:reckless',
       kind: 'offensive',
       name: '鲁莽挥砍',
       tiers: [
         { level: 1, upgradeCostCP: 0, matcher: { k: 'largeStraight' },
           effects: [
-            dmgTo(15),
-            { clause: { kind: 'dealDamage', amount: 4, damageType: 'pure', to: { r: 'self' }, sourceKind: 'recoil' } },
-          ] }, // official:false 推定（15+4）
+            { clause: { kind: 'dealDamage', amount: 15, damageType: 'attack', to: { r: 'opponent' },
+              recoilOnHit: { amount: 4, to: { r: 'self' } } } },
+          ] }, // official:false L1 推定（15+4）
         { level: 2, upgradeCostCP: 2, matcher: { k: 'largeStraight' },
           effects: [
-            dmgTo(20),
-            { clause: { kind: 'dealDamage', amount: 5, damageType: 'pure', to: { r: 'self' }, sourceKind: 'recoil' } },
+            { clause: { kind: 'dealDamage', amount: 20, damageType: 'attack', to: { r: 'opponent' },
+              recoilOnHit: { amount: 5, to: { r: 'self' } } } },
           ] },
       ],
     },
@@ -227,39 +226,80 @@ export const BARBARIAN: HeroDef = {
 };
 
 // ── 焰术士：火焰分档 + 状态消耗，玻璃大炮 ────────────────
+// 2026-10-13 官方校准（第二轮）：升级卡 CP/效果全部读自官方 TTS 图包卡面
+// （docs/content-audit-report.md §Pyromancer）。L1 除 Scorch/Meteoroid/Blazing Soul
+// （卡面下方相邻格直读）外官方值未获取，用推定并标注。
 const pyromancerUpgrades: readonly CardDef[] = [
-  {
-    defId: 'pyromancer:fireball:2', name: '火球 II', kind: 'upgrade', costCp: 4,
-    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:fireball', tier: 2, count: 2,
-    effects: [],
-  },
-  {
-    defId: 'pyromancer:fireball:3', name: '火球 III', kind: 'upgrade', costCp: 9,
-    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:fireball', tier: 3, count: 1,
-    effects: [],
-  },
-  {
-    defId: 'pyromancer:ignite:2', name: '点燃 II', kind: 'upgrade', costCp: 4,
-    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:ignite', tier: 2, count: 2,
-    effects: [],
-  },
-  {
-    defId: 'pyromancer:combustion:2', name: '燃尽 II', kind: 'upgrade', costCp: 5,
-    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:combustion', tier: 2, count: 1,
-    effects: [],
-  },
-  {
-    defId: 'pyromancer:moltenArmor:2', name: '熔岩护甲 II', kind: 'upgrade', costCp: 3,
-    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:moltenArmor', tier: 2, count: 1,
-    effects: [],
-  },
+  // 官方 CP = 卡面左上角印刷价
+  { defId: 'pyromancer:fireball:2', name: 'Fireball II', kind: 'upgrade', costCp: 1,
+    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:fireball', tier: 2, count: 2, effects: [] },
+  { defId: 'pyromancer:pyroblast:2', name: 'Pyroblast II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:pyroblast', tier: 2, count: 1, effects: [] },
+  { defId: 'pyromancer:pyroblast:3', name: 'Pyroblast III', kind: 'upgrade', costCp: 3,
+    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:pyroblast', tier: 3, count: 1, effects: [] },
+  { defId: 'pyromancer:ignite:2', name: 'Ignite II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:ignite', tier: 2, count: 2, effects: [] },
+  { defId: 'pyromancer:burningSoul:2', name: 'Burning Soul II', kind: 'upgrade', costCp: 1,
+    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:burningSoul', tier: 2, count: 1, effects: [] },
+  { defId: 'pyromancer:hotStreak:2', name: 'Hot Streak II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:hotStreak', tier: 2, count: 2, effects: [] },
+  { defId: 'pyromancer:meteorite:2', name: 'Meteorite II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:meteorite', tier: 2, count: 1, effects: [] },
+  { defId: 'pyromancer:combustion:2', name: 'Combustion II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:combustion', tier: 2, count: 1, effects: [] },
+  { defId: 'pyromancer:moltenArmor:2', name: 'Molten Armor II', kind: 'upgrade', costCp: 1,
+    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:moltenArmor', tier: 2, count: 1, effects: [] },
+  { defId: 'pyromancer:moltenArmor:3', name: 'Molten Armor III', kind: 'upgrade', costCp: 3,
+    timing: ['main1', 'main2'], targetAbilityId: 'pyromancer:moltenArmor', tier: 3, count: 1, effects: [] },
+];
+
+/** Pyromancer 专属行动卡（card-28..32，2026-10-13 读图） */
+const pyromancerHeroCards: readonly CardDef[] = [
+  { defId: 'pyromancer:warmUp', name: '热身', kind: 'mainPhase', costCp: 0,
+    timing: ['main1', 'main2'], count: 2,
+    effects: [
+      { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 1, to: { r: 'self' } },
+        next: [{ clause: { kind: 'log', text: '官方效果「任意花费 CP 每 1 CP 换 1 FM」需自由出价输入，自动模式不行使' } }] },
+    ] },
+  { defId: 'pyromancer:fireUp', name: '燃起', kind: 'mainPhase', costCp: 3,
+    timing: ['main1', 'main2'], count: 2,
+    effects: [
+      { clause: { kind: 'increaseStackLimit', status: 'common:fireMastery', by: 1, to: { r: 'self' } } },
+      { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 2, to: { r: 'self' } } },
+    ] },
+  // 攻击修正：在 then 窗口把附加伤害排入同一 bucket（flush 前与主攻击合并结算）
+  { defId: 'pyromancer:redHot', name: '灼热', kind: 'rollPhase', costCp: 1,
+    timing: ['thenNode'], count: 2,
+    effects: [{
+      clause: { kind: 'dealDamage', amount: { e: 'statusStacks', status: 'common:fireMastery', target: { r: 'self' } },
+        damageType: 'attack', to: { r: 'opponent' } },
+    }] },
+  { defId: 'pyromancer:huzzah', name: '喝彩', kind: 'rollPhase', costCp: 1,
+    timing: ['thenNode'], count: 2,
+    effects: [{
+      clause: { kind: 'rollDicePool', count: 1, cases: [
+        { on: 'flame', effects: [{ clause: { kind: 'dealDamage', amount: 3, damageType: 'attack', to: { r: 'opponent' } } }] },
+        { on: 'blaze', effects: [{ clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'opponent' } } }] },
+        { on: 'fierySoul', effects: [{ clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 2, to: { r: 'self' } } }] },
+        { on: 'meteor', effects: [{ clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } }] },
+      ] },
+    }] },
+  { defId: 'pyromancer:infernalInfusion', name: '炼狱灌注（PROMO）', kind: 'mainPhase', costCp: 0,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [
+      { clause: { kind: 'rollDicePool', count: 1, bindSumTo: 'ii' } },
+      // meteor = 6 点：FM 补至上限（addStatus 按 cap 截断）；其余：抽 1
+      { clause: { kind: 'conditional', cond: { c: 'boundAtLeast', name: 'ii', min: 6 },
+        then: [{ clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 99, to: { r: 'self' } } }],
+        else: [{ clause: { kind: 'drawCards', amount: 1, to: { r: 'self' } } }] } },
+    ] },
 ];
 
 export const PYROMANCER: HeroDef = {
   id: 'pyromancer',
   name: '焰术士',
   dieFaces: [
-    // 官方值（源 A 技能板 + 源 D 骰面贴图 + 升级卡 matcher 三方一致）：
+    // 官方值（技能板 + 骰面贴图 + 升级卡 matcher 三方一致）：
     // 1-3 FLAME，4 BLAZE，5 FIERY SOUL，6 METEOR
     { value: 1, symbols: ['flame'] },
     { value: 2, symbols: ['flame'] },
@@ -272,143 +312,230 @@ export const PYROMANCER: HeroDef = {
   startHp: 50,
   abilities: [
     {
+      // 官方 L2（card-18，1 CP）：graded 3/4/5 焰 → 4/6/8 + Gain 2 Fire Mastery。
+      // L1 数值 = 英雄板（审计双重印证 4/6/8，无 FM 增益）。官方无 Fireball III。
       id: 'pyromancer:fireball',
       kind: 'offensive',
       name: '火球',
       tiers: [
-        // graded 展开为条件分支：matcher 取最低档，effects 内按实际数量分支
-        // 官方值（英雄板 tier1 + FIREBALL II 卡同梯 4/6/8 双重印证）：
-        // 3 焰→4，4 焰→6，5 焰→8；官方另有「获得 1 Fire Mastery」效果（机制层，未实装，待裁定）
         { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'flame', count: 3 },
-          effects: [{
-            clause: {
-              kind: 'conditional',
-              cond: { c: 'diceSymbolAtLeast', symbol: 'flame', min: 5 },
-              then: [{ clause: { kind: 'dealDamage', amount: 8, damageType: 'attack', to: { r: 'opponent' } } }],
-              else: [{
-                clause: {
-                  kind: 'conditional',
-                  cond: { c: 'diceSymbolAtLeast', symbol: 'flame', min: 4 },
-                  then: [{ clause: { kind: 'dealDamage', amount: 6, damageType: 'attack', to: { r: 'opponent' } } }],
-                  else: [{ clause: { kind: 'dealDamage', amount: 4, damageType: 'attack', to: { r: 'opponent' } } }],
-                },
-              }],
-            },
-          }] },
-        { level: 2, upgradeCostCP: 4, matcher: { k: 'countSymbol', symbol: 'flame', count: 3 },
-          effects: [{
-            clause: {
-              kind: 'conditional',
-              cond: { c: 'diceSymbolAtLeast', symbol: 'flame', min: 5 },
-              then: [{ clause: { kind: 'dealDamage', amount: 21, damageType: 'attack', to: { r: 'opponent' } } }],
-              else: [{ clause: { kind: 'dealDamage', amount: 13, damageType: 'attack', to: { r: 'opponent' } } }],
-            },
-          }] },
-        { level: 3, upgradeCostCP: 9, matcher: { k: 'countSymbol', symbol: 'flame', count: 3 },
-          effects: [{
-            clause: {
-              kind: 'conditional',
-              cond: { c: 'diceSymbolAtLeast', symbol: 'flame', min: 5 },
-              then: [{ clause: { kind: 'dealDamage', amount: 27, damageType: 'attack', to: { r: 'opponent' } } }],
-              else: [{ clause: { kind: 'dealDamage', amount: 17, damageType: 'attack', to: { r: 'opponent' } } }],
-            },
-          }] },
+          effects: [gradedBranch('flame', [4, 6, 8], (n) => dmgTo(n))] },
+        { level: 2, upgradeCostCP: 1, matcher: { k: 'countSymbol', symbol: 'flame', count: 3 },
+          effects: [
+            gradedBranch('flame', [4, 6, 8], (n) => dmgTo(n)),
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 2, to: { r: 'self' } } },
+          ] },
       ],
     },
     {
-      id: 'pyromancer:combustion',
+      // 官方 L2（card-19，2 CP）：3焰+1meteor → Deal 6 + Roll 2（每焰 +3 伤害；blaze→Burn；
+      // gain 2 FM；meteor→Knockdown）。L3（card-20，3 CP）另有「可重掷 1 颗池骰」，
+      // 需骰池交互输入，自动模式不行使（optional 兜底语义）。
+      id: 'pyromancer:pyroblast',
       kind: 'offensive',
-      name: '燃尽',
+      name: '炎爆',
       tiers: [
-        // 移除对手状态 → 按实际移除数造成不可防御伤害（bindRemovedTo 必须返回实际移除数）
-        { level: 1, upgradeCostCP: 0,
-          matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'flame', count: 1 }, { k: 'countSymbol', symbol: 'meteor', count: 1 }] },
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'flame', count: 3 }, { k: 'countSymbol', symbol: 'meteor', count: 1 }] },
           effects: [
-            { clause: { kind: 'removeStatus', status: 'any', stacks: 4, to: { r: 'opponent' }, bindRemovedTo: 'burned' } },
-            {
-              clause: {
-                kind: 'conditional',
-                cond: { c: 'boundAtLeast', name: 'burned', min: 1 },
-                then: [{
-                  clause: {
-                    kind: 'dealDamage',
-                    amount: { e: 'mul', a: { e: 'var', name: 'burned' }, b: 3 },
-                    damageType: 'undefendable',
-                    to: { r: 'opponent' },
-                    sourceKind: 'ability',
-                  },
-                }],
-              },
-            },
+            dmgTo(4),
+            { clause: { kind: 'rollDicePool', count: 2, perDie: true, cases: [
+              { on: 'flame', effects: [{ clause: { kind: 'dealDamage', amount: 3, damageType: 'attack', to: { r: 'opponent' } } }] },
+            ] } },
+          ] }, // official:false L1 推定
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'flame', count: 3 }, { k: 'countSymbol', symbol: 'meteor', count: 1 }] },
+          effects: [
+            dmgTo(6),
+            { clause: { kind: 'rollDicePool', count: 2, perDie: true, cases: [
+              { on: 'flame', effects: [{ clause: { kind: 'dealDamage', amount: 3, damageType: 'attack', to: { r: 'opponent' } } }] },
+              { on: 'blaze', effects: [{ clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'opponent' } } }] },
+              { on: 'meteor', effects: [{ clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } }] },
+            ] } },
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 2, to: { r: 'self' } } },
           ] },
-        { level: 2, upgradeCostCP: 5,
-          matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'flame', count: 1 }, { k: 'countSymbol', symbol: 'meteor', count: 1 }] },
+        { level: 3, upgradeCostCP: 3, matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'flame', count: 3 }, { k: 'countSymbol', symbol: 'meteor', count: 1 }] },
           effects: [
-            { clause: { kind: 'removeStatus', status: 'any', stacks: 4, to: { r: 'opponent' }, bindRemovedTo: 'burned' } },
-            {
-              clause: {
-                kind: 'conditional',
-                cond: { c: 'boundAtLeast', name: 'burned', min: 1 },
-                then: [{
-                  clause: {
-                    kind: 'dealDamage',
-                    amount: { e: 'mul', a: { e: 'var', name: 'burned' }, b: 5 },
-                    damageType: 'undefendable',
-                    to: { r: 'opponent' },
-                    sourceKind: 'ability',
-                  },
-                }],
-              },
-            },
+            dmgTo(6),
+            { clause: { kind: 'rollDicePool', count: 2, perDie: true, cases: [
+              { on: 'flame', effects: [{ clause: { kind: 'dealDamage', amount: 3, damageType: 'attack', to: { r: 'opponent' } } }] },
+              { on: 'blaze', effects: [{ clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'opponent' } } }] },
+              { on: 'meteor', effects: [{ clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } }] },
+            ] } },
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 2, to: { r: 'self' } } },
+            // 官方：If desired, you may re-roll 1 die（骰池重掷，自动模式不行使）
+            { clause: { kind: 'optional', prompt: '重掷 1 颗炎爆池骰？', steps: [] } },
           ] },
       ],
     },
     {
+      // 官方 L1（card-24 下方相邻格 BLAZING SOUL）：2blaze+2fierySoul → FM 上限 +1、
+      // gain 5 FM、Knockdown。L2（card-24，2 CP）：大顺 → gain 2 FM、Burn、4 伤害 + 每 FM 2 伤害。
       id: 'pyromancer:ignite',
       kind: 'offensive',
       name: '点燃',
       tiers: [
-        { level: 1, upgradeCostCP: 0, matcher: { k: 'smallStraight' },
+        { level: 1, upgradeCostCP: 0,
+          matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'blaze', count: 2 }, { k: 'countSymbol', symbol: 'fierySoul', count: 2 }] },
           effects: [
-            { clause: { kind: 'dealDamage', amount: 4, damageType: 'attack', to: { r: 'opponent' } } },
-            // 官方 Burn stack limit 1，官方卡一律施加单个 Burn（源 A 技能板 + 升级卡）
-            { clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'increaseStackLimit', status: 'common:fireMastery', by: 1, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 5, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } },
           ] },
-        { level: 2, upgradeCostCP: 4, matcher: { k: 'smallStraight' },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'largeStraight' },
           effects: [
-            { clause: { kind: 'dealDamage', amount: 7, damageType: 'attack', to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 2, to: { r: 'self' } } },
             { clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'dealDamage', amount: { e: 'add', a: 4, b: { e: 'mul', a: 2, b: { e: 'statusStacks', status: 'common:fireMastery', target: { r: 'self' } } } },
+              damageType: 'attack', to: { r: 'opponent' } } },
           ] },
       ],
     },
     {
+      // 官方 L2（card-21，1 CP）：2 fierySoul → 3 FS 时 Burn；4 FS 时 FM 上限 +1；
+      // gain 2 FM；对对手造成 1×FS collateral。L1 官方值未获取（推定）。
+      id: 'pyromancer:burningSoul',
+      kind: 'offensive',
+      name: '灼魂',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'fierySoul', count: 2 },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'dealDamage', amount: { e: 'countSymbol', symbol: 'fierySoul' }, damageType: 'collateral', to: { r: 'opponent' } } },
+          ] }, // official:false L1 推定
+        { level: 2, upgradeCostCP: 1, matcher: { k: 'countSymbol', symbol: 'fierySoul', count: 2 },
+          effects: [
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'fierySoul', min: 3 },
+              then: [{ clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'opponent' } } }] } },
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'fierySoul', min: 4 },
+              then: [{ clause: { kind: 'increaseStackLimit', status: 'common:fireMastery', by: 1, to: { r: 'self' } } }] } },
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 2, to: { r: 'self' } } },
+            { clause: { kind: 'dealDamage', amount: { e: 'countSymbol', symbol: 'fierySoul' }, damageType: 'collateral', to: { r: 'opponent' } } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（card-23 下方相邻格 SCORCH）：2焰+2blaze → gain 2 FM、Burn、6 伤害。
+      // L2（card-23，2 CP）：小顺 → gain 2 FM、6 伤害 + 每 FM 1 伤害。
+      id: 'pyromancer:hotStreak',
+      kind: 'offensive',
+      name: '热浪连胜',
+      tiers: [
+        { level: 1, upgradeCostCP: 0,
+          matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'flame', count: 2 }, { k: 'countSymbol', symbol: 'blaze', count: 2 }] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 2, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'opponent' } } },
+            dmgTo(6),
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'smallStraight' },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 2, to: { r: 'self' } } },
+            { clause: { kind: 'dealDamage', amount: { e: 'add', a: 6, b: { e: 'statusStacks', status: 'common:fireMastery', target: { r: 'self' } } },
+              damageType: 'attack', to: { r: 'opponent' } } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（card-25 下方相邻格 METEOROID）：3 meteor → Knockdown + Burn + Stun。
+      // L2（card-25，2 CP）：4 meteor → gain 2 FM、Stun、每 FM 1 点不可防御、另 3 点 collateral。
+      id: 'pyromancer:meteorite',
+      kind: 'offensive',
+      name: '陨星',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'meteor', count: 3 },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:stun', stacks: 1, to: { r: 'opponent' } } },
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'countSymbol', symbol: 'meteor', count: 4 },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 2, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:stun', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'dealDamage', amount: { e: 'statusStacks', status: 'common:fireMastery', target: { r: 'self' } },
+              damageType: 'undefendable', to: { r: 'opponent' } } },
+            { clause: { kind: 'additionally', steps: [
+              { clause: { kind: 'dealDamage', amount: 3, damageType: 'collateral', to: { r: 'opponent' } } },
+            ] } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L2（card-22，2 CP）：4 符号齐 → gain 1 FM；移除至多 4 FM，每枚 4 点不可防御。
+      // 「移除至多 N」需自由出价输入，promptNumber 兜底绑定 0（自动模式不移除）。
+      // L1 官方值未获取（推定同构，2 枚 / 3 点）。
+      id: 'pyromancer:combustion',
+      kind: 'offensive',
+      name: '燃尽',
+      tiers: [
+        { level: 1, upgradeCostCP: 0,
+          matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'flame', count: 1 }, { k: 'countSymbol', symbol: 'blaze', count: 1 },
+            { k: 'countSymbol', symbol: 'fierySoul', count: 1 }, { k: 'countSymbol', symbol: 'meteor', count: 1 },
+          ] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'promptNumber', max: 2, bindTo: 'fmSpent', prompt: '移除至多 2 枚火焰掌控' } },
+            { clause: { kind: 'removeStatus', status: 'common:fireMastery', stacks: { e: 'var', name: 'fmSpent' }, to: { r: 'self' } } },
+            { clause: { kind: 'dealDamage', amount: { e: 'mul', a: { e: 'var', name: 'fmSpent' }, b: 3 },
+              damageType: 'undefendable', to: { r: 'opponent' } } },
+          ] }, // official:false L1 推定
+        { level: 2, upgradeCostCP: 2,
+          matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'flame', count: 1 }, { k: 'countSymbol', symbol: 'blaze', count: 1 },
+            { k: 'countSymbol', symbol: 'fierySoul', count: 1 }, { k: 'countSymbol', symbol: 'meteor', count: 1 },
+          ] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'promptNumber', max: 4, bindTo: 'fmSpent', prompt: '移除至多 4 枚火焰掌控' } },
+            { clause: { kind: 'removeStatus', status: 'common:fireMastery', stacks: { e: 'var', name: 'fmSpent' }, to: { r: 'self' } } },
+            { clause: { kind: 'dealDamage', amount: { e: 'mul', a: { e: 'var', name: 'fmSpent' }, b: 4 },
+              damageType: 'undefendable', to: { r: 'opponent' } } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L2（card-26，1 CP）：DEFENSE ROLL 5 → gain 1×fierySoul FM；焰+blaze 同掷 → Burn；
+      // 对攻击者造成 1×flame 伤害。L3（card-27，3 CP）：gain 1×FS + 1×meteor FM；同上 Burn；
+      // 造成 1×flame + 1×meteor 伤害。L1 官方值未获取（推定为 L2 去增益的简化版）。
       id: 'pyromancer:moltenArmor',
       kind: 'defensive',
       name: '熔岩护甲',
-      defenseDiceCount: 1,
+      defenseDiceCount: 5,
       tiers: [
-        // 防御反伤：pure + sourceKind ability + target attacker（不可防御，但计入 damageDealtAtLeast）
         { level: 1, upgradeCostCP: 0, matcher: { k: 'const', value: true },
-          effects: [{
-            clause: {
-              kind: 'dealDamage',
-              amount: { e: 'sumFaces' },
-              damageType: 'pure',
-              to: { r: 'attacker' },
-              sourceKind: 'ability',
-            },
-          }] },
-        { level: 2, upgradeCostCP: 3, matcher: { k: 'const', value: true },
           effects: [
-            { clause: { kind: 'preventDamage', amount: 2, to: { r: 'self' } } },
-            { clause: { kind: 'dealDamage', amount: { e: 'sumFaces' }, damageType: 'pure', to: { r: 'attacker' }, sourceKind: 'ability' } },
+            { clause: { kind: 'dealDamage', amount: { e: 'countSymbol', symbol: 'flame' },
+              damageType: 'pure', to: { r: 'attacker' }, sourceKind: 'ability' } },
+          ] }, // official:false L1 推定
+        { level: 2, upgradeCostCP: 1, matcher: { k: 'const', value: true },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: { e: 'countSymbol', symbol: 'fierySoul' }, to: { r: 'self' } } },
+            { clause: { kind: 'conditional', cond: { c: 'and', of: [
+              { c: 'diceSymbolAtLeast', symbol: 'flame', min: 1 }, { c: 'diceSymbolAtLeast', symbol: 'blaze', min: 1 },
+            ] },
+              then: [{ clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'attacker' } } }] } },
+            { clause: { kind: 'dealDamage', amount: { e: 'countSymbol', symbol: 'flame' },
+              damageType: 'pure', to: { r: 'attacker' }, sourceKind: 'ability' } },
+          ] },
+        { level: 3, upgradeCostCP: 3, matcher: { k: 'const', value: true },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery',
+              stacks: { e: 'add', a: { e: 'countSymbol', symbol: 'fierySoul' }, b: { e: 'countSymbol', symbol: 'meteor' } }, to: { r: 'self' } } },
+            { clause: { kind: 'conditional', cond: { c: 'and', of: [
+              { c: 'diceSymbolAtLeast', symbol: 'flame', min: 1 }, { c: 'diceSymbolAtLeast', symbol: 'blaze', min: 1 },
+            ] },
+              then: [{ clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'attacker' } } }] } },
+            { clause: { kind: 'dealDamage',
+              amount: { e: 'add', a: { e: 'countSymbol', symbol: 'flame' }, b: { e: 'countSymbol', symbol: 'meteor' } },
+              damageType: 'pure', to: { r: 'attacker' }, sourceKind: 'ability' } },
           ] },
       ],
     },
     {
+      // ⚠️ official:false：官方 Ultimate 印在实体英雄面板上，图包未包含，数值未知。占位推定。
       id: 'pyromancer:scorchTheEarth',
       kind: 'ultimate',
-      name: '焦土',
+      name: '焦土（占位，官方值待补）',
       tiers: [
         { level: 1, upgradeCostCP: 0, matcher: { k: 'countFace', face: 6, count: 5 },
           effects: [
@@ -419,5 +546,5 @@ export const PYROMANCER: HeroDef = {
     },
   ],
   statuses: [],
-  deck: [...COMMON_CARDS, ...pyromancerUpgrades],
+  deck: [...COMMON_CARDS, ...pyromancerUpgrades, ...pyromancerHeroCards],
 };

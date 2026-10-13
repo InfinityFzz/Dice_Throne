@@ -10,7 +10,7 @@ import type {
 import type { CardInstance, PendingRequest, PlayerState, StatusInstance, DamageBucket } from '../types/state.js';
 import type { GameEvent } from '../types/action.js';
 import type { ContentRegistry } from '../content/registry.js';
-import { addDamage, addHeal, addAvoid, addPrevention } from './bucket.js';
+import { addDamage, addHeal, addAvoid, addPrevention, addPendingRecoil } from './bucket.js';
 import { nextInt } from './rng.js';
 
 type Mutable<T> = { -readonly [K in keyof T]: T[K] };
@@ -71,8 +71,8 @@ export class Draft {
     });
   }
 
-  tempSymbols(): Sym[] {
-    const hero = this.content.getHero(this.player(this.s.activeSeat).heroId);
+  tempSymbols(seat: Seat = this.s.activeSeat): Sym[] {
+    const hero = this.content.getHero(this.player(seat).heroId);
     return this.s.tempDice.flatMap((v) => {
       const face = hero.dieFaces.find((f) => f.value === v);
       return face ? [...face.symbols] : [];
@@ -102,7 +102,8 @@ export function evalExpr(d: Draft, expr: Expr, seat: Seat): number {
       return d.player(s).statuses.find((st) => st.id === expr.status)?.stacks ?? 0;
     }
     case 'countSymbol': {
-      const syms = d.s.tempDice.length > 0 ? d.tempSymbols() : d.diceSymbols(seat);
+      // tempDice 存在时属于「当前骰池」，池骰归属由调用方 seat 决定（防御掷骰时 seat=防守方）
+      const syms = d.s.tempDice.length > 0 ? d.tempSymbols(seat) : d.diceSymbols(seat);
       return syms.filter((s) => s === expr.symbol).length;
     }
     case 'sumFaces':
@@ -115,6 +116,10 @@ export function evalExpr(d: Draft, expr: Expr, seat: Seat): number {
     case 'mul': return evalExpr(d, expr.a, seat) * evalExpr(d, expr.b, seat);
     case 'min': return Math.min(evalExpr(d, expr.a, seat), evalExpr(d, expr.b, seat));
     case 'max': return Math.max(evalExpr(d, expr.a, seat), evalExpr(d, expr.b, seat));
+    case 'ceilDiv': {
+      const b = evalExpr(d, expr.b, seat);
+      return b === 0 ? 0 : Math.ceil(evalExpr(d, expr.a, seat) / b);
+    }
   }
 }
 
@@ -141,7 +146,7 @@ export function evalCondition(d: Draft, cond: Condition, seat: Seat): boolean {
     case 'damageDealtAtLeast':
       return d.player(seat).turnDamageDealt >= evalExpr(d, cond.value, seat);
     case 'diceSymbolAtLeast': {
-      const syms = d.s.tempDice.length > 0 ? d.tempSymbols() : d.diceSymbols(seat);
+      const syms = d.s.tempDice.length > 0 ? d.tempSymbols(seat) : d.diceSymbols(seat);
       return syms.filter((s) => s === cond.symbol).length >= cond.min;
     }
     case 'boundAtLeast': return (d.s.bindings[cond.name] ?? 0) >= cond.min;
@@ -154,7 +159,7 @@ function addStatus(d: Draft, seat: Seat, statusId: string, stacks: number): void
   if (stacks <= 0) return;
   const p = d.player(seat);
   const def = d.content.getStatus(statusId);
-  const cap = def?.stackLimit ?? 99;
+  const cap = p.statusCapOverrides[statusId] ?? def?.stackLimit ?? 99;
   const idx = p.statuses.findIndex((s) => s.id === statusId);
   if (idx >= 0) {
     const cur = p.statuses[idx] as StatusInstance;
@@ -210,6 +215,13 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
     const amount = evalExpr(d, c.amount, seat);
     d.s.bucket = addDamage(d.s.bucket, amount, c.damageType, to, seat, c.sourceKind ?? 'ability');
     d.emit('note', { kind: 'damageQueued', to, amount, damageType: c.damageType, sourceKind: c.sourceKind ?? 'ability' });
+    // 条件反噬（官方 Reckless）：flush 时按 triggerToSeat 的 net ≥ 1 决定是否生效
+    if (c.recoilOnHit) {
+      const recoilTo = resolveTarget(d, c.recoilOnHit.to, seat);
+      d.s.bucket = addPendingRecoil(d.s.bucket, {
+        fromSeat: seat, toSeat: recoilTo, triggerToSeat: to, amount: evalExpr(d, c.recoilOnHit.amount, seat),
+      });
+    }
   },
   heal(d, c, seat) {
     if (c.kind !== 'heal') return;
@@ -279,11 +291,32 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
     if (c.kind !== 'transferStatus') return;
     const from = resolveTarget(d, c.from, seat);
     const to = resolveTarget(d, c.to, seat);
+    if (c.status === 'any') {
+      // 'any'：与 removeStatus 同序（负面优先，其次字典序）取第一个有库存的状态转移 1 层
+      const fp = d.player(from);
+      const order = [...fp.statuses].sort((a, b) => {
+        const da = d.content.getStatus(a.id);
+        const db = d.content.getStatus(b.id);
+        return (da?.polarity === db?.polarity) ? a.id.localeCompare(b.id)
+          : (da?.polarity === 'negative' ? -1 : 1);
+      });
+      const target = order[0];
+      if (!target) return;
+      const removed = removeStatus(d, from, target.id, 1);
+      if (removed > 0) addStatus(d, to, target.id, removed);
+      return;
+    }
     const removed = removeStatus(d, from, c.status, 99);
     if (removed > 0) addStatus(d, to, c.status, removed);
   },
-  increaseStackLimit(d, _c, _seat) {
-    // MVP 未使用；预留（per-player 覆盖表）
+  increaseStackLimit(d, c, seat) {
+    if (c.kind !== 'increaseStackLimit') return;
+    const to = resolveTarget(d, c.to, seat);
+    const p = d.player(to);
+    const base = d.content.getStatus(c.status)?.stackLimit ?? 99;
+    const cur = p.statusCapOverrides[c.status] ?? base;
+    p.statusCapOverrides = { ...p.statusCapOverrides, [c.status]: cur + c.by };
+    d.emit('note', { kind: 'log', text: `statusCap ${c.status} → ${cur + c.by}（基础 ${base}）` });
   },
   spendStatus(d, c, seat) {
     if (c.kind !== 'spendStatus') return;
@@ -305,14 +338,26 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
     d.s.tempDice = values;
     if (c.bindSumTo) d.s.bindings[c.bindSumTo] = values.reduce((a, b) => a + b, 0);
     d.emit('note', { kind: 'tempDiceRolled', seat, values });
-    // cases 按符号去重，每符号至多结算一次
-    const seen = new Set<string>();
+    // cases：缺省按符号去重（每符号至多结算一次）；perDie 时每颗命中骰各结算一次
+    const cases = c.cases ?? [];
     const out: EffectDef[] = [];
-    const syms = d.tempSymbols();
-    for (const cs of c.cases) {
-      if (seen.has(cs.on)) continue;
-      seen.add(cs.on);
-      if (syms.includes(cs.on)) out.push(...cs.effects);
+    const hero = d.content.getHero(d.player(seat).heroId);
+    if (c.perDie) {
+      for (const v of values) {
+        const face = hero.dieFaces.find((f) => f.value === v);
+        const syms = face ? [...face.symbols] : [];
+        for (const cs of cases) {
+          if (syms.includes(cs.on)) out.push(...cs.effects);
+        }
+      }
+    } else {
+      const seen = new Set<string>();
+      const syms = d.tempSymbols(seat);
+      for (const cs of cases) {
+        if (seen.has(cs.on)) continue;
+        seen.add(cs.on);
+        if (syms.includes(cs.on)) out.push(...cs.effects);
+      }
     }
     return out;
   },
@@ -324,9 +369,28 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
       if (!p.diceLocked[i]) { p.diceValues[i] = c.toFace; left--; }
     }
   },
+  adjustDie(d, c, seat) {
+    // 官方 Tip It!：任意骰 ±1（1 不能减、6 不能加）。自动模式取第一颗未锁定骰。
+    if (c.kind !== 'adjustDie') return;
+    const p = d.player(seat);
+    const delta = evalExpr(d, c.delta, seat);
+    const i = p.diceLocked.findIndex((locked) => !locked);
+    if (i >= 0) {
+      p.diceValues[i] = Math.min(6, Math.max(1, (p.diceValues[i] ?? 1) + delta));
+    }
+  },
+  copyDieFace(d, c, seat) {
+    // 官方 Samesies!：让一颗骰变成另一颗的值。自动模式：第一颗未锁定 ← 第二颗未锁定。
+    if (c.kind !== 'copyDieFace') return;
+    const p = d.player(seat);
+    const free = p.diceLocked.map((l, i) => (l ? -1 : i)).filter((i) => i >= 0);
+    if (free.length >= 2) {
+      p.diceValues[free[0] as number] = p.diceValues[free[1] as number] ?? 1;
+    }
+  },
   rerollDice(d, c, seat) {
     if (c.kind !== 'rerollDice') return;
-    const p = d.player(seat);
+    const p = d.player(resolveTarget(d, c.to ?? { r: 'self' }, seat));
     let left = evalExpr(d, c.count, seat);
     for (let i = 0; i < p.diceValues.length && left > 0; i++) {
       if (!p.diceLocked[i]) {

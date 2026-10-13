@@ -75,6 +75,13 @@ export function addPrevention(bucket: DamageBucket, toSeat: Seat, amount: number
   };
 }
 
+export function addPendingRecoil(
+  bucket: DamageBucket,
+  recoil: import('../types/state.js').PendingRecoil,
+): DamageBucket {
+  return { ...bucket, pendingRecoils: [...bucket.pendingRecoils, recoil] };
+}
+
 /** 对单个 seat 求值 flush（每个 seat 各算一遍） */
 export function flushForSeat(bucket: DamageBucket, seat: Seat, hp: number, startHp: number): FlushResult {
   const mine = bucket.entries.filter((e) => e.toSeat === seat);
