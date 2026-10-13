@@ -1,0 +1,17 @@
+# ── 依赖与构建产物 ──
+node_modules/
+dist/
+*.tsbuildinfo
+
+# ── 运行期数据 ──
+.matches/
+
+# ── 真实美术素材（绝不入库）──
+# TTS 导入的真图 + 图集本地缓存。manifest.json（清单）入库，图片本体不入库。
+packages/web/src/assets/packs/local-tts/images/
+packages/web/src/assets/packs/reskin/images/
+.tts-cache/
+
+# 本地临时文件
+*.local
+.DS_Store

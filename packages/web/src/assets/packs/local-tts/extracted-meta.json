@@ -1,0 +1,631 @@
+{
+  "source": {
+    "workshopId": 908560170,
+    "saveName": "Dice Throne [official] [scripted]",
+    "modPath": "D:\\Users\\InfinityFzz\\Documents\\My Games\\Tabletop Simulator\\Mods\\Workshop\\908560170.json",
+    "extractedAt": "2026-10-13T04:23:03.350Z"
+  },
+  "heroes": [
+    {
+      "ttsName": "Gunslinger",
+      "slug": "gunslinger",
+      "inSharedContentLayer": false,
+      "deck": [
+        {
+          "atlasKey": "137",
+          "spec": "10x7",
+          "distinctSlices": 33,
+          "instances": 33,
+          "indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ]
+        }
+      ],
+      "diceCount": 5,
+      "panelURL": "https://steamusercontent-a.akamaihd.net/ugc/1841410556398110753/F879C3311D6322FCAC0B4DCBBC7FD4B9095E0A52/",
+      "statuses": [
+        {
+          "name": "Bounty",
+          "sharedCandidate": null
+        },
+        {
+          "name": "Knockdown",
+          "sharedCandidate": null
+        },
+        {
+          "name": "Reload",
+          "sharedCandidate": null
+        },
+        {
+          "name": "Evasive",
+          "sharedCandidate": "common:evasive"
+        }
+      ]
+    },
+    {
+      "ttsName": "Pyromancer",
+      "slug": "pyromancer",
+      "inSharedContentLayer": true,
+      "deck": [
+        {
+          "atlasKey": "422",
+          "spec": "10x7",
+          "distinctSlices": 33,
+          "instances": 33,
+          "indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ]
+        }
+      ],
+      "diceCount": 5,
+      "panelURL": "https://steamusercontent-a.akamaihd.net/ugc/788608061071940626/CAEA3792E3DCAEB291EADD32C795B4EE5B37C9DE/",
+      "statuses": [
+        {
+          "name": "Stun",
+          "sharedCandidate": null
+        },
+        {
+          "name": "Fire Mastery",
+          "sharedCandidate": "common:fireMastery"
+        },
+        {
+          "name": "Burn",
+          "sharedCandidate": "common:burn"
+        },
+        {
+          "name": "Knockdown",
+          "sharedCandidate": null
+        }
+      ]
+    },
+    {
+      "ttsName": "ShadowThief",
+      "slug": "shadowthief",
+      "inSharedContentLayer": false,
+      "deck": [
+        {
+          "atlasKey": "421",
+          "spec": "10x7",
+          "distinctSlices": 33,
+          "instances": 33,
+          "indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ]
+        }
+      ],
+      "diceCount": 5,
+      "panelURL": "https://steamusercontent-a.akamaihd.net/ugc/793110129240790512/542962ADBC9148E29784B8D1A5EE778C47E90FED/",
+      "statuses": [
+        {
+          "name": "Poison",
+          "sharedCandidate": "common:poison"
+        },
+        {
+          "name": "Sneak Attack",
+          "sharedCandidate": null
+        },
+        {
+          "name": "Shadows",
+          "sharedCandidate": null
+        }
+      ]
+    },
+    {
+      "ttsName": "MoonElf",
+      "slug": "moonelf",
+      "inSharedContentLayer": false,
+      "deck": [
+        {
+          "atlasKey": "449",
+          "spec": "10x7",
+          "distinctSlices": 33,
+          "instances": 33,
+          "indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ]
+        }
+      ],
+      "diceCount": 5,
+      "panelURL": "https://steamusercontent-a.akamaihd.net/ugc/786361708171149446/BD6B5EDDA3C26280E955706B4CA65EDD2678E85D/",
+      "statuses": [
+        {
+          "name": "Targeted",
+          "sharedCandidate": null
+        },
+        {
+          "name": "Evasive",
+          "sharedCandidate": "common:evasive"
+        },
+        {
+          "name": "Entangle",
+          "sharedCandidate": null
+        },
+        {
+          "name": "Blind",
+          "sharedCandidate": null
+        }
+      ]
+    },
+    {
+      "ttsName": "Barbarian",
+      "slug": "barbarian",
+      "inSharedContentLayer": true,
+      "deck": [
+        {
+          "atlasKey": "773",
+          "spec": "10x7",
+          "distinctSlices": 33,
+          "instances": 33,
+          "indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ]
+        }
+      ],
+      "diceCount": 5,
+      "panelURL": "https://steamusercontent-a.akamaihd.net/ugc/786361708171171628/DE004FB04195ABD443D51D2F28C345D1EF9B40D9/",
+      "statuses": [
+        {
+          "name": "Stun",
+          "sharedCandidate": null
+        },
+        {
+          "name": "Concussion",
+          "sharedCandidate": null
+        }
+      ]
+    },
+    {
+      "ttsName": "Ninja",
+      "slug": "ninja",
+      "inSharedContentLayer": false,
+      "deck": [
+        {
+          "atlasKey": "1202",
+          "spec": "10x7",
+          "distinctSlices": 33,
+          "instances": 33,
+          "indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ]
+        }
+      ],
+      "diceCount": 5,
+      "panelURL": "https://steamusercontent-a.akamaihd.net/ugc/1656720554451721398/B253D8A11236519AC86432546E457679813788DA/",
+      "statuses": [
+        {
+          "name": "Ninjutsu",
+          "sharedCandidate": null
+        },
+        {
+          "name": "Smoke Bomb",
+          "sharedCandidate": null
+        },
+        {
+          "name": "Delayed Poison",
+          "sharedCandidate": null
+        }
+      ]
+    },
+    {
+      "ttsName": "Raveness",
+      "slug": "raveness",
+      "inSharedContentLayer": false,
+      "deck": [
+        {
+          "atlasKey": "774",
+          "spec": "7x5",
+          "distinctSlices": 32,
+          "instances": 32,
+          "indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31
+          ]
+        }
+      ],
+      "diceCount": 5,
+      "panelURL": "https://steamusercontent-a.akamaihd.net/ugc/9922792836656083278/7C2A9EF64DE9D0263DB5683AB0A8B30FC101F9A5/",
+      "statuses": [
+        {
+          "name": "Feather",
+          "sharedCandidate": null
+        }
+      ]
+    }
+  ],
+  "nonHeroBags": [
+    "Box",
+    "DTA Demo"
+  ],
+  "atlasSpecs": [
+    {
+      "spec": "10x7",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410556398108284/B99323137BE5509FA0BABBE4CFD8051024FB736C/"
+    },
+    {
+      "spec": "10x7",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/789734332644491550/456D7B10A18E35DF9829E7CF2222C8636F7B18C6/"
+    },
+    {
+      "spec": "10x7",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/789734332644487938/84C881A72D168C6A3EC4E2E4DEF125D12A954AAF/"
+    },
+    {
+      "spec": "10x7",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/14124806887814415479/9A2D4F640089DCAB0C30C7362587A2FDBC0B6196/"
+    },
+    {
+      "spec": "10x7",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040357237/AAFC72363DA059AD86FA3A25916C418A6A908BAA/"
+    },
+    {
+      "spec": "10x7",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1656720554451721031/B20F1BE3A83022AA65D499A3544B75079E2F44EC/"
+    },
+    {
+      "spec": "1x1",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410556398114493/1644BD936949F0B7DC276E551B0DFB5186B6BF69/"
+    },
+    {
+      "spec": "1x1",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040356796/AF652AB7AC9D852D040BBEB0E21F57B3C2F67CAA/"
+    },
+    {
+      "spec": "1x1",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040353864/7DA9711F4C9674E8BCC5293FA3DC27EDC570705B/"
+    },
+    {
+      "spec": "2x2",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040350596/815717136F6CCA66173A0B9AF4BF5A64B91469C2/"
+    },
+    {
+      "spec": "2x2",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040347042/17A310042D68654CA1FAB87C2C36E1DF033FFC22/"
+    },
+    {
+      "spec": "3x2",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410556398112438/1FDE0F8B9F10E1837799AB484BF195910F342247/"
+    },
+    {
+      "spec": "4x2",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040354134/5288F92D19532BE47C462A0A590703C4753334D2/"
+    },
+    {
+      "spec": "2x2",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040351823/1756113AE09128F3E39C1BF4791312FDFDF358D0/"
+    },
+    {
+      "spec": "3x2",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040350234/AEFC94C73BDAFA1374CD043C28394CADC781A320/"
+    },
+    {
+      "spec": "6x2",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040348685/F0B9C80082167E3606D29D66D0AD8942BDD14A67/"
+    },
+    {
+      "spec": "10x3",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040351261/1CE861CEC84DE2AB723A8C536C686C176E589001/"
+    },
+    {
+      "spec": "2x2",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040349679/1C218E908D6327070637E7294444766EB47EF5F2/"
+    },
+    {
+      "spec": "3x2",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040347439/C4DE19B307CD34B00F1C5BC9079CB8677B151C70/"
+    },
+    {
+      "spec": "3x3",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040345589/4061BA9D3FD96D71B4AE2424EF61D76C22ED9D63/"
+    },
+    {
+      "spec": "2x2",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040345296/08213A548638101382FF11CA64DB111F80423604/"
+    },
+    {
+      "spec": "10x4",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040341762/B04CE9599BC849919C824A0730EC4F2A0F331C6D/"
+    },
+    {
+      "spec": "1x1",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040344797/3548541AEDDD363E8E3ED1841777AE8B21D7EF15/"
+    },
+    {
+      "spec": "1x1",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/1841410793040341563/359321E40E75598BF65BB91390F26E4996A9E4DE/"
+    },
+    {
+      "spec": "7x5",
+      "url": "https://steamusercontent-a.akamaihd.net/ugc/12694460061709761253/93DC96CF36690B51B84DED5334B61ECF75F3EBB9/"
+    }
+  ],
+  "harvest": {
+    "nicknames": [
+      "Flex Table Control",
+      "Player05HelpCard",
+      "Discard",
+      "Player04HelpCard",
+      "Player03HelpCard",
+      "Player02HelpCard",
+      "Player01HelpCard",
+      "Player06HelpCard",
+      "Box",
+      "Bounty",
+      "Knockdown",
+      "Reload",
+      "Evasive",
+      "CP",
+      "HP",
+      "Leaflet",
+      "Stun",
+      "Fire Mastery",
+      "Burn",
+      "Poison",
+      "Sneak Attack",
+      "Shadows",
+      "Targeted",
+      "Entangle",
+      "Blind",
+      "Concussion",
+      "Ninjutsu",
+      "Smoke Bomb",
+      "Delayed Poison",
+      "PLayer06HeroSelect",
+      "PLayer01HeroSelect",
+      "DTA Demo",
+      "Bonus Damage",
+      "Dmg Boost Attack Modifier",
+      "Salve",
+      "Parasite",
+      "Chaos",
+      "Wither",
+      "Barbed Vine",
+      "Back Strike",
+      "Portal Shard",
+      "Silence",
+      "Hex",
+      "Gold",
+      "Discard Pile",
+      "Loot Die",
+      "King's Hand",
+      "Bleed",
+      "Minion Health",
+      "Loot Table",
+      "PLayer05HeroSelect",
+      "Feather",
+      "PLayer04HeroSelect",
+      "PLayer02HeroSelect",
+      "PLayer03HeroSelect"
+    ],
+    "descriptions": [
+      "If your Draw Pile runs out of cards, shuffle your discard pile and use it as a new Draw Pile",
+      "\r",
+      " "
+    ],
+    "gmNotes": [
+      "Demo"
+    ],
+    "luaScriptChars": 21559
+  }
+}

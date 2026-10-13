@@ -1,0 +1,32 @@
+{
+  "name": "dice-throne",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Dice Throne (王权骰铸) 网页对战版 — 规则引擎 + 联机服务 + 前端",
+  "workspaces": [
+    "packages/shared",
+    "packages/server",
+    "packages/web"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "node --import tsx --test packages/shared/src/**/*.test.ts",
+    "match": "node --import tsx scripts/play-scripted-match.ts",
+    "dev:server": "npm run dev -w @dt/server",
+    "dev:web": "npm run dev -w @dt/web",
+    "typecheck": "tsc -b packages/shared packages/server",
+    "assets:catalog": "node --import tsx scripts/gen-asset-catalog.ts",
+    "assets:check": "node --import tsx scripts/gen-asset-catalog.ts --check",
+    "assets:import": "node --import tsx scripts/import-tts-assets.ts",
+    "test:assets": "node --import tsx --test packages/web/src/assets/assets.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "sharp": "^0.35.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,2707 @@
+{
+  "pack": "local-tts",
+  "modWorkshopId": 908560170,
+  "generatedAt": "2026-10-13T04:23:03.346Z",
+  "entries": [
+    {
+      "logicalId": "tts-gunslinger-card-00",
+      "kind": "card",
+      "file": "gunslinger/cards/card-00.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=0"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-01",
+      "kind": "card",
+      "file": "gunslinger/cards/card-01.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=1"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-02",
+      "kind": "card",
+      "file": "gunslinger/cards/card-02.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=2"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-03",
+      "kind": "card",
+      "file": "gunslinger/cards/card-03.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=3"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-04",
+      "kind": "card",
+      "file": "gunslinger/cards/card-04.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=4"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-05",
+      "kind": "card",
+      "file": "gunslinger/cards/card-05.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=5"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-06",
+      "kind": "card",
+      "file": "gunslinger/cards/card-06.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=6"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-07",
+      "kind": "card",
+      "file": "gunslinger/cards/card-07.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=7"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-08",
+      "kind": "card",
+      "file": "gunslinger/cards/card-08.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=8"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-09",
+      "kind": "card",
+      "file": "gunslinger/cards/card-09.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=9"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-10",
+      "kind": "card",
+      "file": "gunslinger/cards/card-10.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=10"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-11",
+      "kind": "card",
+      "file": "gunslinger/cards/card-11.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=11"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-12",
+      "kind": "card",
+      "file": "gunslinger/cards/card-12.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=12"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-13",
+      "kind": "card",
+      "file": "gunslinger/cards/card-13.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=13"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-14",
+      "kind": "card",
+      "file": "gunslinger/cards/card-14.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=14"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-15",
+      "kind": "card",
+      "file": "gunslinger/cards/card-15.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=15"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-16",
+      "kind": "card",
+      "file": "gunslinger/cards/card-16.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=16"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-17",
+      "kind": "card",
+      "file": "gunslinger/cards/card-17.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=17"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-18",
+      "kind": "card",
+      "file": "gunslinger/cards/card-18.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=18"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-19",
+      "kind": "card",
+      "file": "gunslinger/cards/card-19.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=19"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-20",
+      "kind": "card",
+      "file": "gunslinger/cards/card-20.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=20"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-21",
+      "kind": "card",
+      "file": "gunslinger/cards/card-21.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=21"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-22",
+      "kind": "card",
+      "file": "gunslinger/cards/card-22.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=22"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-23",
+      "kind": "card",
+      "file": "gunslinger/cards/card-23.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=23"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-24",
+      "kind": "card",
+      "file": "gunslinger/cards/card-24.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=24"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-25",
+      "kind": "card",
+      "file": "gunslinger/cards/card-25.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=25"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-26",
+      "kind": "card",
+      "file": "gunslinger/cards/card-26.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=26"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-27",
+      "kind": "card",
+      "file": "gunslinger/cards/card-27.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=27"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-28",
+      "kind": "card",
+      "file": "gunslinger/cards/card-28.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=28"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-29",
+      "kind": "card",
+      "file": "gunslinger/cards/card-29.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=29"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-30",
+      "kind": "card",
+      "file": "gunslinger/cards/card-30.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=30"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-31",
+      "kind": "card",
+      "file": "gunslinger/cards/card-31.webp",
+      "width": 400,
+      "height": 623,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=31"
+    },
+    {
+      "logicalId": "tts-gunslinger-card-32",
+      "kind": "card",
+      "file": "gunslinger/cards/card-32.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Gunslinger idx=32"
+    },
+    {
+      "logicalId": "tts-gunslinger-panel",
+      "kind": "heroPanel",
+      "file": "gunslinger/panels/panel.webp",
+      "width": 800,
+      "height": 1504,
+      "confirmed": false,
+      "source": "tts:908560170 Leaflet"
+    },
+    {
+      "logicalId": "tts-gunslinger-face-2",
+      "kind": "dieFace",
+      "file": "gunslinger/dice/face-2.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c0"
+    },
+    {
+      "logicalId": "tts-gunslinger-face-4",
+      "kind": "dieFace",
+      "file": "gunslinger/dice/face-4.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c1"
+    },
+    {
+      "logicalId": "tts-gunslinger-face-5",
+      "kind": "dieFace",
+      "file": "gunslinger/dice/face-5.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c2"
+    },
+    {
+      "logicalId": "tts-gunslinger-face-1",
+      "kind": "dieFace",
+      "file": "gunslinger/dice/face-1.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c0"
+    },
+    {
+      "logicalId": "tts-gunslinger-face-3",
+      "kind": "dieFace",
+      "file": "gunslinger/dice/face-3.webp",
+      "width": 256,
+      "height": 255,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c1"
+    },
+    {
+      "logicalId": "tts-gunslinger-face-6",
+      "kind": "dieFace",
+      "file": "gunslinger/dice/face-6.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c2"
+    },
+    {
+      "logicalId": "tts-gunslinger-status-bounty",
+      "kind": "statusIcon",
+      "file": "gunslinger/statuses/bounty.webp",
+      "width": 256,
+      "height": 258,
+      "confirmed": false,
+      "source": "tts:908560170 status Bounty"
+    },
+    {
+      "logicalId": "tts-gunslinger-status-knockdown",
+      "kind": "statusIcon",
+      "file": "gunslinger/statuses/knockdown.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Knockdown"
+    },
+    {
+      "logicalId": "tts-gunslinger-status-reload",
+      "kind": "statusIcon",
+      "file": "gunslinger/statuses/reload.webp",
+      "width": 256,
+      "height": 258,
+      "confirmed": false,
+      "source": "tts:908560170 status Reload"
+    },
+    {
+      "logicalId": "common:evasive",
+      "kind": "statusIcon",
+      "file": "gunslinger/statuses/evasive.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 status Evasive"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-00",
+      "kind": "card",
+      "file": "pyromancer/cards/card-00.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=0"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-01",
+      "kind": "card",
+      "file": "pyromancer/cards/card-01.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=1"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-02",
+      "kind": "card",
+      "file": "pyromancer/cards/card-02.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=2"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-03",
+      "kind": "card",
+      "file": "pyromancer/cards/card-03.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=3"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-04",
+      "kind": "card",
+      "file": "pyromancer/cards/card-04.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=4"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-05",
+      "kind": "card",
+      "file": "pyromancer/cards/card-05.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=5"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-06",
+      "kind": "card",
+      "file": "pyromancer/cards/card-06.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=6"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-07",
+      "kind": "card",
+      "file": "pyromancer/cards/card-07.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=7"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-08",
+      "kind": "card",
+      "file": "pyromancer/cards/card-08.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=8"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-09",
+      "kind": "card",
+      "file": "pyromancer/cards/card-09.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=9"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-10",
+      "kind": "card",
+      "file": "pyromancer/cards/card-10.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=10"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-11",
+      "kind": "card",
+      "file": "pyromancer/cards/card-11.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=11"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-12",
+      "kind": "card",
+      "file": "pyromancer/cards/card-12.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=12"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-13",
+      "kind": "card",
+      "file": "pyromancer/cards/card-13.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=13"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-14",
+      "kind": "card",
+      "file": "pyromancer/cards/card-14.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=14"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-15",
+      "kind": "card",
+      "file": "pyromancer/cards/card-15.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=15"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-16",
+      "kind": "card",
+      "file": "pyromancer/cards/card-16.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=16"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-17",
+      "kind": "card",
+      "file": "pyromancer/cards/card-17.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=17"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-18",
+      "kind": "card",
+      "file": "pyromancer/cards/card-18.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=18"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-19",
+      "kind": "card",
+      "file": "pyromancer/cards/card-19.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=19"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-20",
+      "kind": "card",
+      "file": "pyromancer/cards/card-20.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=20"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-21",
+      "kind": "card",
+      "file": "pyromancer/cards/card-21.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=21"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-22",
+      "kind": "card",
+      "file": "pyromancer/cards/card-22.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=22"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-23",
+      "kind": "card",
+      "file": "pyromancer/cards/card-23.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=23"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-24",
+      "kind": "card",
+      "file": "pyromancer/cards/card-24.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=24"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-25",
+      "kind": "card",
+      "file": "pyromancer/cards/card-25.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=25"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-26",
+      "kind": "card",
+      "file": "pyromancer/cards/card-26.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=26"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-27",
+      "kind": "card",
+      "file": "pyromancer/cards/card-27.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=27"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-28",
+      "kind": "card",
+      "file": "pyromancer/cards/card-28.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=28"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-29",
+      "kind": "card",
+      "file": "pyromancer/cards/card-29.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=29"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-30",
+      "kind": "card",
+      "file": "pyromancer/cards/card-30.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=30"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-31",
+      "kind": "card",
+      "file": "pyromancer/cards/card-31.webp",
+      "width": 400,
+      "height": 623,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=31"
+    },
+    {
+      "logicalId": "tts-pyromancer-card-32",
+      "kind": "card",
+      "file": "pyromancer/cards/card-32.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Pyromancer idx=32"
+    },
+    {
+      "logicalId": "pyromancer",
+      "kind": "heroPanel",
+      "file": "pyromancer/panels/panel.webp",
+      "width": 800,
+      "height": 1504,
+      "confirmed": true,
+      "source": "tts:908560170 Leaflet"
+    },
+    {
+      "logicalId": "pyromancer:face:2",
+      "kind": "dieFace",
+      "file": "pyromancer/dice/face-2.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r1c0"
+    },
+    {
+      "logicalId": "pyromancer:face:4",
+      "kind": "dieFace",
+      "file": "pyromancer/dice/face-4.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r1c1"
+    },
+    {
+      "logicalId": "pyromancer:face:5",
+      "kind": "dieFace",
+      "file": "pyromancer/dice/face-5.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r1c2"
+    },
+    {
+      "logicalId": "pyromancer:face:1",
+      "kind": "dieFace",
+      "file": "pyromancer/dice/face-1.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r2c0"
+    },
+    {
+      "logicalId": "pyromancer:face:3",
+      "kind": "dieFace",
+      "file": "pyromancer/dice/face-3.webp",
+      "width": 256,
+      "height": 255,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r2c1"
+    },
+    {
+      "logicalId": "pyromancer:face:6",
+      "kind": "dieFace",
+      "file": "pyromancer/dice/face-6.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r2c2"
+    },
+    {
+      "logicalId": "tts-pyromancer-status-stun",
+      "kind": "statusIcon",
+      "file": "pyromancer/statuses/stun.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Stun"
+    },
+    {
+      "logicalId": "common:fireMastery",
+      "kind": "statusIcon",
+      "file": "pyromancer/statuses/fire-mastery.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 status Fire Mastery"
+    },
+    {
+      "logicalId": "common:burn",
+      "kind": "statusIcon",
+      "file": "pyromancer/statuses/burn.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 status Burn"
+    },
+    {
+      "logicalId": "tts-pyromancer-status-knockdown",
+      "kind": "statusIcon",
+      "file": "pyromancer/statuses/knockdown.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Knockdown"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-00",
+      "kind": "card",
+      "file": "shadowthief/cards/card-00.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=0"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-01",
+      "kind": "card",
+      "file": "shadowthief/cards/card-01.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=1"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-02",
+      "kind": "card",
+      "file": "shadowthief/cards/card-02.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=2"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-03",
+      "kind": "card",
+      "file": "shadowthief/cards/card-03.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=3"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-04",
+      "kind": "card",
+      "file": "shadowthief/cards/card-04.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=4"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-05",
+      "kind": "card",
+      "file": "shadowthief/cards/card-05.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=5"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-06",
+      "kind": "card",
+      "file": "shadowthief/cards/card-06.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=6"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-07",
+      "kind": "card",
+      "file": "shadowthief/cards/card-07.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=7"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-08",
+      "kind": "card",
+      "file": "shadowthief/cards/card-08.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=8"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-09",
+      "kind": "card",
+      "file": "shadowthief/cards/card-09.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=9"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-10",
+      "kind": "card",
+      "file": "shadowthief/cards/card-10.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=10"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-11",
+      "kind": "card",
+      "file": "shadowthief/cards/card-11.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=11"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-12",
+      "kind": "card",
+      "file": "shadowthief/cards/card-12.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=12"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-13",
+      "kind": "card",
+      "file": "shadowthief/cards/card-13.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=13"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-14",
+      "kind": "card",
+      "file": "shadowthief/cards/card-14.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=14"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-15",
+      "kind": "card",
+      "file": "shadowthief/cards/card-15.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=15"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-16",
+      "kind": "card",
+      "file": "shadowthief/cards/card-16.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=16"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-17",
+      "kind": "card",
+      "file": "shadowthief/cards/card-17.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=17"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-18",
+      "kind": "card",
+      "file": "shadowthief/cards/card-18.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=18"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-19",
+      "kind": "card",
+      "file": "shadowthief/cards/card-19.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=19"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-20",
+      "kind": "card",
+      "file": "shadowthief/cards/card-20.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=20"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-21",
+      "kind": "card",
+      "file": "shadowthief/cards/card-21.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=21"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-22",
+      "kind": "card",
+      "file": "shadowthief/cards/card-22.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=22"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-23",
+      "kind": "card",
+      "file": "shadowthief/cards/card-23.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=23"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-24",
+      "kind": "card",
+      "file": "shadowthief/cards/card-24.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=24"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-25",
+      "kind": "card",
+      "file": "shadowthief/cards/card-25.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=25"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-26",
+      "kind": "card",
+      "file": "shadowthief/cards/card-26.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=26"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-27",
+      "kind": "card",
+      "file": "shadowthief/cards/card-27.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=27"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-28",
+      "kind": "card",
+      "file": "shadowthief/cards/card-28.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=28"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-29",
+      "kind": "card",
+      "file": "shadowthief/cards/card-29.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=29"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-30",
+      "kind": "card",
+      "file": "shadowthief/cards/card-30.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=30"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-31",
+      "kind": "card",
+      "file": "shadowthief/cards/card-31.webp",
+      "width": 400,
+      "height": 623,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=31"
+    },
+    {
+      "logicalId": "tts-shadowthief-card-32",
+      "kind": "card",
+      "file": "shadowthief/cards/card-32.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 ShadowThief idx=32"
+    },
+    {
+      "logicalId": "tts-shadowthief-panel",
+      "kind": "heroPanel",
+      "file": "shadowthief/panels/panel.webp",
+      "width": 800,
+      "height": 1504,
+      "confirmed": false,
+      "source": "tts:908560170 Leaflet"
+    },
+    {
+      "logicalId": "tts-shadowthief-face-2",
+      "kind": "dieFace",
+      "file": "shadowthief/dice/face-2.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c0"
+    },
+    {
+      "logicalId": "tts-shadowthief-face-4",
+      "kind": "dieFace",
+      "file": "shadowthief/dice/face-4.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c1"
+    },
+    {
+      "logicalId": "tts-shadowthief-face-5",
+      "kind": "dieFace",
+      "file": "shadowthief/dice/face-5.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c2"
+    },
+    {
+      "logicalId": "tts-shadowthief-face-1",
+      "kind": "dieFace",
+      "file": "shadowthief/dice/face-1.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c0"
+    },
+    {
+      "logicalId": "tts-shadowthief-face-3",
+      "kind": "dieFace",
+      "file": "shadowthief/dice/face-3.webp",
+      "width": 256,
+      "height": 255,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c1"
+    },
+    {
+      "logicalId": "tts-shadowthief-face-6",
+      "kind": "dieFace",
+      "file": "shadowthief/dice/face-6.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c2"
+    },
+    {
+      "logicalId": "common:poison",
+      "kind": "statusIcon",
+      "file": "shadowthief/statuses/poison.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 status Poison"
+    },
+    {
+      "logicalId": "tts-shadowthief-status-sneak-attack",
+      "kind": "statusIcon",
+      "file": "shadowthief/statuses/sneak-attack.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Sneak Attack"
+    },
+    {
+      "logicalId": "tts-shadowthief-status-shadows",
+      "kind": "statusIcon",
+      "file": "shadowthief/statuses/shadows.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Shadows"
+    },
+    {
+      "logicalId": "tts-moonelf-card-00",
+      "kind": "card",
+      "file": "moonelf/cards/card-00.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=0"
+    },
+    {
+      "logicalId": "tts-moonelf-card-01",
+      "kind": "card",
+      "file": "moonelf/cards/card-01.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=1"
+    },
+    {
+      "logicalId": "tts-moonelf-card-02",
+      "kind": "card",
+      "file": "moonelf/cards/card-02.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=2"
+    },
+    {
+      "logicalId": "tts-moonelf-card-03",
+      "kind": "card",
+      "file": "moonelf/cards/card-03.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=3"
+    },
+    {
+      "logicalId": "tts-moonelf-card-04",
+      "kind": "card",
+      "file": "moonelf/cards/card-04.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=4"
+    },
+    {
+      "logicalId": "tts-moonelf-card-05",
+      "kind": "card",
+      "file": "moonelf/cards/card-05.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=5"
+    },
+    {
+      "logicalId": "tts-moonelf-card-06",
+      "kind": "card",
+      "file": "moonelf/cards/card-06.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=6"
+    },
+    {
+      "logicalId": "tts-moonelf-card-07",
+      "kind": "card",
+      "file": "moonelf/cards/card-07.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=7"
+    },
+    {
+      "logicalId": "tts-moonelf-card-08",
+      "kind": "card",
+      "file": "moonelf/cards/card-08.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=8"
+    },
+    {
+      "logicalId": "tts-moonelf-card-09",
+      "kind": "card",
+      "file": "moonelf/cards/card-09.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=9"
+    },
+    {
+      "logicalId": "tts-moonelf-card-10",
+      "kind": "card",
+      "file": "moonelf/cards/card-10.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=10"
+    },
+    {
+      "logicalId": "tts-moonelf-card-11",
+      "kind": "card",
+      "file": "moonelf/cards/card-11.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=11"
+    },
+    {
+      "logicalId": "tts-moonelf-card-12",
+      "kind": "card",
+      "file": "moonelf/cards/card-12.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=12"
+    },
+    {
+      "logicalId": "tts-moonelf-card-13",
+      "kind": "card",
+      "file": "moonelf/cards/card-13.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=13"
+    },
+    {
+      "logicalId": "tts-moonelf-card-14",
+      "kind": "card",
+      "file": "moonelf/cards/card-14.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=14"
+    },
+    {
+      "logicalId": "tts-moonelf-card-15",
+      "kind": "card",
+      "file": "moonelf/cards/card-15.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=15"
+    },
+    {
+      "logicalId": "tts-moonelf-card-16",
+      "kind": "card",
+      "file": "moonelf/cards/card-16.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=16"
+    },
+    {
+      "logicalId": "tts-moonelf-card-17",
+      "kind": "card",
+      "file": "moonelf/cards/card-17.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=17"
+    },
+    {
+      "logicalId": "tts-moonelf-card-18",
+      "kind": "card",
+      "file": "moonelf/cards/card-18.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=18"
+    },
+    {
+      "logicalId": "tts-moonelf-card-19",
+      "kind": "card",
+      "file": "moonelf/cards/card-19.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=19"
+    },
+    {
+      "logicalId": "tts-moonelf-card-20",
+      "kind": "card",
+      "file": "moonelf/cards/card-20.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=20"
+    },
+    {
+      "logicalId": "tts-moonelf-card-21",
+      "kind": "card",
+      "file": "moonelf/cards/card-21.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=21"
+    },
+    {
+      "logicalId": "tts-moonelf-card-22",
+      "kind": "card",
+      "file": "moonelf/cards/card-22.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=22"
+    },
+    {
+      "logicalId": "tts-moonelf-card-23",
+      "kind": "card",
+      "file": "moonelf/cards/card-23.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=23"
+    },
+    {
+      "logicalId": "tts-moonelf-card-24",
+      "kind": "card",
+      "file": "moonelf/cards/card-24.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=24"
+    },
+    {
+      "logicalId": "tts-moonelf-card-25",
+      "kind": "card",
+      "file": "moonelf/cards/card-25.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=25"
+    },
+    {
+      "logicalId": "tts-moonelf-card-26",
+      "kind": "card",
+      "file": "moonelf/cards/card-26.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=26"
+    },
+    {
+      "logicalId": "tts-moonelf-card-27",
+      "kind": "card",
+      "file": "moonelf/cards/card-27.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=27"
+    },
+    {
+      "logicalId": "tts-moonelf-card-28",
+      "kind": "card",
+      "file": "moonelf/cards/card-28.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=28"
+    },
+    {
+      "logicalId": "tts-moonelf-card-29",
+      "kind": "card",
+      "file": "moonelf/cards/card-29.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=29"
+    },
+    {
+      "logicalId": "tts-moonelf-card-30",
+      "kind": "card",
+      "file": "moonelf/cards/card-30.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=30"
+    },
+    {
+      "logicalId": "tts-moonelf-card-31",
+      "kind": "card",
+      "file": "moonelf/cards/card-31.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=31"
+    },
+    {
+      "logicalId": "tts-moonelf-card-32",
+      "kind": "card",
+      "file": "moonelf/cards/card-32.webp",
+      "width": 400,
+      "height": 625,
+      "confirmed": false,
+      "source": "tts:908560170 MoonElf idx=32"
+    },
+    {
+      "logicalId": "tts-moonelf-panel",
+      "kind": "heroPanel",
+      "file": "moonelf/panels/panel.webp",
+      "width": 800,
+      "height": 1504,
+      "confirmed": false,
+      "source": "tts:908560170 Leaflet"
+    },
+    {
+      "logicalId": "tts-moonelf-face-2",
+      "kind": "dieFace",
+      "file": "moonelf/dice/face-2.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c0"
+    },
+    {
+      "logicalId": "tts-moonelf-face-4",
+      "kind": "dieFace",
+      "file": "moonelf/dice/face-4.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c1"
+    },
+    {
+      "logicalId": "tts-moonelf-face-5",
+      "kind": "dieFace",
+      "file": "moonelf/dice/face-5.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c2"
+    },
+    {
+      "logicalId": "tts-moonelf-face-1",
+      "kind": "dieFace",
+      "file": "moonelf/dice/face-1.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c0"
+    },
+    {
+      "logicalId": "tts-moonelf-face-3",
+      "kind": "dieFace",
+      "file": "moonelf/dice/face-3.webp",
+      "width": 256,
+      "height": 255,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c1"
+    },
+    {
+      "logicalId": "tts-moonelf-face-6",
+      "kind": "dieFace",
+      "file": "moonelf/dice/face-6.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c2"
+    },
+    {
+      "logicalId": "tts-moonelf-status-targeted",
+      "kind": "statusIcon",
+      "file": "moonelf/statuses/targeted.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Targeted"
+    },
+    {
+      "logicalId": "common:evasive",
+      "kind": "statusIcon",
+      "file": "moonelf/statuses/evasive.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 status Evasive"
+    },
+    {
+      "logicalId": "tts-moonelf-status-entangle",
+      "kind": "statusIcon",
+      "file": "moonelf/statuses/entangle.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Entangle"
+    },
+    {
+      "logicalId": "tts-moonelf-status-blind",
+      "kind": "statusIcon",
+      "file": "moonelf/statuses/blind.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Blind"
+    },
+    {
+      "logicalId": "tts-barbarian-card-00",
+      "kind": "card",
+      "file": "barbarian/cards/card-00.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=0"
+    },
+    {
+      "logicalId": "tts-barbarian-card-01",
+      "kind": "card",
+      "file": "barbarian/cards/card-01.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=1"
+    },
+    {
+      "logicalId": "tts-barbarian-card-02",
+      "kind": "card",
+      "file": "barbarian/cards/card-02.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=2"
+    },
+    {
+      "logicalId": "tts-barbarian-card-03",
+      "kind": "card",
+      "file": "barbarian/cards/card-03.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=3"
+    },
+    {
+      "logicalId": "tts-barbarian-card-04",
+      "kind": "card",
+      "file": "barbarian/cards/card-04.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=4"
+    },
+    {
+      "logicalId": "tts-barbarian-card-05",
+      "kind": "card",
+      "file": "barbarian/cards/card-05.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=5"
+    },
+    {
+      "logicalId": "tts-barbarian-card-06",
+      "kind": "card",
+      "file": "barbarian/cards/card-06.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=6"
+    },
+    {
+      "logicalId": "tts-barbarian-card-07",
+      "kind": "card",
+      "file": "barbarian/cards/card-07.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=7"
+    },
+    {
+      "logicalId": "tts-barbarian-card-08",
+      "kind": "card",
+      "file": "barbarian/cards/card-08.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=8"
+    },
+    {
+      "logicalId": "tts-barbarian-card-09",
+      "kind": "card",
+      "file": "barbarian/cards/card-09.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=9"
+    },
+    {
+      "logicalId": "tts-barbarian-card-10",
+      "kind": "card",
+      "file": "barbarian/cards/card-10.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=10"
+    },
+    {
+      "logicalId": "tts-barbarian-card-11",
+      "kind": "card",
+      "file": "barbarian/cards/card-11.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=11"
+    },
+    {
+      "logicalId": "tts-barbarian-card-12",
+      "kind": "card",
+      "file": "barbarian/cards/card-12.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=12"
+    },
+    {
+      "logicalId": "tts-barbarian-card-13",
+      "kind": "card",
+      "file": "barbarian/cards/card-13.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=13"
+    },
+    {
+      "logicalId": "tts-barbarian-card-14",
+      "kind": "card",
+      "file": "barbarian/cards/card-14.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=14"
+    },
+    {
+      "logicalId": "tts-barbarian-card-15",
+      "kind": "card",
+      "file": "barbarian/cards/card-15.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=15"
+    },
+    {
+      "logicalId": "tts-barbarian-card-16",
+      "kind": "card",
+      "file": "barbarian/cards/card-16.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=16"
+    },
+    {
+      "logicalId": "tts-barbarian-card-17",
+      "kind": "card",
+      "file": "barbarian/cards/card-17.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=17"
+    },
+    {
+      "logicalId": "tts-barbarian-card-18",
+      "kind": "card",
+      "file": "barbarian/cards/card-18.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=18"
+    },
+    {
+      "logicalId": "tts-barbarian-card-19",
+      "kind": "card",
+      "file": "barbarian/cards/card-19.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=19"
+    },
+    {
+      "logicalId": "tts-barbarian-card-20",
+      "kind": "card",
+      "file": "barbarian/cards/card-20.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=20"
+    },
+    {
+      "logicalId": "tts-barbarian-card-21",
+      "kind": "card",
+      "file": "barbarian/cards/card-21.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=21"
+    },
+    {
+      "logicalId": "tts-barbarian-card-22",
+      "kind": "card",
+      "file": "barbarian/cards/card-22.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=22"
+    },
+    {
+      "logicalId": "tts-barbarian-card-23",
+      "kind": "card",
+      "file": "barbarian/cards/card-23.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=23"
+    },
+    {
+      "logicalId": "tts-barbarian-card-24",
+      "kind": "card",
+      "file": "barbarian/cards/card-24.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=24"
+    },
+    {
+      "logicalId": "tts-barbarian-card-25",
+      "kind": "card",
+      "file": "barbarian/cards/card-25.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=25"
+    },
+    {
+      "logicalId": "tts-barbarian-card-26",
+      "kind": "card",
+      "file": "barbarian/cards/card-26.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=26"
+    },
+    {
+      "logicalId": "tts-barbarian-card-27",
+      "kind": "card",
+      "file": "barbarian/cards/card-27.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=27"
+    },
+    {
+      "logicalId": "tts-barbarian-card-28",
+      "kind": "card",
+      "file": "barbarian/cards/card-28.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=28"
+    },
+    {
+      "logicalId": "tts-barbarian-card-29",
+      "kind": "card",
+      "file": "barbarian/cards/card-29.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=29"
+    },
+    {
+      "logicalId": "tts-barbarian-card-30",
+      "kind": "card",
+      "file": "barbarian/cards/card-30.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=30"
+    },
+    {
+      "logicalId": "tts-barbarian-card-31",
+      "kind": "card",
+      "file": "barbarian/cards/card-31.webp",
+      "width": 400,
+      "height": 623,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=31"
+    },
+    {
+      "logicalId": "tts-barbarian-card-32",
+      "kind": "card",
+      "file": "barbarian/cards/card-32.webp",
+      "width": 400,
+      "height": 622,
+      "confirmed": false,
+      "source": "tts:908560170 Barbarian idx=32"
+    },
+    {
+      "logicalId": "barbarian",
+      "kind": "heroPanel",
+      "file": "barbarian/panels/panel.webp",
+      "width": 800,
+      "height": 1504,
+      "confirmed": true,
+      "source": "tts:908560170 Leaflet"
+    },
+    {
+      "logicalId": "barbarian:face:2",
+      "kind": "dieFace",
+      "file": "barbarian/dice/face-2.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r1c0"
+    },
+    {
+      "logicalId": "barbarian:face:4",
+      "kind": "dieFace",
+      "file": "barbarian/dice/face-4.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r1c1"
+    },
+    {
+      "logicalId": "barbarian:face:5",
+      "kind": "dieFace",
+      "file": "barbarian/dice/face-5.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r1c2"
+    },
+    {
+      "logicalId": "barbarian:face:1",
+      "kind": "dieFace",
+      "file": "barbarian/dice/face-1.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r2c0"
+    },
+    {
+      "logicalId": "barbarian:face:3",
+      "kind": "dieFace",
+      "file": "barbarian/dice/face-3.webp",
+      "width": 256,
+      "height": 255,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r2c1"
+    },
+    {
+      "logicalId": "barbarian:face:6",
+      "kind": "dieFace",
+      "file": "barbarian/dice/face-6.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": true,
+      "source": "tts:908560170 die cell r2c2"
+    },
+    {
+      "logicalId": "tts-barbarian-status-stun",
+      "kind": "statusIcon",
+      "file": "barbarian/statuses/stun.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Stun"
+    },
+    {
+      "logicalId": "tts-barbarian-status-concussion",
+      "kind": "statusIcon",
+      "file": "barbarian/statuses/concussion.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Concussion"
+    },
+    {
+      "logicalId": "tts-ninja-card-00",
+      "kind": "card",
+      "file": "ninja/cards/card-00.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=0"
+    },
+    {
+      "logicalId": "tts-ninja-card-01",
+      "kind": "card",
+      "file": "ninja/cards/card-01.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=1"
+    },
+    {
+      "logicalId": "tts-ninja-card-02",
+      "kind": "card",
+      "file": "ninja/cards/card-02.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=2"
+    },
+    {
+      "logicalId": "tts-ninja-card-03",
+      "kind": "card",
+      "file": "ninja/cards/card-03.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=3"
+    },
+    {
+      "logicalId": "tts-ninja-card-04",
+      "kind": "card",
+      "file": "ninja/cards/card-04.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=4"
+    },
+    {
+      "logicalId": "tts-ninja-card-05",
+      "kind": "card",
+      "file": "ninja/cards/card-05.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=5"
+    },
+    {
+      "logicalId": "tts-ninja-card-06",
+      "kind": "card",
+      "file": "ninja/cards/card-06.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=6"
+    },
+    {
+      "logicalId": "tts-ninja-card-07",
+      "kind": "card",
+      "file": "ninja/cards/card-07.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=7"
+    },
+    {
+      "logicalId": "tts-ninja-card-08",
+      "kind": "card",
+      "file": "ninja/cards/card-08.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=8"
+    },
+    {
+      "logicalId": "tts-ninja-card-09",
+      "kind": "card",
+      "file": "ninja/cards/card-09.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=9"
+    },
+    {
+      "logicalId": "tts-ninja-card-10",
+      "kind": "card",
+      "file": "ninja/cards/card-10.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=10"
+    },
+    {
+      "logicalId": "tts-ninja-card-11",
+      "kind": "card",
+      "file": "ninja/cards/card-11.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=11"
+    },
+    {
+      "logicalId": "tts-ninja-card-12",
+      "kind": "card",
+      "file": "ninja/cards/card-12.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=12"
+    },
+    {
+      "logicalId": "tts-ninja-card-13",
+      "kind": "card",
+      "file": "ninja/cards/card-13.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=13"
+    },
+    {
+      "logicalId": "tts-ninja-card-14",
+      "kind": "card",
+      "file": "ninja/cards/card-14.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=14"
+    },
+    {
+      "logicalId": "tts-ninja-card-15",
+      "kind": "card",
+      "file": "ninja/cards/card-15.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=15"
+    },
+    {
+      "logicalId": "tts-ninja-card-16",
+      "kind": "card",
+      "file": "ninja/cards/card-16.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=16"
+    },
+    {
+      "logicalId": "tts-ninja-card-17",
+      "kind": "card",
+      "file": "ninja/cards/card-17.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=17"
+    },
+    {
+      "logicalId": "tts-ninja-card-18",
+      "kind": "card",
+      "file": "ninja/cards/card-18.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=18"
+    },
+    {
+      "logicalId": "tts-ninja-card-19",
+      "kind": "card",
+      "file": "ninja/cards/card-19.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=19"
+    },
+    {
+      "logicalId": "tts-ninja-card-20",
+      "kind": "card",
+      "file": "ninja/cards/card-20.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=20"
+    },
+    {
+      "logicalId": "tts-ninja-card-21",
+      "kind": "card",
+      "file": "ninja/cards/card-21.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=21"
+    },
+    {
+      "logicalId": "tts-ninja-card-22",
+      "kind": "card",
+      "file": "ninja/cards/card-22.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=22"
+    },
+    {
+      "logicalId": "tts-ninja-card-23",
+      "kind": "card",
+      "file": "ninja/cards/card-23.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=23"
+    },
+    {
+      "logicalId": "tts-ninja-card-24",
+      "kind": "card",
+      "file": "ninja/cards/card-24.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=24"
+    },
+    {
+      "logicalId": "tts-ninja-card-25",
+      "kind": "card",
+      "file": "ninja/cards/card-25.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=25"
+    },
+    {
+      "logicalId": "tts-ninja-card-26",
+      "kind": "card",
+      "file": "ninja/cards/card-26.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=26"
+    },
+    {
+      "logicalId": "tts-ninja-card-27",
+      "kind": "card",
+      "file": "ninja/cards/card-27.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=27"
+    },
+    {
+      "logicalId": "tts-ninja-card-28",
+      "kind": "card",
+      "file": "ninja/cards/card-28.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=28"
+    },
+    {
+      "logicalId": "tts-ninja-card-29",
+      "kind": "card",
+      "file": "ninja/cards/card-29.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=29"
+    },
+    {
+      "logicalId": "tts-ninja-card-30",
+      "kind": "card",
+      "file": "ninja/cards/card-30.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=30"
+    },
+    {
+      "logicalId": "tts-ninja-card-31",
+      "kind": "card",
+      "file": "ninja/cards/card-31.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=31"
+    },
+    {
+      "logicalId": "tts-ninja-card-32",
+      "kind": "card",
+      "file": "ninja/cards/card-32.webp",
+      "width": 400,
+      "height": 624,
+      "confirmed": false,
+      "source": "tts:908560170 Ninja idx=32"
+    },
+    {
+      "logicalId": "tts-ninja-panel",
+      "kind": "heroPanel",
+      "file": "ninja/panels/panel.webp",
+      "width": 800,
+      "height": 1504,
+      "confirmed": false,
+      "source": "tts:908560170 Leaflet"
+    },
+    {
+      "logicalId": "tts-ninja-face-2",
+      "kind": "dieFace",
+      "file": "ninja/dice/face-2.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c0"
+    },
+    {
+      "logicalId": "tts-ninja-face-4",
+      "kind": "dieFace",
+      "file": "ninja/dice/face-4.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c1"
+    },
+    {
+      "logicalId": "tts-ninja-face-5",
+      "kind": "dieFace",
+      "file": "ninja/dice/face-5.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c2"
+    },
+    {
+      "logicalId": "tts-ninja-face-1",
+      "kind": "dieFace",
+      "file": "ninja/dice/face-1.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c0"
+    },
+    {
+      "logicalId": "tts-ninja-face-3",
+      "kind": "dieFace",
+      "file": "ninja/dice/face-3.webp",
+      "width": 256,
+      "height": 255,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c1"
+    },
+    {
+      "logicalId": "tts-ninja-face-6",
+      "kind": "dieFace",
+      "file": "ninja/dice/face-6.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c2"
+    },
+    {
+      "logicalId": "tts-ninja-status-ninjutsu",
+      "kind": "statusIcon",
+      "file": "ninja/statuses/ninjutsu.webp",
+      "width": 256,
+      "height": 255,
+      "confirmed": false,
+      "source": "tts:908560170 status Ninjutsu"
+    },
+    {
+      "logicalId": "tts-ninja-status-smoke-bomb",
+      "kind": "statusIcon",
+      "file": "ninja/statuses/smoke-bomb.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Smoke Bomb"
+    },
+    {
+      "logicalId": "tts-ninja-status-delayed-poison",
+      "kind": "statusIcon",
+      "file": "ninja/statuses/delayed-poison.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Delayed Poison"
+    },
+    {
+      "logicalId": "tts-raveness-card-00",
+      "kind": "card",
+      "file": "raveness/cards/card-00.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=0"
+    },
+    {
+      "logicalId": "tts-raveness-card-01",
+      "kind": "card",
+      "file": "raveness/cards/card-01.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=1"
+    },
+    {
+      "logicalId": "tts-raveness-card-02",
+      "kind": "card",
+      "file": "raveness/cards/card-02.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=2"
+    },
+    {
+      "logicalId": "tts-raveness-card-03",
+      "kind": "card",
+      "file": "raveness/cards/card-03.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=3"
+    },
+    {
+      "logicalId": "tts-raveness-card-04",
+      "kind": "card",
+      "file": "raveness/cards/card-04.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=4"
+    },
+    {
+      "logicalId": "tts-raveness-card-05",
+      "kind": "card",
+      "file": "raveness/cards/card-05.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=5"
+    },
+    {
+      "logicalId": "tts-raveness-card-06",
+      "kind": "card",
+      "file": "raveness/cards/card-06.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=6"
+    },
+    {
+      "logicalId": "tts-raveness-card-07",
+      "kind": "card",
+      "file": "raveness/cards/card-07.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=7"
+    },
+    {
+      "logicalId": "tts-raveness-card-08",
+      "kind": "card",
+      "file": "raveness/cards/card-08.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=8"
+    },
+    {
+      "logicalId": "tts-raveness-card-09",
+      "kind": "card",
+      "file": "raveness/cards/card-09.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=9"
+    },
+    {
+      "logicalId": "tts-raveness-card-10",
+      "kind": "card",
+      "file": "raveness/cards/card-10.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=10"
+    },
+    {
+      "logicalId": "tts-raveness-card-11",
+      "kind": "card",
+      "file": "raveness/cards/card-11.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=11"
+    },
+    {
+      "logicalId": "tts-raveness-card-12",
+      "kind": "card",
+      "file": "raveness/cards/card-12.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=12"
+    },
+    {
+      "logicalId": "tts-raveness-card-13",
+      "kind": "card",
+      "file": "raveness/cards/card-13.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=13"
+    },
+    {
+      "logicalId": "tts-raveness-card-14",
+      "kind": "card",
+      "file": "raveness/cards/card-14.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=14"
+    },
+    {
+      "logicalId": "tts-raveness-card-15",
+      "kind": "card",
+      "file": "raveness/cards/card-15.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=15"
+    },
+    {
+      "logicalId": "tts-raveness-card-16",
+      "kind": "card",
+      "file": "raveness/cards/card-16.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=16"
+    },
+    {
+      "logicalId": "tts-raveness-card-17",
+      "kind": "card",
+      "file": "raveness/cards/card-17.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=17"
+    },
+    {
+      "logicalId": "tts-raveness-card-18",
+      "kind": "card",
+      "file": "raveness/cards/card-18.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=18"
+    },
+    {
+      "logicalId": "tts-raveness-card-19",
+      "kind": "card",
+      "file": "raveness/cards/card-19.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=19"
+    },
+    {
+      "logicalId": "tts-raveness-card-20",
+      "kind": "card",
+      "file": "raveness/cards/card-20.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=20"
+    },
+    {
+      "logicalId": "tts-raveness-card-21",
+      "kind": "card",
+      "file": "raveness/cards/card-21.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=21"
+    },
+    {
+      "logicalId": "tts-raveness-card-22",
+      "kind": "card",
+      "file": "raveness/cards/card-22.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=22"
+    },
+    {
+      "logicalId": "tts-raveness-card-23",
+      "kind": "card",
+      "file": "raveness/cards/card-23.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=23"
+    },
+    {
+      "logicalId": "tts-raveness-card-24",
+      "kind": "card",
+      "file": "raveness/cards/card-24.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=24"
+    },
+    {
+      "logicalId": "tts-raveness-card-25",
+      "kind": "card",
+      "file": "raveness/cards/card-25.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=25"
+    },
+    {
+      "logicalId": "tts-raveness-card-26",
+      "kind": "card",
+      "file": "raveness/cards/card-26.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=26"
+    },
+    {
+      "logicalId": "tts-raveness-card-27",
+      "kind": "card",
+      "file": "raveness/cards/card-27.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=27"
+    },
+    {
+      "logicalId": "tts-raveness-card-28",
+      "kind": "card",
+      "file": "raveness/cards/card-28.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=28"
+    },
+    {
+      "logicalId": "tts-raveness-card-29",
+      "kind": "card",
+      "file": "raveness/cards/card-29.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=29"
+    },
+    {
+      "logicalId": "tts-raveness-card-30",
+      "kind": "card",
+      "file": "raveness/cards/card-30.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=30"
+    },
+    {
+      "logicalId": "tts-raveness-card-31",
+      "kind": "card",
+      "file": "raveness/cards/card-31.webp",
+      "width": 400,
+      "height": 621,
+      "confirmed": false,
+      "source": "tts:908560170 Raveness idx=31"
+    },
+    {
+      "logicalId": "tts-raveness-panel",
+      "kind": "heroPanel",
+      "file": "raveness/panels/panel.webp",
+      "width": 800,
+      "height": 1485,
+      "confirmed": false,
+      "source": "tts:908560170 Leaflet"
+    },
+    {
+      "logicalId": "tts-raveness-face-2",
+      "kind": "dieFace",
+      "file": "raveness/dice/face-2.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c0"
+    },
+    {
+      "logicalId": "tts-raveness-face-4",
+      "kind": "dieFace",
+      "file": "raveness/dice/face-4.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c1"
+    },
+    {
+      "logicalId": "tts-raveness-face-5",
+      "kind": "dieFace",
+      "file": "raveness/dice/face-5.webp",
+      "width": 256,
+      "height": 257,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r1c2"
+    },
+    {
+      "logicalId": "tts-raveness-face-1",
+      "kind": "dieFace",
+      "file": "raveness/dice/face-1.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c0"
+    },
+    {
+      "logicalId": "tts-raveness-face-3",
+      "kind": "dieFace",
+      "file": "raveness/dice/face-3.webp",
+      "width": 256,
+      "height": 255,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c1"
+    },
+    {
+      "logicalId": "tts-raveness-face-6",
+      "kind": "dieFace",
+      "file": "raveness/dice/face-6.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 die cell r2c2"
+    },
+    {
+      "logicalId": "tts-raveness-status-feather",
+      "kind": "statusIcon",
+      "file": "raveness/statuses/feather.webp",
+      "width": 256,
+      "height": 256,
+      "confirmed": false,
+      "source": "tts:908560170 status Feather"
+    }
+  ]
+}
