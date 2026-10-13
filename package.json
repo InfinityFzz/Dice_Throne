@@ -18,6 +18,7 @@
     "assets:catalog": "node --import tsx scripts/gen-asset-catalog.ts",
     "assets:check": "node --import tsx scripts/gen-asset-catalog.ts --check",
     "assets:import": "node --import tsx scripts/import-tts-assets.ts",
+    "assets:confirm": "node --import tsx scripts/confirm-tts-mapping.ts",
     "test:assets": "node --import tsx --test packages/web/src/assets/assets.test.ts"
   },
   "devDependencies": {

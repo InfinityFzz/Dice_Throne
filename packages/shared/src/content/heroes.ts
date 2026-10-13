@@ -59,6 +59,52 @@ function gradedBranch(symbol: 'sword' | 'life' | 'flame', tierDmg: readonly [num
 const dmgTo = (n: number, t: 'attack' | 'undefendable' = 'attack'): EffectDef =>
   ({ clause: { kind: 'dealDamage', amount: n, damageType: t, to: { r: 'opponent' } } });
 
+/** Barbarian 专属行动卡（card-28..32，2026-10-13 读图） */
+const barbarianHeroCards: readonly CardDef[] = [
+  // Concuss!：1 CP，直接施加 Concussion
+  { defId: 'barbarian:concuss', name: '震晕', kind: 'mainPhase', costCp: 1,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [{ clause: { kind: 'inflictStatus', status: 'common:concussion', stacks: 1, to: { r: 'opponent' } } }] },
+  // Head Bash!：0 CP，防御结算后若本轮已成功造成 ≥8 伤害 → Concussion
+  { defId: 'barbarian:headBash', name: '头槌', kind: 'rollPhase', costCp: 0,
+    timing: ['postDefense'], count: 1,
+    effects: [{
+      clause: { kind: 'conditional', cond: { c: 'damageDealtAtLeast', value: 8 },
+        then: [{ clause: { kind: 'inflictStatus', status: 'common:concussion', stacks: 1, to: { r: 'opponent' } } }] },
+    }] },
+  // Get Some!：2 CP，攻击修正：Roll 5，每剑 +1 总伤害；再施加 Concussion
+  { defId: 'barbarian:getSome', name: '来啊', kind: 'rollPhase', costCp: 2,
+    timing: ['thenNode'], count: 1,
+    effects: [
+      { clause: { kind: 'rollDicePool', count: 5, perDie: true, cases: [
+        { on: 'sword', effects: [{ clause: { kind: 'dealDamage', amount: 1, damageType: 'attack', to: { r: 'opponent' } } }] },
+      ] } },
+      { clause: { kind: 'inflictStatus', status: 'common:concussion', stacks: 1, to: { r: 'opponent' } } },
+    ] },
+  // Feelin' Good!：0 CP，Instant：Roll 3，治疗 1 + 2×心
+  { defId: 'barbarian:feelinGood', name: '感觉不错', kind: 'instant', costCp: 0,
+    timing: ['thenNode', 'preDefense', 'postDefense'], count: 1,
+    effects: [
+      { clause: { kind: 'heal', amount: 1, to: { r: 'self' } } },
+      { clause: { kind: 'rollDicePool', count: 3, perDie: true, cases: [
+        { on: 'life', effects: [{ clause: { kind: 'heal', amount: 2, to: { r: 'self' } } }] },
+      ] } },
+    ] },
+  // Adrenaline Surge!：0 CP，PROMO：Roll 1，出心 → 治疗 2 + Concussion；其他 → 抽 1
+  { defId: 'barbarian:adrenalineSurge', name: '肾上腺素激增（PROMO）', kind: 'mainPhase', costCp: 0,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [
+      { clause: { kind: 'rollDicePool', count: 1, bindSumTo: 'as' } },
+      // barbarian 心面 = 4/5 点，出心即点数 ≥4
+      { clause: { kind: 'conditional', cond: { c: 'boundAtLeast', name: 'as', min: 4 },
+        then: [
+          { clause: { kind: 'heal', amount: 2, to: { r: 'self' } } },
+          { clause: { kind: 'inflictStatus', status: 'common:concussion', stacks: 1, to: { r: 'opponent' } } },
+        ],
+        else: [{ clause: { kind: 'drawCards', amount: 1, to: { r: 'self' } } }] } },
+    ] },
+];
+
 export const BARBARIAN: HeroDef = {
   id: 'barbarian',
   name: '狂战士',
@@ -222,7 +268,7 @@ export const BARBARIAN: HeroDef = {
     },
   ],
   statuses: [],
-  deck: [...COMMON_CARDS, ...barbarianUpgrades],
+  deck: [...COMMON_CARDS, ...barbarianUpgrades, ...barbarianHeroCards],
 };
 
 // ── 焰术士：火焰分档 + 状态消耗，玻璃大炮 ────────────────

@@ -137,3 +137,30 @@ Infernal Infusion!（0 PROMO：meteor→FM 补满，否则抽 1）。
 - [ ] L1 与 Ultimate 数值：需实体面板/规则书，或读中文版 mod（3446854288）
 - [ ] 「4-of-a-kind 不可防御」（Smack）与「3-of-a-kind 移除状态」（Fortitude）仍缺引擎条件
 - [ ] 其余 5 英雄（Gunslinger / ShadowThief / MoonElf / Ninja / Raveness）待内容层扩充
+
+---
+
+# 第三轮：卡名批量确认（DT-OCR-002）+ Barbarian 专属卡
+
+## 11. Barbarian 专属行动卡（card-28..32 读图）
+
+| 卡名 | 费用 | 时机 | 效果 |
+|---|---|---|---|
+| Concuss! | 1 | main | 对一名对手施加 Concussion |
+| Head Bash! | 0 | 防御结算后 | 若本轮已成功造成 ≥8 伤害 → Concussion |
+| Get Some! | 2 | 攻击修正 | Roll 5：每剑 +1 总伤害；施加 Concussion |
+| Feelin' Good! | 0 | instant | Roll 3：治疗 1 + 2×心 |
+| Adrenaline Surge! | 0 PROMO | main | Roll 1：出心 → 治疗 2 + Concussion；其他 → 抽 1 |
+
+## 12. 卡名 → defId 批量确认
+
+- 新增基准表 `packs/local-tts/name-map.json`（官方英文卡名规范化 → 内容层 defId，48 张）
+- 新增脚本 `scripts/confirm-tts-mapping.ts`（npm run assets:confirm）：
+  命中即把 manifest 条目 logicalId 改为 defId、confirmed=true（nameSource=canonical）；
+  同一 defId 多英雄重复图只确认首张（通用卡每英雄牌堆各一张，共 108 张 duplicate 跳过）。
+- 本轮确认 43 张（barbarian 32 + pyromancer 15，其中通用卡 18 + 升级卡 + 专属卡）；
+  未匹配 74 张 = 其余 5 英雄未实装（Gunslinger/MoonElf/Ninja/Raveness/ShadowThief 的
+  升级卡与专属卡，M3 实装后直接扩 name-map 再跑即可）。
+- 命中率变化：**23/84 → 66/89**（card 类 48/48 全命中）。剩余缺 23：
+  abilityIcon 19（TTS 包无独立能力图标）、statusIcon 3（stun/concussion/knockdown 无 token 图）、
+  background 1（桌面，表现层自由发挥）。
