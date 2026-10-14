@@ -19,5 +19,6 @@ export * from './content/statuses.js';
 export * from './content/cards.js';
 export * from './content/heroes.js';
 export * from './content/registry.js';
+export * from './content/describe.js';
 
 export { BARBARIAN, PYROMANCER } from './content/heroes.js';
