@@ -5,7 +5,7 @@ import type { CardDef, HeroDef, StatusDef } from '../types/content.js';
 import type { CardId, DamageType, EffectDef, HeroId, StatusId } from '../types/core.js';
 import { COMMON_STATUSES } from './statuses.js';
 import { COMMON_CARDS } from './cards.js';
-import { BARBARIAN, GUNSLINGER, PYROMANCER, SHADOWTHIEF } from './heroes.js';
+import { BARBARIAN, GUNSLINGER, PYROMANCER, SHADOWTHIEF, MOONELF } from './heroes.js';
 
 const VALID_DAMAGE_TYPES: readonly DamageType[] = ['attack', 'undefendable', 'collateral', 'pure'];
 
@@ -124,6 +124,7 @@ export function createDefaultRegistry(): ContentRegistry {
   reg.registerHero(PYROMANCER);
   reg.registerHero(GUNSLINGER);
   reg.registerHero(SHADOWTHIEF);
+  reg.registerHero(MOONELF);
   const errors = reg.validate();
   if (errors.length > 0) {
     throw new Error(`content-lint 失败:\n${errors.map((e) => ` - ${e}`).join('\n')}`);

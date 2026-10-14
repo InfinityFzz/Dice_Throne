@@ -106,7 +106,9 @@ export type Expr =
   | { e: 'add' | 'sub' | 'mul'; a: Expr; b: Expr }
   | { e: 'min' | 'max'; a: Expr; b: Expr }
   /** 向上取整除法（Vegas Baby!：获得 ⌈点数/2⌉ CP） */
-  | { e: 'ceilDiv'; a: Expr; b: Expr };
+  | { e: 'ceilDiv'; a: Expr; b: Expr }
+  /** 向下取整除法（官方 MoonElf Missed Me L1「每 2 支箭 → 1 点伤害」= ⌊箭数/2⌋；b 为 0 时归 0） */
+  | { e: 'floorDiv'; a: Expr; b: Expr };
 
 export type Condition =
   | { c: 'always' }

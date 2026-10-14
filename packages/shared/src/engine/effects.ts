@@ -127,6 +127,11 @@ export function evalExpr(d: Draft, expr: Expr, seat: Seat): number {
       const b = evalExpr(d, expr.b, seat);
       return b === 0 ? 0 : Math.ceil(evalExpr(d, expr.a, seat) / b);
     }
+    case 'floorDiv': {
+      // 官方 MoonElf Missed Me L1「每 2 支箭 → 1 点伤害」：⌊箭数/2⌋（与 ceilDiv 同口径，b=0 归 0）
+      const b = evalExpr(d, expr.b, seat);
+      return b === 0 ? 0 : Math.floor(evalExpr(d, expr.a, seat) / b);
+    }
   }
 }
 
@@ -234,6 +239,17 @@ function removeStatus(d: Draft, seat: Seat, statusId: string | 'any', stacks: nu
   return removed;
 }
 
+/**
+ * 在目标状态列表里找第一个携带指定 onAttacked 字段的状态（引擎只认契约、不认具体 id）。
+ * 逐字段查找是有意的：bonusDamage 与 attackerGainsCp 独立求值，不能因「另一个字段缺失」
+ * 而漏发（官方 TARGETED 只有 bonusDamage；反向的纯 CP 状态同样可能）。
+ */
+function findOnAttackedHook(d: Draft, seat: Seat, field: 'bonusDamage' | 'attackerGainsCp') {
+  return d.player(seat).statuses
+    .map((st) => ({ st, onAttacked: d.content.getStatus(st.id)?.onAttacked }))
+    .find((x) => x.onAttacked?.[field] !== undefined);
+}
+
 export type Handler = (d: Draft, clause: never, seat: Seat) => readonly EffectDef[] | void;
 
 export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: EffectClause, seat: Seat) => readonly EffectDef[] | void> = {
@@ -242,8 +258,8 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
     const to = resolveTarget(d, c.to, seat);
     const amount = evalExpr(d, c.amount, seat);
     // 官方 Bounty 类挂钩（StatusDef.onAttacked 通用契约，引擎不认具体状态 id）：
-    // attack 类型伤害瞄准带此状态的目标 → 攻击者伤害 +N（入桶即触发，官方 FAQ：
-    // 对手防御中 prevent/avoid 多少都不影响）+ 得 M 点 CP。直接 addDamage，不走
+    // attack 类型伤害瞄准带此状态的目标 → 按契约逐字段独立生效（官方 FAQ：
+    // 对手防御中 prevent/avoid 多少都不影响，入桶即触发）。直接 addDamage，不走
     // dealDamage clause，避免自递归。amount>0 才触发（「必须激活造成至少 1 点伤害的攻击」）。
     if (c.damageType === 'attack' && amount > 0 && c.sourceKind !== 'ultimate') {
       // 官方 Shadows 类（StatusDef.onAttacked.avoid 通用契约）：被普通攻击瞄准 →
@@ -256,15 +272,26 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
         d.s.bucket = addAvoid(d.s.bucket, to);
         d.emit('note', { kind: 'log', text: `${d.content.getStatus(avoider.id)?.name ?? avoider.id}：避开本次攻击伤害` });
       }
-      // ★ 按 bonusDamage 精确匹配，避免同目标身上 avoid-only 状态（Shadows）抢匹配、漏发 Bounty
-      const hooked = d.player(to).statuses
-        .find((s) => d.content.getStatus(s.id)?.onAttacked?.bonusDamage !== undefined);
-      const hook = hooked ? d.content.getStatus(hooked.id)?.onAttacked : undefined;
-      if (hooked && hook && hook.bonusDamage !== undefined && hook.attackerGainsCp !== undefined) {
-        d.s.bucket = addDamage(d.s.bucket, evalExpr(d, hook.bonusDamage, seat), 'attack', to, seat, 'ability');
+      // ★ bonusDamage 与 attackerGainsCp **逐字段独立定位、独立生效**（有哪个字段就生效哪个）：
+      //   历史上两者总是一起出现（Bounty），但官方 TARGETED 只有 bonusDamage、将来也可能
+      //   出现只有 CP 的状态。若只用 bonusDamage 定位状态，纯 CP 状态会被漏发。
+      //   每字段各取状态数组顺序中第一个携带它的状态（官方均为 limit 1，不叠加）。
+      const withBonus = findOnAttackedHook(d, to, 'bonusDamage');
+      const withCp = findOnAttackedHook(d, to, 'attackerGainsCp');
+      const parts: string[] = [];
+      if (withBonus?.onAttacked?.bonusDamage !== undefined) {
+        const bonus = evalExpr(d, withBonus.onAttacked.bonusDamage, seat);
+        d.s.bucket = addDamage(d.s.bucket, bonus, 'attack', to, seat, 'ability');
+        parts.push(`${d.content.getStatus(withBonus.st.id)?.name ?? withBonus.st.id}：攻击者伤害增加 ${bonus}`);
+      }
+      if (withCp?.onAttacked?.attackerGainsCp !== undefined) {
+        const cpGain = evalExpr(d, withCp.onAttacked.attackerGainsCp, seat);
         const attacker = d.player(seat);
-        attacker.cp = Math.min(15, attacker.cp + evalExpr(d, hook.attackerGainsCp, seat));
-        d.emit('note', { kind: 'log', text: `${d.content.getStatus(hooked.id)?.name ?? hooked.id}：攻击者伤害增加并获得 CP` });
+        attacker.cp = Math.min(15, attacker.cp + cpGain);
+        parts.push(`${d.content.getStatus(withCp.st.id)?.name ?? withCp.st.id}：攻击者获得 ${cpGain} CP`);
+      }
+      if (parts.length > 0) {
+        d.emit('note', { kind: 'log', text: parts.join('；') });
       }
     }
     // 条件不可防御（官方 Smack 4-of-a-kind）：effectWalk 时按当前骰池判定

@@ -24,6 +24,7 @@ import {
   PYROMANCER,
   GUNSLINGER,
   SHADOWTHIEF,
+  MOONELF,
   COMMON_CARDS,
   COMMON_STATUSES,
   type HeroDef,
@@ -36,7 +37,7 @@ const CATALOG_PATH = join(ROOT, 'packages/web/src/assets/catalog.ts');
 const LOCAL_TTS_MANIFEST = join(ROOT, 'packages/web/src/assets/packs/local-tts/manifest.json');
 const RESKIN_MANIFEST = join(ROOT, 'packages/web/src/assets/packs/reskin/manifest.json');
 
-const HEROES: readonly HeroDef[] = [BARBARIAN, PYROMANCER, GUNSLINGER, SHADOWTHIEF];
+const HEROES: readonly HeroDef[] = [BARBARIAN, PYROMANCER, GUNSLINGER, SHADOWTHIEF, MOONELF];
 
 /** 展示名 → shared 卡牌 kind（结构与 types.ts 的 CardVisualKind 对齐） */
 function cardVisualKind(kind: CardDef['kind']): CardVisualKind {

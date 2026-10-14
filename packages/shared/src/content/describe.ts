@@ -20,10 +20,10 @@ import type {
 } from '../types/core.js';
 import type { AbilitySlotDef, CardDef, StatusDef } from '../types/content.js';
 import { COMMON_STATUSES } from './statuses.js';
-import { BARBARIAN, GUNSLINGER, PYROMANCER, SHADOWTHIEF } from './heroes.js';
+import { BARBARIAN, GUNSLINGER, PYROMANCER, SHADOWTHIEF, MOONELF } from './heroes.js';
 
 /** 新增英雄只改这一行（名称词表随数据自动构建，漏登记会被 lint 守门抓住） */
-const ALL_HEROES = [BARBARIAN, PYROMANCER, GUNSLINGER, SHADOWTHIEF] as const;
+const ALL_HEROES = [BARBARIAN, PYROMANCER, GUNSLINGER, SHADOWTHIEF, MOONELF] as const;
 
 // ── 语言 ─────────────────────────────────────────────
 export type Lang = 'zh' | 'en';
@@ -131,12 +131,14 @@ const SYM_WORD: Record<Lang, Record<string, string>> = {
     flame: '焰', blaze: '炽焰', fierySoul: '炎魂', meteor: '陨星',
     bullet: '子弹', dash: '疾冲', bullseye: '靶心',
     dagger: '匕首', bag: '钱袋', card: '卡牌', shadow: '阴影',
+    arrow: '箭', foot: '足', moon: '月',
   },
   en: {
     sword: 'sword', life: 'life', pow: 'power',
     flame: 'flame', blaze: 'blaze', fierySoul: 'fiery soul', meteor: 'meteor',
     bullet: 'bullet', dash: 'dash', bullseye: 'bullseye',
     dagger: 'dagger', bag: 'bag', card: 'card', shadow: 'shadow',
+    arrow: 'arrow', foot: 'foot', moon: 'moon',
   },
 };
 
@@ -248,6 +250,10 @@ export function describeExpr(x: Expr, lang: Lang = DEFAULT_LANG): string {
       return zh
         ? `⌈${describeExpr(x.a, lang)} ÷ ${describeExpr(x.b, lang)}⌉`
         : `ceil(${describeExpr(x.a, lang)} / ${describeExpr(x.b, lang)})`;
+    case 'floorDiv':
+      return zh
+        ? `⌊${describeExpr(x.a, lang)} ÷ ${describeExpr(x.b, lang)}⌋`
+        : `floor(${describeExpr(x.a, lang)} / ${describeExpr(x.b, lang)})`;
   }
 }
 
@@ -713,16 +719,47 @@ export function describeStatus(s: StatusDef, lang: Lang = DEFAULT_LANG): string 
   if (s.persistent) bits.push(zh ? '持续' : 'persistent');
   if (s.spendable) bits.push(zh ? '可消耗' : 'spendable');
   if (s.onAttacked) {
-    if (s.onAttacked.bonusDamage !== undefined && s.onAttacked.attackerGainsCp !== undefined) {
+    // 逐字段独立渲染（与引擎逐字段独立求值同口径）：只有 bonusDamage / 只有 CP / 两者皆有
+    const bonus = s.onAttacked.bonusDamage;
+    const cp = s.onAttacked.attackerGainsCp;
+    if (bonus !== undefined && cp !== undefined) {
       bits.push(zh
-        ? `被攻击时：攻击者对其伤害 +${describeExpr(s.onAttacked.bonusDamage, lang)} 且攻击者获得 ${describeExpr(s.onAttacked.attackerGainsCp, lang)} CP`
-        : `when bearer is attacked: attacker's dmg +${describeExpr(s.onAttacked.bonusDamage, lang)} and attacker gains ${describeExpr(s.onAttacked.attackerGainsCp, lang)} CP`);
+        ? `被攻击时：攻击者对其伤害 +${describeExpr(bonus, lang)} 且攻击者获得 ${describeExpr(cp, lang)} CP`
+        : `when bearer is attacked: attacker's dmg +${describeExpr(bonus, lang)} and attacker gains ${describeExpr(cp, lang)} CP`);
+    } else if (bonus !== undefined) {
+      bits.push(zh
+        ? `被攻击时：攻击者对其伤害 +${describeExpr(bonus, lang)}`
+        : `when bearer is attacked: attacker's dmg +${describeExpr(bonus, lang)}`);
+    } else if (cp !== undefined) {
+      bits.push(zh
+        ? `被攻击时：攻击者获得 ${describeExpr(cp, lang)} CP`
+        : `when bearer is attacked: attacker gains ${describeExpr(cp, lang)} CP`);
     }
     if (s.onAttacked.avoid) {
       bits.push(zh
         ? '被普通攻击时：全部避开（不防 Ultimate 与非攻击伤害）'
         : 'avoids all dmg from normal attacks (not vs Ultimates / non-attack dmg)');
     }
+  }
+  if (s.onRollPhaseStart) {
+    // 官方 ENTANGLE 语义：下一次进攻掷骰阶段少 N 次（正数则多 N 次，契约双向通用）
+    const delta = s.onRollPhaseStart.rollAttemptsDelta;
+    bits.push(delta < 0
+      ? (zh ? `进入其进攻掷骰阶段时：少 ${-delta} 次掷骰机会`
+            : `during their next offensive roll phase: ${-delta} fewer roll attempt(s)`)
+      : (zh ? `进入其进攻掷骰阶段时：多 ${delta} 次掷骰机会`
+            : `during their next offensive roll phase: ${delta} extra roll attempt(s)`));
+  }
+  if (s.onConcludeRollPhase?.failDie) {
+    // 官方 BLIND 语义：收场时移除并掷骰，命中失败面则整个阶段作废
+    const fd = s.onConcludeRollPhase.failDie;
+    const vals = fd.failValues.join('/');
+    bits.push(zh
+      ? `结束进攻掷骰阶段时：移除该状态并掷 ${fd.count} 颗骰，掷出 ${vals} 则整个阶段作废（不产生任何效果）`
+      : `on concluding their offensive roll phase: remove this token and roll ${fd.count} dice; on ${vals} the phase fails with no effect`);
+  }
+  if (s.expiresAtRollPhaseEnd) {
+    bits.push(zh ? '进攻掷骰阶段结论时弃置' : 'discarded at the conclusion of the roll phase');
   }
   if (s.discardAtTurnEnd) {
     bits.push(zh ? '带着它完整结束一个自己回合后弃置' : 'discarded after concluding a full turn with it');

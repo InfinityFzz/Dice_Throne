@@ -12,6 +12,9 @@
  * 引擎中立哨兵（架构硬约束「引擎不得对具体内容 id 特判」）：
  *  用一个与 gunslinger:bounty 毫无关系的自造状态注册进 registry，onAttacked 契约必须同样触发。
  *
+ * 注：onAttacked 两字段（bonusDamage / attackerGainsCp）后已改为逐字段独立求值
+ * （官方 TARGETED 只有 bonusDamage），补铺设防见 moonelf.test.ts C5-1。
+ *
  * 已知取证局限（与 conditions.test.ts 相同）：骰面/防御流程依赖 seed 固化；
  * thenNode 时机卡当前无攻击中打出口（宽松 main 打出、伤害悬桶）——Eat Lead 用例
  * 按此现状断言入桶与即时状态，勿据它归因「攻击修正已生效」。

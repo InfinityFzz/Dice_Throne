@@ -77,5 +77,20 @@
  "shadowcoin": "shadowthief:shadowCoin",
  "entertheshadows": "shadowthief:enterTheShadows",
  "cardtrick": "shadowthief:cardTrick",
- "shadowmeld": "shadowthief:shadowMeld"
+ "shadowmeld": "shadowthief:shadowMeld",
+ "longbowii": "moonelf:longbow:2",
+ "longbowiii": "moonelf:longbow:3",
+ "demisingshotii": "moonelf:demisingShot:2",
+ "coveredshotii": "moonelf:coveredShot:2",
+ "explodingarrowii": "moonelf:explodingArrow:2",
+ "explodingarrowiii": "moonelf:explodingArrow:3",
+ "entanglingshotii": "moonelf:entanglingShot:2",
+ "blindingshotii": "moonelf:blindingShot:2",
+ "eclipseii": "moonelf:eclipse:2",
+ "missedmeii": "moonelf:missedMe:2",
+ "moonmagic": "moonelf:moonMagic",
+ "takethat": "moonelf:takeThat",
+ "volley": "moonelf:volley",
+ "evade": "moonelf:evade",
+ "lunarumbra": "moonelf:lunarUmbra"
 }

@@ -253,6 +253,19 @@ describe('describe: 关键数值与修饰语义不丢失', () => {
       assert.ok(t.trim().length > 0, `${lang} 描述为空`);
     }
   });
+
+  test('floorDiv 渲染（官方 MoonElf Missed Me L1「每 2 支箭 1 伤害」的 ⌊ ⌋ 语义）', () => {
+    const zh = describeClause({
+      kind: 'bind', name: 'mm', value: { e: 'floorDiv', a: { e: 'countSymbol', symbol: 'arrow' }, b: 2 },
+    }, 'zh');
+    assert.ok(zh.includes('⌊') && zh.includes('⌋'), `floorDiv 语义丢失 → ${zh}`);
+    const en = describeClause({
+      kind: 'bind', name: 'mm', value: { e: 'floorDiv', a: { e: 'countSymbol', symbol: 'arrow' }, b: 2 },
+    }, 'en');
+    assert.ok(en.includes('floor('), `floorDiv 英文渲染丢失 → ${en}`);
+    // 与 ceilDiv 措辞必须区分（一个向下一个向上，混用会让玩家算错伤害）
+    assert.ok(!zh.includes('⌈'), `floorDiv 不得渲染成 ceilDiv → ${zh}`);
+  });
 });
 
 // ════════════════════════════════════════════════════════════════
@@ -338,5 +351,142 @@ describe('describe: ShadowThief 新增模板', () => {
     assert.ok(card, '狂野暗影应已注册');
     const t = describeCard(card, 'zh');
     assert.ok(t.includes('才可打出'), `playIf 门槛前缀丢失 → ${t}`);
+  });
+});
+
+// ════════════════════════════════════════════════════════════════
+// describe: MoonElf 前置契约新增模板（onAttacked 逐字段 / onRollPhaseStart /
+//           onConcludeRollPhase / expiresAtRollPhaseEnd）
+// ════════════════════════════════════════════════════════════════
+describe('describe: MoonElf 前置契约新增模板', () => {
+  /** 自造状态（不注册）：只验 describeStatus 的渲染，与引擎行为取证（moonelf.test.ts）分工 */
+  const mk = (over: Partial<StatusDef>): StatusDef => ({
+    id: 'test:render', name: '自造渲染状态', polarity: 'negative',
+    stackLimit: 1, persistent: true, spendable: false, ...over,
+  });
+
+  test('TARGETED 契约：只有 bonusDamage 时只渲染加伤、不出现 CP（逐字段同口径）', () => {
+    const t = describeStatus(mk({ onAttacked: { bonusDamage: 2 } }), 'zh');
+    assert.ok(t.includes('+2'), `bonusDamage 丢失 → ${t}`);
+    assert.ok(!t.includes('CP'), `只有 bonusDamage 时不得渲染 CP → ${t}`);
+  });
+
+  test('纯 CP 状态：只渲染 CP、不出现加伤', () => {
+    const t = describeStatus(mk({ onAttacked: { attackerGainsCp: 2 } }), 'zh');
+    assert.ok(t.includes('2') && t.includes('CP'), `attackerGainsCp 丢失 → ${t}`);
+    assert.ok(!t.includes('伤害 +'), `只有 CP 时不得渲染加伤 → ${t}`);
+  });
+
+  test('ENTANGLE 契约：onRollPhaseStart 渲染「少 N 次掷骰机会」（负数）与「多 N 次」（正数）', () => {
+    const less = describeStatus(mk({ onRollPhaseStart: { rollAttemptsDelta: -1 } }), 'zh');
+    assert.ok(less.includes('少 1 次掷骰机会'), `负 delta 渲染丢失 → ${less}`);
+    const more = describeStatus(mk({ onRollPhaseStart: { rollAttemptsDelta: 1 } }), 'zh');
+    assert.ok(more.includes('多 1 次掷骰机会'), `正 delta 渲染丢失 → ${more}`);
+  });
+
+  test('BLIND 契约：onConcludeRollPhase.failDie 的骰数、失败面与「整个阶段作废」都在', () => {
+    const t = describeStatus(mk({ onConcludeRollPhase: { failDie: { count: 1, failValues: [1, 2] } } }), 'zh');
+    assert.ok(t.includes('掷 1 颗骰'), `failDie.count 丢失 → ${t}`);
+    assert.ok(t.includes('1/2'), `failValues 丢失 → ${t}`);
+    assert.ok(t.includes('作废'), `阶段作废语义丢失 → ${t}`);
+    assert.ok(t.includes('移除'), `收场移除语义丢失 → ${t}`);
+  });
+
+  test('ENTANGLE 弃置契约：expiresAtRollPhaseEnd 渲染「结论时弃置」，与回合末弃置措辞区分', () => {
+    const t = describeStatus(mk({ expiresAtRollPhaseEnd: true }), 'zh');
+    assert.ok(t.includes('进攻掷骰阶段结论时弃置'), `expiresAtRollPhaseEnd 渲染丢失 → ${t}`);
+    const turnEnd = describeStatus(mk({ discardAtTurnEnd: true }), 'zh');
+    assert.ok(!turnEnd.includes('结论时弃置'), `两个弃置时机不得共用措辞 → ${turnEnd}`);
+  });
+
+  test('全契约状态渲染无残渣且英文版非空（守门意图：新增字段不得漏模板）', () => {
+    const full = mk({
+      onAttacked: { bonusDamage: 2, attackerGainsCp: 1 },
+      onRollPhaseStart: { rollAttemptsDelta: -1 },
+      onConcludeRollPhase: { failDie: { count: 1, failValues: [1, 2] } },
+      expiresAtRollPhaseEnd: true,
+    });
+    assertClean(describeStatus(full), '全契约状态');
+    assert.ok(describeStatus(full, 'en').trim().length > 0, '全契约状态英文描述为空');
+  });
+});
+
+// ════════════════════════════════════════════════════════════════
+// describe: MoonElf 内容层实装（第九轮：状态契约 / floorDiv / 池骰公式 / Ultimate）
+// ════════════════════════════════════════════════════════════════
+describe('describe: MoonElf 内容层实装', () => {
+  test('锁定状态：+2 加伤在、CP 不在（纯 bonusDamage，同契约层口径）', () => {
+    const t = describeStatus(createDefaultRegistry().getStatus('moonelf:targeted') as StatusDef, 'zh');
+    assert.ok(t.includes('锁定'), `状态名丢失 → ${t}`);
+    assert.ok(t.includes('+2'), `bonusDamage 丢失 → ${t}`);
+    assert.ok(!t.includes('CP'), `纯加伤状态不得渲染 CP → ${t}`);
+  });
+
+  test('缠足状态：少 1 次掷骰机会 + 结论时弃置（与回合末弃置措辞区分）', () => {
+    const t = describeStatus(createDefaultRegistry().getStatus('moonelf:entangle') as StatusDef, 'zh');
+    assert.ok(t.includes('少 1 次掷骰机会'), `onRollPhaseStart 负 delta 丢失 → ${t}`);
+    assert.ok(t.includes('进攻掷骰阶段结论时弃置'), `expiresAtRollPhaseEnd 丢失 → ${t}`);
+  });
+
+  test('致盲状态：收场移除并掷 1 骰、掷 1/2 整个阶段作废', () => {
+    const t = describeStatus(createDefaultRegistry().getStatus('moonelf:blind') as StatusDef, 'zh');
+    assert.ok(t.includes('移除'), `收场移除语义丢失 → ${t}`);
+    assert.ok(t.includes('掷 1 颗骰'), `failDie.count 丢失 → ${t}`);
+    assert.ok(t.includes('1/2'), `failValues 丢失 → ${t}`);
+    assert.ok(t.includes('作废'), `阶段作废语义丢失 → ${t}`);
+  });
+
+  test('打偏 L1/L2：floorDiv「每 2 支箭」与 L2 每支箭必须区分渲染', () => {
+    const l1 = describeAbility(abilityOf('moonelf', 'moonelf:missedMe'), 1, 'zh');
+    assert.ok(l1.includes('⌊') && l1.includes('÷ 2'), `L1 floorDiv 渲染丢失 → ${l1}`);
+    assert.ok(l1.includes('⌈'), `防止半伤 ceilDiv 丢失 → ${l1}`);
+    const l2 = describeAbility(abilityOf('moonelf', 'moonelf:missedMe'), 2, 'zh');
+    assert.ok(!l2.includes('⌊'), `L2 每支箭 1 伤不得渲染 floorDiv → ${l2}`);
+    assert.ok(l2.includes('⌈'), `L2 防止半伤与 L1 相同 → ${l2}`);
+  });
+
+  test('长弓 L2：三档数值 4/6/8 与「4 同点缠足」条件都在', () => {
+    const t = describeAbility(abilityOf('moonelf', 'moonelf:longbow'), 2, 'zh');
+    for (const w of ['4', '6', '8']) {
+      assert.ok(t.includes(w), `长弓 L2 分档数值 ${w} 丢失 → ${t}`);
+    }
+    assert.ok(t.includes('缠足'), `L2 缠足效果丢失 → ${t}`);
+    assert.ok(t.includes('点数出现 ≥ 4 次'), `of-a-kind 按骰值同点的条件丢失 → ${t}`);
+  });
+
+  test('爆裂箭 L2：掷 5 池骰 + 箭/足/月三符号公式 + CP 移除 + 每足 2 倍', () => {
+    const t = describeAbility(abilityOf('moonelf', 'moonelf:explodingArrow'), 2, 'zh');
+    assert.ok(t.includes('掷 5 颗骰'), `Roll 5 丢失 → ${t}`);
+    for (const w of ['箭', '足', '月']) {
+      assert.ok(t.includes(w), `公式符号 ${w} 丢失 → ${t}`);
+    }
+    assert.ok(t.includes('CP'), `CP 移除丢失 → ${t}`);
+    assert.ok(t.includes('× 2'), `L2 每足 2 倍丢失 → ${t}`);
+  });
+
+  test('月蚀！（Ultimate）：12 不可防御 + 终极技能标注 + 三状态与己方闪避', () => {
+    const t = describeAbility(abilityOf('moonelf', 'moonelf:lunarEclipse'), 1, 'zh');
+    assert.ok(t.includes('12'), `Ultimate 伤害 12 丢失 → ${t}`);
+    assert.ok(t.includes('不可防御'), `不可防御标注丢失 → ${t}`);
+    assert.ok(t.includes('终极技能'), `sourceKind ultimate 丢失 → ${t}`);
+    for (const w of ['闪避', '致盲', '缠足', '锁定']) {
+      assert.ok(t.includes(w), `Ultimate 附赠效果 ${w} 丢失 → ${t}`);
+    }
+  });
+
+  test('月之魔法卡：4 CP 主阶段行动 + 闪避与三状态', () => {
+    const t = describeCard(createDefaultRegistry().getCard('moonelf:moonMagic'), 'zh');
+    assert.ok(t.includes('4 CP'), `费用丢失 → ${t}`);
+    assert.ok(t.includes('主阶段行动'), `时机丢失 → ${t}`);
+    for (const w of ['闪避', '致盲', '缠足', '锁定']) {
+      assert.ok(t.includes(w), `效果 ${w} 丢失 → ${t}`);
+    }
+  });
+
+  test('暗月之影（PROMO）：掷 1 骰月分支 + 非月抽 1 的双分支都在', () => {
+    const t = describeCard(createDefaultRegistry().getCard('moonelf:lunarUmbra'), 'zh');
+    assert.ok(t.includes('掷 1 颗骰'), `掷骰丢失 → ${t}`);
+    assert.ok(t.includes('月'), `月符号分支丢失 → ${t}`);
+    assert.ok(t.includes('抽 1 张牌'), `非月抽牌分支丢失 → ${t}`);
   });
 });

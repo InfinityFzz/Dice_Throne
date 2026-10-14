@@ -224,11 +224,76 @@ function rollPendingOptions(d: Draft, seat: Seat): PendingRequest['options'] {
 function openOffensiveRoll(d: Draft): void {
   d.s.phase = 'offensiveRoll';
   const p = d.player(d.s.activeSeat);
-  p.rollAttemptsLeft = MAX_ROLL_ATTEMPTS;
+  // 通用契约 StatusDef.onRollPhaseStart（官方 ENTANGLE「下一次进攻掷骰阶段少 N 次」）：
+  // 按当前进攻方身上所有状态的 rollAttemptsDelta 汇总后设置基础次数（负数 = 减少）。
+  // 与 grantExtraRollAttempt（效果执行期的即时增量）正交：本钩子只在阶段开场结算一次。
+  let delta = 0;
+  for (const st of p.statuses) {
+    delta += d.content.getStatus(st.id)?.onRollPhaseStart?.rollAttemptsDelta ?? 0;
+  }
+  // 下限 0：delta 负到离谱也不得产生负数次数（pending 选项 / performRoll 守卫均假设 ≥ 0）
+  p.rollAttemptsLeft = Math.max(0, MAX_ROLL_ATTEMPTS + delta);
   p.defenseUsed = false;
   p.diceValues = [];
   p.diceLocked = [];
   makePending(d, d.s.activeSeat, 'abilityAnnounce', rollPendingOptions(d, d.s.activeSeat), 'pass');
+}
+
+/**
+ * 进攻掷骰阶段收场 —— 两条通用契约的统一点火点：
+ *  - StatusDef.onConcludeRollPhase.failDie（官方 BLIND）：移除该状态 → 掷骰 →
+ *    任一面值命中 failValues → 整个阶段作废（返回 true，调用方必须放弃后续结算）；
+ *  - StatusDef.expiresAtRollPhaseEnd（官方 ENTANGLE）：无条件移除整个 token。
+ *
+ * 触发时机 = 进攻方「宣布能力之前」与「放弃激活」时——两者都是官方语义的
+ * 「concludes their Offensive Roll Phase」。放弃激活时阶段本就无任何效果，
+ * failDie 的作废标记不改变结果，但移除与掷骰照常发生（官方原文不区分出口）。
+ *
+ * 失败路径的半结算防护：作废发生在 resolveAbility **之前**，本函数不碰 bucket /
+ * defenseUsed / ladderStep，也不激活能力——阶段作废即「什么都不发生」，直接进 main2。
+ * 进入阶段前既有的 bucket 内容（如 main2 悬置的伤害，其结算时机由既有契约决定）不在
+ * 本契约管辖范围，保持原样。
+ */
+function concludeOffensiveRoll(d: Draft): boolean {
+  const seat = d.s.activeSeat;
+  const p = d.player(seat);
+  let phaseFailed = false;
+  // 快照迭代：移除会改写 p.statuses
+  for (const st of [...p.statuses]) {
+    const def = d.content.getStatus(st.id);
+    if (!def) continue;
+    const failDie = def.onConcludeRollPhase?.failDie;
+    if (failDie) {
+      // 官方 BLIND：先移除 token 再掷骰（移除与骰果无关）
+      removeStatusToken(d, seat, st.id, st.stacks);
+      const values: number[] = [];
+      for (let i = 0; i < failDie.count; i++) {
+        const r = nextInt(d.s.rng, `dice:fail:${seat}`, 6);
+        d.s.rng = r.rng;
+        values.push(r.value + 1);
+      }
+      const failed = values.some((v) => failDie.failValues.includes(v));
+      d.emit('note', {
+        kind: 'rollPhaseFailDie', seat, statusId: st.id, values, failValues: failDie.failValues, failed,
+      });
+      if (failed) {
+        phaseFailed = true;
+        d.emit('note', { kind: 'rollPhaseFailed', seat, statusId: st.id });
+      }
+      continue;
+    }
+    if (def.expiresAtRollPhaseEnd) {
+      // 官方 ENTANGLE「At the conclusion of the Roll Phase, remove this token」
+      removeStatusToken(d, seat, st.id, st.stacks);
+      d.emit('note', { kind: 'rollPhaseTokenExpired', seat, statusId: st.id });
+    }
+  }
+  return phaseFailed;
+}
+
+/** 收场弃置整枚 token（官方「remove this token」= 全部层数，不是 1 层）；经效果系统移除以复用 statusChanged 事件 */
+function removeStatusToken(d: Draft, seat: Seat, statusId: string, stacks: number): void {
+  runEffects(d, [{ clause: { kind: 'removeStatus', status: statusId, stacks, to: { r: 'self' } } }], seat);
 }
 
 /** 对局外查询候选（UI / 脚本用） */
@@ -567,6 +632,13 @@ export function reduce(
       if (!cands.some((c) => c.abilityId === action.abilityId)) {
         return err('abilityNotAvailable', '当前骰型不满足该能力');
       }
+      // 官方收场钩子（onConcludeRollPhase / expiresAtRollPhaseEnd 通用契约）在宣布能力
+      // **之前**结算：宣布即「结束进攻掷骰阶段」。作废时不激活能力、无任何效果，直接进 main2。
+      if (concludeOffensiveRoll(d)) {
+        d.emit('note', { kind: 'abilityVoided', seat, abilityId: action.abilityId });
+        d.s.phase = 'main2';
+        break;
+      }
       resolveAbility(d, action.abilityId);
       break;
     }
@@ -574,6 +646,9 @@ export function reduce(
     case 'passAbility': {
       if (state.phase !== 'offensiveRoll') return err('wrongPhase', '不在进攻掷骰阶段');
       d.emit('note', { kind: 'abilityPassed', seat });
+      // 放弃激活同样是阶段结论：ENTANGLE 在此移除、BLIND 照常移除并掷骰
+      // （阶段本就无效果，作废标记不改变结果）
+      concludeOffensiveRoll(d);
       d.s.phase = 'main2';
       break;
     }

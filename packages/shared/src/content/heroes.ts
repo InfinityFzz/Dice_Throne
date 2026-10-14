@@ -683,7 +683,7 @@ const gunslingerStatuses: readonly StatusDef[] = [
     // 官方值（Gunslinger 技能板原图）：Stack limit 1；Persistent。
     // 「受此 token 影响的玩家被对手攻击时：攻击者伤害 +1 并获得 1 CP。」
     // 机制经 StatusDef.onAttacked 通用契约接入引擎（effects.ts dealDamage handler），
-    // 引擎不认本 id、只认契约（架构硬约束）。官方 FAQ 三条口径已写入 core.ts 注释。
+    // 引擎不认本 id、只认契约（架构硬约束）。官方 FAQ 三条口径已写入 types/content.ts 注释。
     id: 'gunslinger:bounty',
     name: '悬赏',
     polarity: 'negative',
@@ -1470,4 +1470,486 @@ export const SHADOWTHIEF: HeroDef = {
   ],
   statuses: shadowthiefStatuses,
   deck: [...COMMON_CARDS, ...shadowthiefUpgrades, ...shadowthiefHeroCards],
+};
+
+// ── 月精灵（MoonElf）：干扰+闪避+月相，控场型 ──────────────────
+// 2026-10-14 官方校准（M3 第三位新英雄），三源交叉：
+// ① TTS 官方图包逐张读图（panel.webp 四状态与 stack limit + card-18..32 共 15 张专属卡，
+//   card-18..27 为 10 张升级卡（其中 4 张下半格附赠能力）、card-28..32 为 5 张行动卡）；
+// ② 官方规则书两份独立扫描（2017 v0.9.4 版面 + S1 ReRolled）交叉验证未变动条目；
+// ③ namu wiki Moon Elf 条目（L1 数值与升级效果逐能力列出，与 ①② 一致）。
+// 骰面 1-3 ARROW / 4-5 FOOT / 6 MOON，HP 50（S1 全英雄 50）。版本判定：TTS 模块为现行版
+// （能力名 Longbow，非 2017 初版 Basic Attack）；2017 规则书仅交叉验证未变动条目，
+// 其 Demising Shot 3 伤 / Ultimate 13 伤为旧值（现行为 4 / 12，见审计报告第九轮已知偏差）。
+// L1 与卡图 L2 完美衔接（Longbow 4/5/7→4/6/8→5/7/9、Demising 4→6、Covered 7→9、
+// Exploding 1×足→2×足、Entangling 7→9、Blinding 8→10、Eclipse 7→9、Missed Me ⌊箭/2⌋→每箭）。
+// 已知偏差（全部显式记账）：4 个附赠能力常驻简化、Evasive Action/Evade! 目标固定自己、
+// Ultimate 12 vs 13（2017 规则书）、BLIND 触发点、thenNode 窗口、spend 入口 —— 见 heroes.ts
+// 各行内注释与 docs/content-audit-report.md 第九轮。
+
+const moonelfUpgrades: readonly CardDef[] = [
+  // 官方升级卡 10 张（卡组构成读自图包；每张 1 本，官方张数未获取暂记 1）。
+  // 其中 Demising Shot II / Covered Shot II / Blinding Shot II / Eclipse II 四张下半格
+  // 各附赠一个能力（Focus / Evasive Action / Lunar Blessing / Moon Shadow），按 ShadowThief
+  // 既有模式简化为常驻 L1 能力槽（引擎能力槽无「随升级解锁」机制）——显式记账，非静默偏差。
+  { defId: 'moonelf:longbow:2', name: '长弓 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'moonelf:longbow', tier: 2, count: 1, effects: [] },
+  { defId: 'moonelf:longbow:3', name: '长弓 III', kind: 'upgrade', costCp: 3,
+    timing: ['main1', 'main2'], targetAbilityId: 'moonelf:longbow', tier: 3, count: 1, effects: [] },
+  { defId: 'moonelf:demisingShot:2', name: '致命射击 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'moonelf:demisingShot', tier: 2, count: 1, effects: [] },
+  { defId: 'moonelf:coveredShot:2', name: '掩护射击 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'moonelf:coveredShot', tier: 2, count: 1, effects: [] },
+  { defId: 'moonelf:explodingArrow:2', name: '爆裂箭 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'moonelf:explodingArrow', tier: 2, count: 1, effects: [] },
+  { defId: 'moonelf:explodingArrow:3', name: '爆裂箭 III', kind: 'upgrade', costCp: 3,
+    timing: ['main1', 'main2'], targetAbilityId: 'moonelf:explodingArrow', tier: 3, count: 1, effects: [] },
+  { defId: 'moonelf:entanglingShot:2', name: '缠足射击 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'moonelf:entanglingShot', tier: 2, count: 1, effects: [] },
+  { defId: 'moonelf:blindingShot:2', name: '致盲射击 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'moonelf:blindingShot', tier: 2, count: 1, effects: [] },
+  { defId: 'moonelf:eclipse:2', name: '月蚀 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'moonelf:eclipse', tier: 2, count: 1, effects: [] },
+  { defId: 'moonelf:missedMe:2', name: '打偏 II', kind: 'upgrade', costCp: 3,
+    timing: ['main1', 'main2'], targetAbilityId: 'moonelf:missedMe', tier: 2, count: 1, effects: [] },
+];
+
+/**
+ * 爆裂箭伤害式（官方卡面逐字）：「Roll 5: Deal 3 dmg + 1×[箭] + N×[足] dmg」。
+ * 掷出的 5 骰进 tempDice（rollDicePool 池归属契约：本次 runEffects 内存活），
+ * 后续 dealDamage / loseCp 的 countSymbol 按 tempDice 求值（effects.ts countSymbol）。
+ */
+const explodingDmg = (perFoot: number): EffectDef => ({
+  clause: {
+    kind: 'dealDamage',
+    amount: {
+      e: 'add', a: 3,
+      b: { e: 'add', a: { e: 'countSymbol', symbol: 'arrow' }, b: { e: 'mul', a: { e: 'countSymbol', symbol: 'foot' }, b: perFoot } },
+    },
+    damageType: 'attack', to: { r: 'opponent' },
+  },
+});
+
+/** 爆裂箭的 CP 移除（官方：「Additionally, opponent loses 1CP × [月]」= 每颗月 1 CP） */
+const explodingCpLoss: EffectDef = ({
+  clause: { kind: 'loseCp', amount: { e: 'countSymbol', symbol: 'moon' }, to: { r: 'opponent' } },
+});
+
+/** 三状态一齐施加（官方 Eclipse / Moon Shadow / Lunar Eclipse! / Lunar Umbra! 共用的组合） */
+const inflictMoonTrio = (): readonly EffectDef[] => [
+  { clause: { kind: 'inflictStatus', status: 'moonelf:blind', stacks: 1, to: { r: 'opponent' } } },
+  { clause: { kind: 'inflictStatus', status: 'moonelf:entangle', stacks: 1, to: { r: 'opponent' } } },
+  { clause: { kind: 'inflictStatus', status: 'moonelf:targeted', stacks: 1, to: { r: 'opponent' } } },
+];
+
+/**
+ * 打偏（Missed Me）两个等级共用的防御结算（守方 seat 求值；骰 = 防御骰池 tempDice）：
+ * 官方 card-27 逐字「On [2 足], prevent ½ dmg (rounded up). Deal 1×[箭] dmg.」。
+ * L1 = ⌊箭数/2⌋（floorDiv 通用扩展）；L2 = 每支箭 1 伤害。
+ * 回击伤害类型取 attack（与 Gunslinger Duel 的回击同型）：官方/2017 规则书均只写
+ * 「deal 1 dmg back to attacker」，未标不可防御；且攻击方本回合已无防御窗口，
+ * 实际结算与不可防御等价（namu 机翻「방어무시」不另立不可防御声明）。
+ */
+const missedMeEffects = (perArrow: 'half' | 'each'): readonly EffectDef[] => [
+  { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'foot', min: 2 },
+    then: [{ clause: { kind: 'preventDamage',
+      amount: { e: 'ceilDiv', a: { e: 'incomingDamage', target: { r: 'self' } }, b: 2 },
+      to: { r: 'self' } } }] } },
+  { clause: { kind: 'dealDamage',
+    amount: perArrow === 'half'
+      ? { e: 'floorDiv', a: { e: 'countSymbol', symbol: 'arrow' }, b: 2 }
+      : { e: 'countSymbol', symbol: 'arrow' },
+    damageType: 'attack', to: { r: 'attacker' } } },
+];
+
+const moonelfStatuses: readonly StatusDef[] = [
+  {
+    // 官方值（MoonElf 面板原图逐字）：Stack limit 1；负面；Persistent。
+    // 「+2 incoming Attack damage: 被对手攻击时，攻击者对其伤害 +2。」
+    // 经 StatusDef.onAttacked.bonusDamage 通用契约接入（引擎只认契约、不认本 id）；
+    // **无** attackerGainsCp 字段 —— 逐字段独立求值契约下纯加伤状态不得被误发 CP
+    // （对照 gunslinger:bounty 两字段皆有，见 moonelf.test.ts 取证）。
+    // persistent 仅为描述层元数据（引擎不消费）；移除时机由各施加能力的官方文本约定。
+    id: 'moonelf:targeted',
+    name: '锁定',
+    polarity: 'negative',
+    stackLimit: 1,
+    persistent: true,
+    spendable: false,
+    onAttacked: { bonusDamage: 2 },
+  },
+  {
+    // 官方值（MoonElf 面板原图逐字）：Stack limit 1；负面。
+    // 「Lose 1 roll attempt: 下一次进攻掷骰阶段少 1 次掷骰机会；
+    //   掷骰阶段结论时移除该 token。」= onRollPhaseStart + expiresAtRollPhaseEnd 两条通用契约，
+    //   收场即整枚移除（官方「remove this token」不是 1 层）。
+    id: 'moonelf:entangle',
+    name: '缠足',
+    polarity: 'negative',
+    stackLimit: 1,
+    persistent: false,
+    spendable: false,
+    onRollPhaseStart: { rollAttemptsDelta: -1 },
+    expiresAtRollPhaseEnd: true,
+  },
+  {
+    // 官方值（MoonElf 面板原图逐字）：Stack limit 1；负面。
+    // 「On 1-2, fail Offensive Roll Phase: 下一次结论进攻掷骰阶段时移除该 token 并掷 1 骰；
+    //   掷出 1-2 则整个阶段作废、无任何效果。」= onConcludeRollPhase.failDie 通用契约。
+    // ⚠️ 已知偏差（显式记账）：2017 规则书旧文「造成伤害时」触发 vs 现行契约「收场
+    //   （宣布能力/放弃激活）时」点火 —— 引擎契约经第八轮质量门验证（PASS），按契约实装。
+    id: 'moonelf:blind',
+    name: '致盲',
+    polarity: 'negative',
+    stackLimit: 1,
+    persistent: false,
+    spendable: false,
+    onConcludeRollPhase: { failDie: { count: 1, failValues: [1, 2] } },
+  },
+];
+
+/** MoonElf 专属行动卡（card-28..32，2026-10-14 逐张读图；Lunar Umbra! 为 PROMO） */
+const moonelfHeroCards: readonly CardDef[] = [
+  // Moon Magic!：4 CP，Main Phase Action：获得闪避；对对手施加致盲/缠足/锁定
+  { defId: 'moonelf:moonMagic', name: '月之魔法', kind: 'mainPhase', costCp: 4,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [
+      { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+      ...inflictMoonTrio(),
+    ] },
+  // Take That!：0 CP，Roll Phase Action（Attack Modifier）：掷 1：箭→+2 伤害；足→缠足；月→致盲。
+  // ⚠️ thenNode 窗口缺失（既有缺口）：Roll Phase Action 卡当前只能在 main 宽松打出、
+  //    伤害悬桶到下一次 flush —— 独立引擎任务，见审计报告第六轮 §23。
+  { defId: 'moonelf:takeThat', name: '接招', kind: 'rollPhase', costCp: 0,
+    timing: ['thenNode'], count: 1,
+    effects: [
+      { clause: { kind: 'rollDicePool', count: 1, cases: [
+        { on: 'arrow', effects: [{ clause: { kind: 'dealDamage', amount: 2, damageType: 'attack', to: { r: 'opponent' } } }] },
+        { on: 'foot', effects: [{ clause: { kind: 'inflictStatus', status: 'moonelf:entangle', stacks: 1, to: { r: 'opponent' } } }] },
+        { on: 'moon', effects: [{ clause: { kind: 'inflictStatus', status: 'moonelf:blind', stacks: 1, to: { r: 'opponent' } } }] },
+      ] } },
+    ] },
+  // Volley!：1 CP，Roll Phase Action（Attack Modifier）：掷 5：+1×箭 伤害；施加缠足
+  { defId: 'moonelf:volley', name: '齐射', kind: 'rollPhase', costCp: 1,
+    timing: ['thenNode'], count: 1,
+    effects: [
+      { clause: { kind: 'rollDicePool', count: 5 } },
+      { clause: { kind: 'dealDamage', amount: { e: 'countSymbol', symbol: 'arrow' }, damageType: 'attack', to: { r: 'opponent' } } },
+      { clause: { kind: 'inflictStatus', status: 'moonelf:entangle', stacks: 1, to: { r: 'opponent' } } },
+    ] },
+  // Evade!：1 CP，Instant：一名玩家获得闪避。
+  // ⚠️ 已知偏差（显式记账）：官方「a chosen player」可含自己/对手，1v1 固定自己 ——
+  //    与 Roulette/毒伤同款：目标选择入口就绪后改 choose。
+  { defId: 'moonelf:evade', name: '闪避', kind: 'instant', costCp: 1,
+    timing: ['thenNode', 'preDefense', 'postDefense'], count: 1,
+    effects: [{ clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } }] },
+  // Lunar Umbra!：0 CP，Main Phase Action，PROMO（Dice Throne Comic #1）：
+  // 掷 1：月→对对手施加致盲/缠足/锁定；其他→抽 1
+  { defId: 'moonelf:lunarUmbra', name: '暗月之影（PROMO）', kind: 'mainPhase', costCp: 0,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [
+      { clause: { kind: 'rollDicePool', count: 1, cases: [
+        { on: 'moon', effects: [...inflictMoonTrio()] },
+      ] } },
+      { clause: { kind: 'conditional', cond: { c: 'not', of: { c: 'diceSymbolAtLeast', symbol: 'moon', min: 1 } },
+        then: [{ clause: { kind: 'drawCards', amount: 1, to: { r: 'self' } } }] } },
+    ] },
+];
+
+export const MOONELF: HeroDef = {
+  id: 'moonelf',
+  name: '月精灵',
+  dieFaces: [
+    // 官方值（MoonElf 面板原图逐面核读，2026-10-14）：1-3 ARROW，4-5 FOOT，6 MOON
+    { value: 1, symbols: ['arrow'] },
+    { value: 2, symbols: ['arrow'] },
+    { value: 3, symbols: ['arrow'] },
+    { value: 4, symbols: ['foot'] },
+    { value: 5, symbols: ['foot'] },
+    { value: 6, symbols: ['moon'] },
+  ],
+  diceCount: 5,
+  startHp: 50, // S1 全英雄 50（规则书组件清单 + 系列惯例）
+  abilities: [
+    {
+      // 官方 L1（TTS 面板 + namu 双源）：3/4/5 箭 → 4/5/7 伤害。
+      // 官方 L2（card-18 读图，2 CP）：4/6/8；「On 4-of-a-kind (#'s), inflict Entangle」。
+      // 官方 L3（card-19 读图，3 CP）：5/7/9；「On 3-of-a-kind (#'s), inflict Entangle」。
+      // of-a-kind = 骰值轴同点（卡面图标为 # 点数），经引擎既有 nOfAKind 条件承接
+      // （与 Barbarian Smack 的 4-of-a-kind 同构）——**不是**同符号/同色。
+      id: 'moonelf:longbow',
+      kind: 'offensive',
+      name: '长弓',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'graded', symbol: 'arrow', tierMins: [3, 4, 5] },
+          effects: [gradedBranch('arrow', [4, 5, 7], (n) => dmgTo(n))] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'graded', symbol: 'arrow', tierMins: [3, 4, 5] },
+          effects: [
+            gradedBranch('arrow', [4, 6, 8], (n) => dmgTo(n)),
+            { clause: { kind: 'conditional', cond: { c: 'nOfAKind', n: 4 },
+              then: [{ clause: { kind: 'inflictStatus', status: 'moonelf:entangle', stacks: 1, to: { r: 'opponent' } } }] } },
+          ] },
+        { level: 3, upgradeCostCP: 3, matcher: { k: 'graded', symbol: 'arrow', tierMins: [3, 4, 5] },
+          effects: [
+            gradedBranch('arrow', [5, 7, 9], (n) => dmgTo(n)),
+            { clause: { kind: 'conditional', cond: { c: 'nOfAKind', n: 3 },
+              then: [{ clause: { kind: 'inflictStatus', status: 'moonelf:entangle', stacks: 1, to: { r: 'opponent' } } }] } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（TTS 面板 + namu）：3 箭 + 2 月 → 施加锁定，然后 4 伤害。
+      // 官方 L2（card-20 上半，2 CP）：6 伤害。
+      id: 'moonelf:demisingShot',
+      kind: 'offensive',
+      name: '致命射击',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'arrow', count: 3 },
+            { k: 'countSymbol', symbol: 'moon', count: 2 },
+          ] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'moonelf:targeted', stacks: 1, to: { r: 'opponent' } } },
+            dmgTo(4),
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'arrow', count: 3 },
+            { k: 'countSymbol', symbol: 'moon', count: 2 },
+          ] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'moonelf:targeted', stacks: 1, to: { r: 'opponent' } } },
+            dmgTo(6),
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（TTS 面板 + 2017 规则书）：2 箭 + 3 足 → 获得闪避，7 伤害。
+      // 官方 L2（card-21 上半，2 CP）：9 伤害。
+      id: 'moonelf:coveredShot',
+      kind: 'offensive',
+      name: '掩护射击',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'arrow', count: 2 },
+            { k: 'countSymbol', symbol: 'foot', count: 3 },
+          ] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            dmgTo(7),
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'arrow', count: 2 },
+            { k: 'countSymbol', symbol: 'foot', count: 3 },
+          ] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            dmgTo(9),
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（TTS 面板 + namu）：1 箭 + 3 月 → 掷 5 骰：3 + 1×箭 + 1×足 伤害；
+      //   对手失去 1×月 CP；施加致盲。
+      // 官方 L2（card-22 读图，2 CP）：3 + 1×箭 + 2×足；CP 与致盲同 L1。
+      // 官方 L3（card-23 读图，3 CP）：同 L2 且追加缠足（卡面「Inflict Blind & Entangle」）。
+      id: 'moonelf:explodingArrow',
+      kind: 'offensive',
+      name: '爆裂箭',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'arrow', count: 1 },
+            { k: 'countSymbol', symbol: 'moon', count: 3 },
+          ] },
+          effects: [
+            { clause: { kind: 'rollDicePool', count: 5 } },
+            explodingDmg(1),
+            explodingCpLoss,
+            { clause: { kind: 'inflictStatus', status: 'moonelf:blind', stacks: 1, to: { r: 'opponent' } } },
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'arrow', count: 1 },
+            { k: 'countSymbol', symbol: 'moon', count: 3 },
+          ] },
+          effects: [
+            { clause: { kind: 'rollDicePool', count: 5 } },
+            explodingDmg(2),
+            explodingCpLoss,
+            { clause: { kind: 'inflictStatus', status: 'moonelf:blind', stacks: 1, to: { r: 'opponent' } } },
+          ] },
+        { level: 3, upgradeCostCP: 3, matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'arrow', count: 1 },
+            { k: 'countSymbol', symbol: 'moon', count: 3 },
+          ] },
+          effects: [
+            { clause: { kind: 'rollDicePool', count: 5 } },
+            explodingDmg(2),
+            explodingCpLoss,
+            { clause: { kind: 'inflictStatus', status: 'moonelf:blind', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'moonelf:entangle', stacks: 1, to: { r: 'opponent' } } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（2017 规则书 + TTS 面板）：小顺 → 施加缠足，7 伤害。
+      // 官方 L2（card-24 读图，2 CP）：9 伤害。
+      id: 'moonelf:entanglingShot',
+      kind: 'offensive',
+      name: '缠足射击',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'smallStraight' },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'moonelf:entangle', stacks: 1, to: { r: 'opponent' } } },
+            dmgTo(7),
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'smallStraight' },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'moonelf:entangle', stacks: 1, to: { r: 'opponent' } } },
+            dmgTo(9),
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（2017 规则书 + TTS 面板）：大顺 → 施加致盲，获得闪避，8 伤害。
+      // 官方 L2（card-25 上半，2 CP）：10 伤害。
+      id: 'moonelf:blindingShot',
+      kind: 'offensive',
+      name: '致盲射击',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'largeStraight' },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'moonelf:blind', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            dmgTo(8),
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'largeStraight' },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'moonelf:blind', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            dmgTo(10),
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（2017 规则书 + TTS 面板 + namu）：4 月 → 施加致盲/缠足/锁定，然后 7 伤害。
+      // 官方 L2（card-26 上半，2 CP）：9 伤害。
+      id: 'moonelf:eclipse',
+      kind: 'offensive',
+      name: '月蚀',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'moon', count: 4 },
+          effects: [
+            ...inflictMoonTrio(),
+            dmgTo(7),
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'countSymbol', symbol: 'moon', count: 4 },
+          effects: [
+            ...inflictMoonTrio(),
+            dmgTo(9),
+          ] },
+      ],
+    },
+    {
+      // 官方（card-20 下半，Demising Shot II 附赠能力）：2 箭 + 1 月 →
+      // 对一名对手施加锁定与缠足。
+      // ⚠️ 已知偏差（显式记账）：官方需先购入 Demising Shot II 才解锁此能力，
+      //    引擎能力槽无「随升级解锁」机制，简化为常驻 L1（同 ShadowThief 附赠能力模式）。
+      // ⚠️ 官方「a chosen opponent」在多玩家下任选；1v1 固定对手（目标选择入口就绪后改 choose）。
+      id: 'moonelf:focus',
+      kind: 'offensive',
+      name: '专注',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'arrow', count: 2 },
+            { k: 'countSymbol', symbol: 'moon', count: 1 },
+          ] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'moonelf:targeted', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'moonelf:entangle', stacks: 1, to: { r: 'opponent' } } },
+          ] },
+      ],
+    },
+    {
+      // 官方（card-21 下半，Covered Shot II 附赠能力）：3 足 → 一名玩家获得闪避；
+      // 造成 2 点不可防御伤害。
+      // ⚠️ 已知偏差（显式记账）：官方「a chosen player gains Evasive」可含自己/对手，
+      //    1v1 固定自己（与 Evade!/Roulette 同款；伤害部分官方即对对手）。
+      id: 'moonelf:evasiveAction',
+      kind: 'offensive',
+      name: '闪避行动',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'foot', count: 3 },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            dmgTo(2, 'undefendable'),
+          ] },
+      ],
+    },
+    {
+      // 官方（card-25 下半，Blinding Shot II 附赠能力）：1 箭 + 2 足 + 1 月 →
+      // 获得 3 闪避；施加缠足。常驻简化同 focus。
+      id: 'moonelf:lunarBlessing',
+      kind: 'offensive',
+      name: '月赐',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'arrow', count: 1 },
+            { k: 'countSymbol', symbol: 'foot', count: 2 },
+            { k: 'countSymbol', symbol: 'moon', count: 1 },
+          ] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 3, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'moonelf:entangle', stacks: 1, to: { r: 'opponent' } } },
+          ] },
+      ],
+    },
+    {
+      // 官方（card-26 下半，Eclipse II 附赠能力）：3 月 → 获得闪避；
+      // 施加致盲/缠足/锁定。常驻简化同 focus。
+      id: 'moonelf:moonShadow',
+      kind: 'offensive',
+      name: '月影',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'moon', count: 3 },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            ...inflictMoonTrio(),
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（2017 规则书 + TTS 面板 + namu）：防御掷 5 骰：
+      // 2 足 → 防止 ½ 来袭伤害（向上取整）；每 2 支箭 → 对攻击者 1 伤害。
+      // 官方 L2（card-27 读图，3 CP）：每支箭 → 1 伤害（防止部分不变）。
+      id: 'moonelf:missedMe',
+      kind: 'defensive',
+      name: '打偏',
+      defenseDiceCount: 5,
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'const', value: true }, effects: missedMeEffects('half') },
+        { level: 2, upgradeCostCP: 3, matcher: { k: 'const', value: true }, effects: missedMeEffects('each') },
+      ],
+    },
+    {
+      // 官方 Ultimate（TTS 面板 + namu 现行版）：5 月（5-of-a-kind）→
+      // 获得闪避；施加致盲/缠足/锁定；然后 12 点不可防御伤害。
+      // Ultimate 伤害：不可防御且不可避免（规则书 Damage Table），引擎口径同
+      // gunslinger/shadowthief ultimate（damageType undefendable + sourceKind:'ultimate'）。
+      // ⚠️ 已知偏差（显式记账）：2017 规则书（v0.9.4 两份扫描）旧值为 **13**；现行版
+      //    （TTS 面板 + namu）为 **12** —— 按现行版 12 实装。
+      id: 'moonelf:lunarEclipse',
+      kind: 'ultimate',
+      name: '月蚀！（Lunar Eclipse!）',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'moon', count: 5 },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            ...inflictMoonTrio(),
+            { clause: { kind: 'dealDamage', amount: 12, damageType: 'undefendable',
+              to: { r: 'opponent' }, sourceKind: 'ultimate' } },
+          ] },
+      ],
+    },
+  ],
+  statuses: moonelfStatuses,
+  deck: [...COMMON_CARDS, ...moonelfUpgrades, ...moonelfHeroCards],
 };
