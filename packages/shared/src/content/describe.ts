@@ -676,9 +676,12 @@ export function describeCard(card: CardDef, lang: Lang = DEFAULT_LANG): string {
       : `${head}${colon}upgrade ${target} to level ${card.tier ?? '?'}`;
   }
   const eff = describeEffects(card.effects, lang);
-  return eff.length > 0
-    ? `${head}${colon}${eff}`
-    : `${head}${colon}${zh ? '无直接效果' : 'no direct effect'}`;
+  // 打出门槛（CardDef.playIf）：门槛是「能不能打出」的前置条件，渲染在效果正文之前
+  const gate = card.playIf
+    ? `${zh ? '若' : 'if '}${describeCondition(card.playIf, lang)}${zh ? '，才可打出。' : ', you may play this. '}`
+    : '';
+  const body = eff.length > 0 ? eff : (zh ? '无直接效果' : 'no direct effect');
+  return `${head}${colon}${gate}${body}`;
 }
 
 /** 状态 → 文本（含 upkeep / spendEffect 的机制化说明） */

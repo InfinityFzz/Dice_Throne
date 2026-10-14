@@ -13,7 +13,7 @@ import { EMPTY_BUCKET, EMPTY_WINDOWS } from '../types/state.js';
 import { createRng, nextInt, shuffle } from './rng.js';
 import { evaluate } from './matcher.js';
 import { flushForSeat } from './bucket.js';
-import { Draft, runEffects, evalExpr } from './effects.js';
+import { Draft, runEffects, evalExpr, evalCondition } from './effects.js';
 import type { ContentRegistry } from '../content/registry.js';
 
 export interface MatchOptions {
@@ -306,12 +306,14 @@ function doDefensiveRoll(d: Draft): void {
   resolveDefense(d);
 }
 
-/** 防守方是否持有可在防御窗口打出的卡（timing 含 preDefense/postDefense 且 CP 足够） */
+/** 防守方是否持有可在防御窗口打出的卡（timing 含 preDefense 且 CP 足够） */
 function hasDefenseWindowCards(d: Draft, seat: Seat): boolean {
   const p = d.player(seat);
   return p.hand.some((c) => {
     const def = d.content.getCard(c.defId);
-    return def.timing.includes('preDefense') || (def.timing.includes('postDefense') && p.cp >= def.costCp);
+    // 只认 preDefense：窗口开在 flush 之前，「防御结算后才可知」的卡（headBash，
+    // timing postDefense-only）属于攻方 main2 行动窗口，不在此列（O-1）。
+    return def.timing.includes('preDefense') && p.cp >= def.costCp;
   });
 }
 
@@ -368,12 +370,12 @@ function flushNow(d: Draft): void {
     results.set(seat, r);
     if (r.net === 0 && !d.s.bucket.heals.some((h) => h.toSeat === seat)) continue;
     p.hp = r.hpAfter;
-    if (seat !== d.s.activeSeat) {
-      // 防守方造成的反伤计入其 turnDamageDealt（按 countsAsDamageDealt 已过滤）
-      p.turnDamageDealt += r.damageDealt;
-    } else {
-      p.turnDamageDealt += r.damageDealt;
-    }
+    // 「成功造成」的归账：seat 承受的净伤（net 已扣 avoid/prevention）记到**对手**头上。
+    // 旧实现把 r.damageDealt（seat 承受的量）加给 seat 自己 —— 方向反了（O-1 附带发现）：
+    //   实测攻方造成 8 点却记 0、承受 2 点反伤却记 2。
+    // 边界：bucket 条目的 fromSeat 在 1v1 下恒为对手（self-damage 不入桶、recoil 直扣
+    //   HP 不经 flush），按 net 全额归给对手成立；将来引入入桶的 self-damage 时需按 entry 归账。
+    d.player(d.other(seat)).turnDamageDealt += r.net;
     d.emit('damageApplied', { seat, net: r.net, hpAfter: r.hpAfter, defeated: r.defeated });
   }
   d.s.bucket = EMPTY_BUCKET;
@@ -562,8 +564,8 @@ export function reduce(
         const idx0 = dwSeat.hand.findIndex((c) => c.uid === action.uid);
         if (idx0 < 0) return err('cardNotFound', '手牌中没有该卡');
         const def0 = d.content.getCard((dwSeat.hand[idx0] as CardInstance).defId);
-        if (!def0.timing.includes('preDefense') && !def0.timing.includes('postDefense')) {
-          return err('wrongPhase', '该卡不能在防御掷骰阶段打出');
+        if (!def0.timing.includes('preDefense')) {
+          return err('wrongPhase', '该卡不能在防御掷骰阶段打出（仅 preDefense 时机卡）');
         }
         if (dwSeat.cp < def0.costCp) return err('notEnoughCp', `CP 不足（需要 ${def0.costCp}）`);
         dwSeat.cp -= def0.costCp;
@@ -585,6 +587,11 @@ export function reduce(
       const card = p.hand[idx] as CardInstance;
       const def = d.content.getCard(card.defId);
       if (p.cp < def.costCp) return err('notEnoughCp', `CP 不足（需要 ${def.costCp}）`);
+      // 打出门槛（如 Head Bash!「若已对对手造成 ≥8 伤害」）：不满足则整卡不可打出，
+      // 不消耗卡也不进入结算 —— 官方语义是「门槛通过才能 play this card to …」。
+      if (def.playIf && !evalCondition(d, def.playIf, seat)) {
+        return err('illegalAction', '该卡的打出门槛未满足');
+      }
       p.cp -= def.costCp;
       p.hand.splice(idx, 1);
       p.discard.push(card);

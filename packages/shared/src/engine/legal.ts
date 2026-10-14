@@ -14,7 +14,7 @@ import type { GameState } from '../types/state.js';
 import type { ContentRegistry } from '../content/registry.js';
 import type { LegalActionView } from '../types/view.js';
 import { computeCandidates } from './engine.js';
-import { Draft } from './effects.js';
+import { Draft, evalCondition } from './effects.js';
 
 type Drafted = Draft;
 
@@ -57,9 +57,14 @@ function mainActions(d: Drafted, seat: Seat, out: LegalActionView[]): void {
   for (const c of p.hand) {
     const def = d.content.getCard(c.defId);
     const afford = p.cp >= def.costCp;
+    // 打出门槛（CardDef.playIf，如 headBash 的「已对对手造成 ≥8」）：
+    // 与 reduce 的守卫同口径 —— 不满足则灰显并给原因，点击会被引擎拒绝。
+    const gated = def.playIf ? evalCondition(d, def.playIf, seat) : true;
     push(out, {
       t: 'playCard', uid: c.uid, label: `打出 ${def.name}（${def.costCp} CP）`,
-      enabled: afford, ...(afford ? {} : { reason: `CP 不足（需 ${def.costCp}）` }),
+      enabled: afford && gated,
+      ...(afford ? {} : { reason: `CP 不足（需 ${def.costCp}）` }),
+      ...(gated ? {} : { reason: '打出门槛未满足' }),
     });
     push(out, { t: 'sellCard', uid: c.uid, label: `卖掉 ${def.name}（+1 CP）`, enabled: true });
   }
@@ -103,11 +108,12 @@ export function computeLegalActions(d: Drafted, seat: Seat): LegalActionView[] {
         push(out, { t: 'defensiveRoll', label: '防御掷骰', enabled: true });
         return out;
       case 'defenseWindow': {
-        // 防御重掷窗口：可打出防御时机卡，或 pass 结算
+        // 防御重掷窗口：可打出 preDefense 时机卡，或 pass 结算。
+        // 只认 preDefense：postDefense 卡（headBash）依赖「伤害已落定」，属攻方 main2 窗口（O-1）。
         const p = d.player(seat);
         for (const c of p.hand) {
           const def = d.content.getCard(c.defId);
-          if (!def.timing.includes('preDefense') && !def.timing.includes('postDefense')) continue;
+          if (!def.timing.includes('preDefense')) continue;
           const afford = p.cp >= def.costCp;
           push(out, {
             t: 'playCard', uid: c.uid, label: `打出 ${def.name}（${def.costCp} CP）`,

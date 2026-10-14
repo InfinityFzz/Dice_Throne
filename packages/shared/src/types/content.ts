@@ -2,7 +2,7 @@
  * 内容数据模型（作者层 DSL）。新增英雄 = 新增一个 HeroDef，零引擎改动。
  * 硬验收标准：引擎不得对任何具体 HeroId 做特判。
  */
-import type { DieFace, DiceMatcher, EffectDef, EntityId, HeroId, StatusId, CardId, Phase } from './core.js';
+import type { Condition, DieFace, DiceMatcher, EffectDef, EntityId, HeroId, StatusId, CardId, Phase } from './core.js';
 
 export type AbilityKind = 'offensive' | 'defensive' | 'passive' | 'ultimate';
 
@@ -54,6 +54,12 @@ export interface CardDef {
   readonly targetAbilityId?: EntityId;
   readonly tier?: 1 | 2 | 3;
   readonly effects: readonly EffectDef[];
+  /**
+   * 打出门槛（官方 Head Bash! 语义：「若已对对手造成 ≥8 伤害，play this card to …」）。
+   * 不满足时整卡不可打出（reduce 拒绝 + legalActions 灰显），不消耗卡、不进入结算。
+   * 以打出者视角求值（damageDealtAtLeast 读打出者自己的统计）。
+   */
+  readonly playIf?: Condition;
   /** 牌组中数量 */
   readonly count: number;
 }

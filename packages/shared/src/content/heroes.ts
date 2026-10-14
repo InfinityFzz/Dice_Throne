@@ -69,13 +69,16 @@ const barbarianHeroCards: readonly CardDef[] = [
   { defId: 'barbarian:concuss', name: '震晕', kind: 'mainPhase', costCp: 1,
     timing: ['main1', 'main2'], count: 1,
     effects: [{ clause: { kind: 'inflictStatus', status: 'common:concussion', stacks: 1, to: { r: 'opponent' } } }] },
-  // Head Bash!：0 CP，防御结算后若本轮已成功造成 ≥8 伤害 → Concussion
+  // Head Bash!：0 CP，Roll Phase Action。官方卡面原文（card-29 重读，2026-10-14）：
+  //   "If you successfully dealt at least 8 dmg to an opponent after their defense
+  //    concluded, play this card to inflict Concussion."
+  // = 攻击方在防御结算（伤害 flush）后打出的**门槛型**行动卡，不是防守方防御窗口卡（O-1 修正）。
+  // 「成功造成」= 防御减免后的净伤：flushNow 把承受方净伤归账给对手（engine.ts flushNow），
+  //   因此 main2 求值 damageDealtAtLeast 时读到的是本次攻击的净伤。
   { defId: 'barbarian:headBash', name: '头槌', kind: 'rollPhase', costCp: 0,
     timing: ['postDefense'], count: 1,
-    effects: [{
-      clause: { kind: 'conditional', cond: { c: 'damageDealtAtLeast', value: 8 },
-        then: [{ clause: { kind: 'inflictStatus', status: 'common:concussion', stacks: 1, to: { r: 'opponent' } } }] },
-    }] },
+    playIf: { c: 'damageDealtAtLeast', value: 8 },
+    effects: [{ clause: { kind: 'inflictStatus', status: 'common:concussion', stacks: 1, to: { r: 'opponent' } } }] },
   // Get Some!：2 CP，攻击修正：Roll 5，每剑 +1 总伤害；再施加 Concussion
   { defId: 'barbarian:getSome', name: '来啊', kind: 'rollPhase', costCp: 2,
     timing: ['thenNode'], count: 1,

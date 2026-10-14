@@ -56,6 +56,7 @@ const SEED = 'qa-c2';
 function mkState(opts: {
   readonly dice: readonly number[];
   readonly defenderHand?: readonly string[];
+  readonly attackerHand?: readonly string[];
   readonly attackerStatuses?: readonly StatusInstance[];
 }): GameState {
   const base = createMatch(content, { seed: SEED, heroes: ['barbarian', 'pyromancer'] });
@@ -64,6 +65,7 @@ function mkState(opts: {
     diceValues: [...opts.dice],
     diceLocked: [false, false, false, false, false],
     statuses: [...(opts.attackerStatuses ?? [])],
+    hand: (opts.attackerHand ?? []).map((defId, i) => ({ uid: `hand-${i}`, defId })),
   };
   const p1 = {
     ...base.players[1],
@@ -409,5 +411,106 @@ describe('C2-3 Better D!：防御窗口重掷防御骰（rerollDice scope:defens
     assert.equal(c.state.tempDice.length, 0, 'resolveDefense 结算后由 owner 销毁防御骰池');
     // 守方：承受 4 点攻击 + feelinGood 的 1 点治疗（其 rollDicePool 的 life 分支对 Pyromancer 骰面恒不命中）
     assert.equal(c.state.players[1].hp, 47, '50 - 4 + 1');
+  });
+});
+
+// ════════════════════════════════════════════════════════════════
+// C2-4（O-1）：postDefense 卡的时机与「成功造成」口径
+//
+// 官方卡面（Head Bash!，card-29 重读）：「If you successfully dealt at least 8 dmg
+// to an opponent after their defense concluded, play this card to inflict Concussion.」
+// = 攻击方在防御结算（伤害 flush）**之后**打出的门槛型行动卡。
+//
+// 修掉的三层缺陷（此前只「声明接入」且从未验证行为）：
+//  1. 记账方向反了：flushNow 把承受方净伤记给了承受方自己（实测攻方造成 8 记 0、
+//     承受反伤 2 记 2）—— 改为归账给对手。
+//  2. headBash 被放进防守方防御窗口：窗口开在 flush 之前，「防御结算后才可知」
+//     的条件恒不成立（窗口期间 bucket 躺着 8 点未 flush 伤、turnDamageDealt=0）。
+//     改为：防守窗口只认 preDefense；postDefense-only 卡属攻方 main2 行动窗口。
+//  3. 缺打出门槛：官方是「门槛通过才能打出」，原实现是「打出后条件不成立则无事发生」
+//     （无效打出也会消耗卡）。新增 CardDef.playIf —— 与 reduce 同守卫、legalActions 灰显。
+// ════════════════════════════════════════════════════════════════
+describe('C2-4 O-1：postDefense 卡时机与「成功造成」口径（barbarian:headBash）', () => {
+  // Barbarian 骰面 1-3=sword：5 剑无 4 同点 → smack L1 第三档 8 点 attack（可防御）
+  const DICE_8 = [1, 1, 2, 2, 3];
+  // 3 剑 → smack L1 第一档 4 点（对照组：门槛不满足）
+  const DICE_4 = [1, 1, 2, 4, 5];
+
+  /** 攻击 → 防御掷骰 → （若有窗口则 pass）→ 结算完毕，返回结算后的状态 */
+  function resolveAttack(dice: readonly number[], attackerHand: readonly string[]): GameState {
+    let s = mkState({ dice, attackerHand });
+    s = step(s, 0, { t: 'announceAbility', abilityId: 'barbarian:smack' }).state;
+    s = step(s, 1, { t: 'defensiveRoll' }).state;
+    if (s.pending?.kind === 'defenseWindow') s = step(s, 1, { t: 'respondPass' }).state;
+    return s;
+  }
+
+  test('正例：攻方造成 8 点（防御结算后）→ main2 门槛通过 → 打出头槌 → 对手获 Concussion', () => {
+    const s = resolveAttack(DICE_8, ['barbarian:headBash']);
+    assert.equal(s.phase, 'main2', '防御结算后应回到攻方主要阶段');
+    assert.equal(
+      s.players[0].turnDamageDealt, 8,
+      `「成功造成」应按净伤归账给攻方（记账方向修正），实际 ${s.players[0].turnDamageDealt}`,
+    );
+
+    const legal = getLegalActions(s, content, 0).find((x) => x.t === 'playCard' && x.uid === 'hand-0');
+    assert.ok(legal, 'main2 的 legalActions 应包含头槌');
+    assert.equal(legal?.enabled, true, '门槛（已对对手造成 ≥8）应通过');
+
+    const c = step(s, 0, { t: 'playCard', uid: 'hand-0' });
+    assert.ok(
+      c.state.players[1].statuses.some((x) => x.id === 'common:concussion'),
+      '打出后应对对手施加 Concussion',
+    );
+  });
+
+  test('反例：伤害 <8 → 门槛不满足 → 灰显 + 硬打被拒 + 卡不消耗', () => {
+    const s = resolveAttack(DICE_4, ['barbarian:headBash']);
+    assert.equal(s.players[0].turnDamageDealt, 4, '对照：本次只造成 4 点');
+
+    const legal = getLegalActions(s, content, 0).find((x) => x.t === 'playCard' && x.uid === 'hand-0');
+    assert.equal(legal?.enabled, false, '门槛不满足应灰显');
+    assert.ok(/门槛/.test(legal?.reason ?? ''), `灰显原因应指向门槛，实际：${legal?.reason}`);
+
+    const r = reduce(s, { seat: 0, action: { t: 'playCard', uid: 'hand-0' }, clientSeq: 1 }, content);
+    assert.equal(r.ok, false, '硬打应被引擎拒绝');
+    // 被拒动作不产生新状态（ReduceResult 无 state）→ 对原状态断言「未消耗、未生效」
+    assert.ok(s.players[0].hand.some((c) => c.uid === 'hand-0'), '被拒后卡不得消耗');
+    assert.ok(
+      !s.players[1].statuses.some((x) => x.id === 'common:concussion'),
+      '被拒后不得施加 Concussion',
+    );
+  });
+
+  test('反例：postDefense-only 卡不出现在防守方防御窗口（窗口只认 preDefense）', () => {
+    // headBash 塞给**防守方**（合成手牌，取证引擎的窗口过滤而非牌库合法性）：
+    // 窗口若仍列出它，防守方就能在 flush 前打出 —— 那正是被修掉的第二层缺陷。
+    let s = mkState({ dice: DICE_8, defenderHand: ['barbarian:headBash'] });
+    s = step(s, 0, { t: 'announceAbility', abilityId: 'barbarian:smack' }).state;
+    s = step(s, 1, { t: 'defensiveRoll' }).state;
+
+    if (s.pending?.kind === 'defenseWindow') {
+      const cards = getLegalActions(s, content, 1).filter((x) => x.t === 'playCard');
+      assert.ok(
+        !cards.some((x) => x.uid === 'hand-0'),
+        '防守窗口的合法出牌不得包含 postDefense-only 卡',
+      );
+      s = step(s, 1, { t: 'respondPass' }).state;
+    } else {
+      // 防守方只有 headBash（postDefense-only）时窗口根本不应开启
+      assert.notEqual(s.pending?.kind, 'defenseWindow', '无 preDefense 卡时不得开启防守窗口');
+    }
+    assert.equal(s.phase, 'main2');
+  });
+
+  test('记账方向哨兵：flush 后攻方的 turnDamageDealt = 本次净伤（旧实现会记成 0）', () => {
+    const s = resolveAttack(DICE_8, []);
+    assert.equal(s.players[0].turnDamageDealt, 8, '攻方造成 8 点应记在攻方名下');
+    // 反伤归账：Pyromancer 熔岩护甲按防御骰 flame 反伤，应记在守方名下（旧实现记给攻方）
+    assert.ok(
+      s.players[1].turnDamageDealt >= 1,
+      `守方反伤应记在守方名下，实际 ${s.players[1].turnDamageDealt}`,
+    );
+    assert.equal(s.players[0].turnDamageDealt, 8, '攻方名下不得混入自己承受的反伤');
   });
 });
