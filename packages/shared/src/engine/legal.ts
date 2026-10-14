@@ -102,6 +102,21 @@ export function computeLegalActions(d: Drafted, seat: Seat): LegalActionView[] {
       case 'defensiveRoll':
         push(out, { t: 'defensiveRoll', label: '防御掷骰', enabled: true });
         return out;
+      case 'defenseWindow': {
+        // 防御重掷窗口：可打出防御时机卡，或 pass 结算
+        const p = d.player(seat);
+        for (const c of p.hand) {
+          const def = d.content.getCard(c.defId);
+          if (!def.timing.includes('preDefense') && !def.timing.includes('postDefense')) continue;
+          const afford = p.cp >= def.costCp;
+          push(out, {
+            t: 'playCard', uid: c.uid, label: `打出 ${def.name}（${def.costCp} CP）`,
+            enabled: afford, ...(afford ? {} : { reason: `CP 不足（需 ${def.costCp}）` }),
+          });
+        }
+        push(out, { t: 'respondPass', label: '结算防御（不再打卡）', enabled: true });
+        return out;
+      }
       case 'cardWindow':
         if (d.s.phase === 'main1' || d.s.phase === 'main2') mainActions(d, seat, out);
         else push(out, { t: 'endMainPhase', label: '结束阶段', enabled: true });

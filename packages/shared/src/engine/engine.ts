@@ -295,10 +295,37 @@ function doDefensiveRoll(d: Draft): void {
   d.s.tempDice = values;
   d.emit('defenseRolled', { seat: defender, values });
 
-  const tier = currentTier(d, defender, slot.id);
-  const t = slot.tiers.find((x) => x.level === tier) ?? slot.tiers[0];
-  if (t) {
-    // 防御 matcher 以防御骰为作用域（此前从未求值，thickSkin「防御骰出 4」等条件失效）
+  // 防御重掷窗口（官方 Better D! 语义）：掷骰后、结算前，防守方可用防御时机卡。
+  // 无可用卡时直接结算，不引入多余等待。
+  if (hasDefenseWindowCards(d, defender)) {
+    makeDefenseWindow(d, defender);
+    return;
+  }
+  resolveDefense(d);
+}
+
+/** 防守方是否持有可在防御窗口打出的卡（timing 含 preDefense/postDefense 且 CP 足够） */
+function hasDefenseWindowCards(d: Draft, seat: Seat): boolean {
+  const p = d.player(seat);
+  return p.hand.some((c) => {
+    const def = d.content.getCard(c.defId);
+    return def.timing.includes('preDefense') || (def.timing.includes('postDefense') && p.cp >= def.costCp);
+  });
+}
+
+function makeDefenseWindow(d: Draft, seat: Seat): void {
+  makePending(d, seat, 'defenseWindow', [{ id: 'resolve', label: '结算防御' }], 'resolve');
+}
+
+/** 防御结算：按（可能已被重掷的）防御骰求值 matcher 并执行能力效果，随后 P6–P8 */
+function resolveDefense(d: Draft): void {
+  const defender = d.other(d.s.activeSeat);
+  const dp = d.player(defender);
+  const values = [...d.s.tempDice];
+  const slot = d.content.getHero(dp.heroId).abilities.find((a) => a.kind === 'defensive');
+  const t = slot ? (slot.tiers.find((x) => x.level === currentTier(d, defender, slot.id)) ?? slot.tiers[0]) : undefined;
+  if (t && slot) {
+    // 防御 matcher 以防御骰为作用域
     const hero = d.content.getHero(dp.heroId);
     const symbols: Sym[] = values.flatMap((v) => {
       const face = hero.dieFaces.find((f) => f.value === v);
@@ -455,7 +482,8 @@ export function reduce(
   if (state.pending && state.pending.seat !== seat) {
     return err('notYourTurn', `当前等待 seat ${state.pending.seat} 响应`);
   }
-  if (seat !== state.activeSeat && !isDefensiveAction(action)) {
+  if (seat !== state.activeSeat && !isDefensiveAction(action)
+      && !(state.pending?.kind === 'defenseWindow' && action.t === 'playCard')) {
     return err('notYourTurn', `当前行动方是 seat ${state.activeSeat}`);
   }
 
@@ -516,6 +544,27 @@ export function reduce(
     }
 
     case 'playCard': {
+      // 防御重掷窗口：防守方打出防御时机卡（Better D! 等）
+      if (state.pending?.kind === 'defenseWindow') {
+        if (state.pending.seat !== seat) return err('notYourTurn', '当前等待防守方响应');
+        const dwSeat = d.player(seat);
+        const idx0 = dwSeat.hand.findIndex((c) => c.uid === action.uid);
+        if (idx0 < 0) return err('cardNotFound', '手牌中没有该卡');
+        const def0 = d.content.getCard((dwSeat.hand[idx0] as CardInstance).defId);
+        if (!def0.timing.includes('preDefense') && !def0.timing.includes('postDefense')) {
+          return err('wrongPhase', '该卡不能在防御掷骰阶段打出');
+        }
+        if (dwSeat.cp < def0.costCp) return err('notEnoughCp', `CP 不足（需要 ${def0.costCp}）`);
+        dwSeat.cp -= def0.costCp;
+        const [card0] = dwSeat.hand.splice(idx0, 1);
+        if (card0) dwSeat.discard.push(card0);
+        d.emit('cardPlayed', { seat, defId: card0!.defId, name: def0.name });
+        runEffects(d, def0.effects, seat);
+        // 窗口保持可重入：还有可打的卡就继续等，否则直接结算
+        if (hasDefenseWindowCards(d, seat)) makeDefenseWindow(d, seat);
+        else resolveDefense(d);
+        break;
+      }
       if (state.phase !== 'main1' && state.phase !== 'main2') return err('wrongPhase', '不在主要阶段');
       const p = d.player(seat);
       const idx = p.hand.findIndex((c) => c.uid === action.uid);
@@ -593,6 +642,11 @@ export function reduce(
     }
 
     case 'respondPass': {
+      // 防御重掷窗口：pass = 不再打卡，按当前防御骰结算
+      if (state.pending?.kind === 'defenseWindow') {
+        resolveDefense(d);
+        break;
+      }
       break;
     }
 
@@ -657,6 +711,9 @@ function autoActionFor(state: GameState, p: PendingRequest) {
       return { t: 'defensiveRoll' as const };
     case 'cardWindow':
       return { t: 'endMainPhase' as const };
+    case 'defenseWindow':
+      // 兜底：不打卡直接结算（不替玩家消耗资源）
+      return { t: 'respondPass' as const };
     case 'discard': {
       const player = state.players[seat];
       const need = player.hand.length - HAND_LIMIT;

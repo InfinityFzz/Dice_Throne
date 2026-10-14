@@ -24,7 +24,7 @@ function actorOf(s: GameState): Seat {
 /** 极简 AI：按优先级挑一个 enabled 动作 */
 const PRIORITY: readonly LegalActionView['t'][] = [
   'announceAbility', 'performRoll', 'buyUpgrade', 'playCard', 'endMainPhase',
-  'defensiveRoll', 'chooseOption', 'discardCards', 'passAbility', 'sellCard',
+  'defensiveRoll', 'chooseOption', 'discardCards', 'passAbility', 'sellCard', 'respondPass',
 ];
 function pick(s: GameState, legal: readonly LegalActionView[]): ActionEnvelope | null {
   const seat = actorOf(s);

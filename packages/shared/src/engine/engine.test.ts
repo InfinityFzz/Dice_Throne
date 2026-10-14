@@ -9,7 +9,7 @@ import {
   createDefaultRegistry, createMatch, reduce,
   addDamage, addHeal, addAvoid, addPrevention, flushForSeat, countsAsDamageDealt,
   evaluate, createRng, nextInt,
-  Draft, EFFECT_HANDLERS, evalExpr,
+  Draft, EFFECT_HANDLERS, evalExpr, evalCondition,
   type DamageBucket, type Seat, type EffectDef,
 } from '../index.js';
 
@@ -224,5 +224,66 @@ describe('官方校准新增机制', () => {
     EFFECT_HANDLERS.inflictStatus(d, { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 99, to: { r: 'self' } }, 1);
     const st = d.player(1).statuses.find((s) => s.id === 'common:fireMastery');
     assert.equal(st?.stacks, 6); // 基础 5 + 1
+  });
+
+  test('nOfAKind：主骰池与防御骰两个作用域', () => {
+    const d = mkDraft();
+    // 主骰池：seat0 四条 2
+    const s0 = d.s;
+    (s0.players as { diceValues: number[] }[])[0]!.diceValues = [2, 2, 2, 2, 6];
+    assert.equal(evalCondition(d, { c: 'nOfAKind', n: 4 }, 0), true);
+    assert.equal(evalCondition(d, { c: 'nOfAKind', n: 5 }, 0), false);
+    // 防御上下文：tempDice 在场时以防御骰为准
+    d.s.tempDice = [3, 3, 3, 1];
+    assert.equal(evalCondition(d, { c: 'nOfAKind', n: 3 }, 0), true);
+    assert.equal(evalCondition(d, { c: 'nOfAKind', n: 4 }, 0), false);
+    d.s.tempDice = [];
+  });
+
+  test('Smack 声明 undefendableIf 4-of-a-kind；Fortitude 声明 3-of-a-kind 移除状态', () => {
+    const barb = content.getHero('barbarian');
+    const smack = barb.abilities.find((a) => a.id === 'barbarian:smack')!;
+    // gradedBranch 把伤害包在 conditional 链里：递归收集所有 dealDamage 子句
+    const collectDeals = (effs: readonly EffectDef[]): { undefendableIf?: { c: string; n: number } }[] =>
+      effs.flatMap((e) => {
+        const c = e.clause as { kind: string; then?: readonly EffectDef[]; else?: readonly EffectDef[]; undefendableIf?: { c: string; n: number } };
+        if (c.kind === 'conditional') return collectDeals([...(c.then ?? []), ...(c.else ?? [])]);
+        if (c.kind === 'dealDamage') return [c];
+        return [];
+      });
+    for (const tier of smack.tiers) {
+      const deals = collectDeals(tier.effects);
+      assert.ok(deals.length >= 3, `Smack 每档应展开 3 条伤害分支，实际 ${deals.length}`);
+      for (const dmg of deals) {
+        assert.equal(dmg.undefendableIf?.c, 'nOfAKind');
+        assert.equal(dmg.undefendableIf?.n, 4);
+      }
+    }
+    const fortitude = barb.abilities.find((a) => a.id === 'barbarian:fortitude')!;
+    for (const tier of fortitude.tiers) {
+      const cond = tier.effects[1]!.clause as { kind: string; cond: { c: string; n: number }; then: readonly { clause: { kind: string } }[] };
+      assert.equal(cond.cond.c, 'nOfAKind');
+      assert.equal(cond.cond.n, 3);
+      assert.equal(cond.then[0]!.clause.kind, 'optional');
+    }
+  });
+
+  test('dealDamage + undefendableIf：4-of-a-kind 时翻转为不可防御', () => {
+    const d = mkDraft();
+    (d.s.players as { diceValues: number[] }[])[0]!.diceValues = [5, 5, 5, 5, 2];
+    EFFECT_HANDLERS.dealDamage(d, {
+      kind: 'dealDamage', amount: 9, damageType: 'attack', to: { r: 'opponent' },
+      undefendableIf: { c: 'nOfAKind', n: 4 },
+    }, 0);
+    const last = d.s.bucket.entries[d.s.bucket.entries.length - 1]!;
+    assert.equal(last.bucketKind, 'undefendable');
+    // 对照：非 4-of-a-kind 时保持可防御
+    (d.s.players as { diceValues: number[] }[])[0]!.diceValues = [5, 5, 5, 3, 2];
+    EFFECT_HANDLERS.dealDamage(d, {
+      kind: 'dealDamage', amount: 9, damageType: 'attack', to: { r: 'opponent' },
+      undefendableIf: { c: 'nOfAKind', n: 4 },
+    }, 0);
+    const last2 = d.s.bucket.entries[d.s.bucket.entries.length - 1]!;
+    assert.equal(last2.bucketKind, 'defendable');
   });
 });

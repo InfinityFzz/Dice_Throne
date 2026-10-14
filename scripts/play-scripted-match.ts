@@ -50,6 +50,9 @@ function chooseAction(s: GameState): ActionEnvelope | null {
     }
     case 'defensiveRoll':
       return { seat, action: { t: 'defensiveRoll' }, clientSeq: s.seq };
+    case 'defenseWindow':
+      // 脚本 AI：不打卡直接结算（保守，不替玩家消耗资源）
+      return { seat, action: { t: 'respondPass' }, clientSeq: s.seq };
     case 'cardWindow':
       return { seat, action: { t: 'endMainPhase' }, clientSeq: s.seq };
     case 'discard': {

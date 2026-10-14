@@ -150,12 +150,11 @@ export const COMMON_CARDS: readonly CardDef[] = [
     effects: [{ clause: { kind: 'rerollDice', count: 1, to: { r: 'opponent' } } }],
   },
   {
-    // ⚠️ 官方：一名玩家可在其防御掷骰阶段重掷至多 5 骰。
-    // 防御骰「掷后重掷并重结算」需引擎扩展（preDefense 窗口在掷骰前、postDefense 在结算后），
-    // 现为占位空效果（log），待防御重掷窗口落地后接入。
+    // 官方：一名玩家可在其防御掷骰阶段重掷至多 5 骰（0 CP，可选）。
+    // 2026-10-14 接入防御重掷窗口：防御骰掷出后、结算前可打出，重掷全部防御骰后重新结算。
     defId: 'common:betterD', name: '更好的防御', kind: 'rollPhase', costCp: 0,
     timing: ['preDefense', 'postDefense'], count: 1,
-    effects: [{ clause: { kind: 'log', text: 'Better D!：防御重掷窗口待引擎支持，暂无效果' } }],
+    effects: [{ clause: { kind: 'rerollDice', count: 5, to: { r: 'self' }, scope: 'defense' } }],
   },
   { defId: 'common:sixIt', name: '六它一下', kind: 'rollPhase', costCp: 1,
     timing: [...TIMING_WINDOW], count: 1,

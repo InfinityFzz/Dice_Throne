@@ -29,7 +29,7 @@ export type WindowTrigger =
   | 'then' | 'preDefense' | 'postDefense' | 'preFlush' | 'rollPool' | 'postFlush';
 
 export type PendingKind =
-  | 'abilityAnnounce' | 'defensiveRoll' | 'cardWindow' | 'discard'
+  | 'abilityAnnounce' | 'defensiveRoll' | 'defenseWindow' | 'cardWindow' | 'discard'
   | 'choice' | 'optionalPrompt' | 'chooseDice' | 'knockdownPay' | 'upkeepOrder';
 
 // ── 伤害三轴（正交）───────────────────────────────────
@@ -108,6 +108,11 @@ export type Condition =
   | { c: 'damageDealtAtLeast'; value: Expr }
   /** graded 展开后的条件分支：当前骰面中某符号的数量 ≥ min */
   | { c: 'diceSymbolAtLeast'; symbol: Sym; min: number }
+  /**
+   * n-of-a-kind：骰值轴判定 —— 当前骰池（防御上下文为防御骰）中存在某个点数
+   * 出现 ≥ n 次。官方 Smack「4-of-a-kind 不可防御」、Fortitude「3-of-a-kind 移除状态」。
+   */
+  | { c: 'nOfAKind'; n: number; target?: TargetRef }
   | { c: 'boundAtLeast'; name: string; min: number }
   | { c: 'and'; of: readonly Condition[] }
   | { c: 'not'; of: Condition };
@@ -130,6 +135,12 @@ export type EffectClause =
        * 因此作为 dealDamage 的附属延迟效果，flush 时按目标 seat 的 net ≥ 1 触发。
        */
       recoilOnHit?: RecoilOnHit;
+      /**
+       * 条件不可防御（官方 Smack「4-of-a-kind 时不可防御」）。
+       * 为什么不是外层 conditional：伤害量由 graded 分支决定、可防御性独立翻转，
+       * 在 clause 内判定可避免为每个 graded 档复制一份 undefendable 副本。
+       */
+      undefendableIf?: Condition;
     }
   | { kind: 'heal'; amount: Expr; to: TargetRef }
   | { kind: 'preventDamage'; amount: Expr; to: TargetRef }
@@ -152,7 +163,8 @@ export type EffectClause =
   | { kind: 'setDieFace'; toFace: 1 | 2 | 3 | 4 | 5 | 6; count: Expr }
   | { kind: 'adjustDie'; delta: Expr }
   | { kind: 'copyDieFace' }
-  | { kind: 'rerollDice'; count: Expr; to?: TargetRef }
+  | { kind: 'rerollDice'; count: Expr; to?: TargetRef;
+      /** 'defense' = 重掷防御骰（tempDice；官方 Better D!），缺省 = 主骰池 */ scope?: 'defense' }
   | { kind: 'grantExtraRollAttempt'; amount: number }
   | { kind: 'performRollAttempt' }
   // 流程

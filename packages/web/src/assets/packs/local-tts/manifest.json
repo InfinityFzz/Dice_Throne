@@ -472,13 +472,14 @@
       "source": "tts:908560170 status Bounty"
     },
     {
-      "logicalId": "tts-gunslinger-status-knockdown",
+      "logicalId": "common:knockdown",
       "kind": "statusIcon",
       "file": "gunslinger/statuses/knockdown.webp",
       "width": 256,
       "height": 256,
-      "confirmed": false,
-      "source": "tts:908560170 status Knockdown"
+      "confirmed": true,
+      "source": "tts:908560170 status Knockdown",
+      "nameSource": "canonical"
     },
     {
       "logicalId": "tts-gunslinger-status-reload",
@@ -2434,22 +2435,24 @@
       "source": "tts:908560170 die cell r2c2"
     },
     {
-      "logicalId": "tts-barbarian-status-stun",
+      "logicalId": "common:stun",
       "kind": "statusIcon",
       "file": "barbarian/statuses/stun.webp",
       "width": 256,
       "height": 256,
-      "confirmed": false,
-      "source": "tts:908560170 status Stun"
+      "confirmed": true,
+      "source": "tts:908560170 status Stun",
+      "nameSource": "canonical"
     },
     {
-      "logicalId": "tts-barbarian-status-concussion",
+      "logicalId": "common:concussion",
       "kind": "statusIcon",
       "file": "barbarian/statuses/concussion.webp",
       "width": 256,
       "height": 256,
-      "confirmed": false,
-      "source": "tts:908560170 status Concussion"
+      "confirmed": true,
+      "source": "tts:908560170 status Concussion",
+      "nameSource": "canonical"
     },
     {
       "logicalId": "tts-ninja-card-00",

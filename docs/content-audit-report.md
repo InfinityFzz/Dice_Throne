@@ -209,3 +209,48 @@ Infernal Infusion!（0 PROMO：meteor→FM 补满，否则抽 1）。
 L1 数值：Barbarian（官方技能板）与 Pyromancer（升级卡面 L1 行）**均已齐备**，无需补。
 其余已知偏差见 §10：Smack 4-of-a-kind 不可防御、Fortitude 3-of-a-kind 移除状态、
 Better D! 防御重掷窗口 —— 均为引擎条件缺口，与数值来源无关。
+
+---
+
+# 第五轮：引擎条件补全 + 两个 Ultimate 官方值 + 中文包评估（2026-10-14）
+
+## 16. 引擎条件补全（P2 清零）
+
+| 项 | 实现 |
+|---|---|
+| **nOfAKind 条件** | `Condition` 新增 `{ c: 'nOfAKind', n, target? }`：骰值轴判定（防御上下文以 tempDice 为准，否则看主骰池任一点数出现 ≥n 次） |
+| **Smack 4-of-a-kind 不可防御** | `dealDamage` 新增 `undefendableIf`：effectWalk 时按条件把 damageType 翻转为 undefendable（避免为 graded 三档各复制一份副本）。三个 tier 全部接入 |
+| **Fortitude 3-of-a-kind 移除状态** | heal 后接 `conditional(nOfAKind 3) → optional(removeStatus any 1 self)`；auto 模式不行使（保守） |
+| **Better D! 防御重掷窗口** | 新增 `defenseWindow` pending：防御骰掷出后、结算前，防守方可打出防御时机卡（preDefense/postDefense），窗口可重入；`rerollDice` 新增 `scope:'defense'`（重掷 tempDice）。无可用卡时不开窗直接结算；auto/pass = 直接结算 |
+
+附带修复：脚本对战与测试 AI 的决策表补 `defenseWindow → respondPass`。
+
+## 17. 两个 Ultimate 官方值（此前唯一内容缺口）
+
+英雄面板图**不存在于任何本地 mod**（英文包 Leaflet、中文包英雄提示卡均为状态说明/FAQ；
+规则书 PDF 亦无英雄能力表）。官方值经双源交叉确认：
+
+| Ultimate | 官方效果 | 来源 |
+|---|---|---|
+| **Barbarian「怒火 Rage」** | 5 POW → 施加 Stun + **15 点伤害**（Ultimate 伤害：不可防御且不可避免） | ①原版 S1 社区数据（namu wiki 逐字）；②法媒评测（aumeeplereporter.fr）「Rage, at 5 stars, inflicts 15 damage and a stun」 |
+| **Pyromancer「焦土 Scorch the Earth!」** | 5-of-a-kind Meteor → 施加 Knockdown & Burn → **Gain 3 Fire Mastery** → **Deal 12 dmg** → 另对所有对手 **2 点 collateral** | ①原版 S1 规则书 PDF v1.1（官方 filesusr 托管，文本层逐字）；②Season One ReRolled 规则书（rulespal.com）—— 两版此条目完全一致 |
+
+实现注记：引擎无独立 `ultimate` 伤害类型（架构裁定 4 类），以 `undefendable + sourceKind:'ultimate'`
+表达；「不可避免」维度（avoid 类状态）待有 avoid 机制时在 bucket 过滤层区分。
+
+## 18. 中文版图包评估（3446854288 / 2823163294 / 3591191228 / 3415098082）
+
+| 包 | 结论 |
+|---|---|
+| **3446854288 全26中文角色**（6.1MB） | 规模最大（979 牌堆/31940 格），卡面 901×901，但**每卡仅 ≈180px**（W5H7 网格）——低于英文包；无英雄面板。状态 token 图 256×256 与英文包同规格 |
+| 2823163294 侠技霸骰（3.8MB） | 图源已失效（HTTP 拉取 0 字节），出局 |
+| 3591191228 / 3415098082（1.9MB） | 分辨率最高（711×1131 卡面）但仅 33 牌堆（2-3 英雄），且无 Barbarian/Pyromancer 面板 |
+| 结论 | **英文官方包仍是本两英雄最优素材源**；中文包状态 token 无分辨率增益。导入收益仅剩：中文卡名 OCR（--lang chi_sim 已就绪）与 M3 其余 24 英雄的图源 |
+
+## 19. statusIcon 确认（命中率 66/89 → 69/89）
+
+- `confirm-tts-mapping.ts` 扩展支持 statusIcon：按 manifest `source` 字段解析状态名查表确认
+  （stun/concussion/knockdown/burn/fireMastery/evasive/poison），与卡确认同一可复现链路。
+- 本轮确认 3 条：common:stun / common:concussion / common:knockdown。
+- **当前命中 69/89：card 48/48 + statusIcon 20/20 全满**；剩缺 abilityIcon 19（TTS 包无独立能力图标）
+  + background 1（表现层自由发挥）。资产侧无已知可补缺口。

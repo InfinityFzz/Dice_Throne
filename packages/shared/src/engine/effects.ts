@@ -149,6 +149,15 @@ export function evalCondition(d: Draft, cond: Condition, seat: Seat): boolean {
       const syms = d.s.tempDice.length > 0 ? d.tempSymbols(seat) : d.diceSymbols(seat);
       return syms.filter((s) => s === cond.symbol).length >= cond.min;
     }
+    case 'nOfAKind': {
+      // 骰值轴：防御上下文（tempDice 在场）看防御骰，否则看行动方主骰池
+      const target = cond.target ? resolveTarget(d, cond.target, seat) : seat;
+      const values = d.s.tempDice.length > 0 ? d.s.tempDice : d.player(target).diceValues;
+      const counts = new Map<number, number>();
+      for (const v of values) counts.set(v, (counts.get(v) ?? 0) + 1);
+      for (const n of counts.values()) if (n >= cond.n) return true;
+      return false;
+    }
     case 'boundAtLeast': return (d.s.bindings[cond.name] ?? 0) >= cond.min;
     case 'and': return cond.of.every((c) => evalCondition(d, c, seat));
     case 'not': return !evalCondition(d, cond.of, seat);
@@ -213,8 +222,12 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
     if (c.kind !== 'dealDamage') return;
     const to = resolveTarget(d, c.to, seat);
     const amount = evalExpr(d, c.amount, seat);
-    d.s.bucket = addDamage(d.s.bucket, amount, c.damageType, to, seat, c.sourceKind ?? 'ability');
-    d.emit('note', { kind: 'damageQueued', to, amount, damageType: c.damageType, sourceKind: c.sourceKind ?? 'ability' });
+    // 条件不可防御（官方 Smack 4-of-a-kind）：effectWalk 时按当前骰池判定
+    const damageType = c.undefendableIf && evalCondition(d, c.undefendableIf, seat)
+      ? 'undefendable' as const
+      : c.damageType;
+    d.s.bucket = addDamage(d.s.bucket, amount, damageType, to, seat, c.sourceKind ?? 'ability');
+    d.emit('note', { kind: 'damageQueued', to, amount, damageType, sourceKind: c.sourceKind ?? 'ability' });
     // 条件反噬（官方 Reckless）：flush 时按 triggerToSeat 的 net ≥ 1 决定是否生效
     if (c.recoilOnHit) {
       const recoilTo = resolveTarget(d, c.recoilOnHit.to, seat);
@@ -390,8 +403,21 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
   },
   rerollDice(d, c, seat) {
     if (c.kind !== 'rerollDice') return;
-    const p = d.player(resolveTarget(d, c.to ?? { r: 'self' }, seat));
     let left = evalExpr(d, c.count, seat);
+    if (c.scope === 'defense') {
+      // 重掷防御骰（tempDice；官方 Better D!）。tempDice 全部视为未锁定。
+      const values = d.s.tempDice.map((v) => v);
+      for (let i = 0; i < values.length && left > 0; i++) {
+        const r = nextInt(d.s.rng, `dice:def:${seat}`, 6);
+        d.s.rng = r.rng;
+        values[i] = r.value + 1;
+        left--;
+      }
+      d.s.tempDice = values;
+      d.emit('note', { kind: 'defenseRerolled', seat, values: d.s.tempDice });
+      return;
+    }
+    const p = d.player(resolveTarget(d, c.to ?? { r: 'self' }, seat));
     for (let i = 0; i < p.diceValues.length && left > 0; i++) {
       if (!p.diceLocked[i]) {
         const { value, rng } = nextInt(d.s.rng, `dice:${seat}`, 6);

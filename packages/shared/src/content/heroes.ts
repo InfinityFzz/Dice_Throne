@@ -59,6 +59,10 @@ function gradedBranch(symbol: 'sword' | 'life' | 'flame', tierDmg: readonly [num
 const dmgTo = (n: number, t: 'attack' | 'undefendable' = 'attack'): EffectDef =>
   ({ clause: { kind: 'dealDamage', amount: n, damageType: t, to: { r: 'opponent' } } });
 
+/** 条件不可防御伤害（官方 Smack：4-of-a-kind 时本次攻击不可防御） */
+const dmgConditionalUndefendable = (n: number): EffectDef =>
+  ({ clause: { kind: 'dealDamage', amount: n, damageType: 'attack', to: { r: 'opponent' }, undefendableIf: { c: 'nOfAKind', n: 4 } } });
+
 /** Barbarian 专属行动卡（card-28..32，2026-10-13 读图） */
 const barbarianHeroCards: readonly CardDef[] = [
   // Concuss!：1 CP，直接施加 Concussion
@@ -121,17 +125,17 @@ export const BARBARIAN: HeroDef = {
   startHp: 50,
   abilities: [
     {
-      // 官方 L2: 3/4/5 剑 → 5/7/9；L3: 6/8/10；「4-of-a-kind(同点)时不可防御」引擎暂无该条件，待扩展
+      // 官方 L2: 3/4/5 剑 → 5/7/9；L3: 6/8/10；「4-of-a-kind 时不可防御」（undefendableIf，2026-10-14 接入）
       id: 'barbarian:smack',
       kind: 'offensive',
       name: '重击',
       tiers: [
         { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'sword', count: 3 },
-          effects: [gradedBranch('sword', [4, 6, 8], (n) => dmgTo(n))] }, // official:false 推定
+          effects: [gradedBranch('sword', [4, 6, 8], (n) => dmgConditionalUndefendable(n))] }, // official:false 推定
         { level: 2, upgradeCostCP: 2, matcher: { k: 'countSymbol', symbol: 'sword', count: 3 },
-          effects: [gradedBranch('sword', [5, 7, 9], (n) => dmgTo(n))] },
+          effects: [gradedBranch('sword', [5, 7, 9], (n) => dmgConditionalUndefendable(n))] },
         { level: 3, upgradeCostCP: 3, matcher: { k: 'countSymbol', symbol: 'sword', count: 3 },
-          effects: [gradedBranch('sword', [6, 8, 10], (n) => dmgTo(n))] },
+          effects: [gradedBranch('sword', [6, 8, 10], (n) => dmgConditionalUndefendable(n))] },
       ],
     },
     {
@@ -230,15 +234,46 @@ export const BARBARIAN: HeroDef = {
       ],
     },
     {
-      // 官方 L2（卡面红色边框 = 进攻类）：3/4/5 心 → 治疗 5/6/7；「3-of-a-kind 可移除自身 1 状态」引擎暂无该条件
+      // 官方 L2（卡面红色边框 = 进攻类）：3/4/5 心 → 治疗 5/6/7；
+      // 「3-of-a-kind 可移除自身 1 状态」（nOfAKind 条件，2026-10-14 接入；auto 模式不行使）
       id: 'barbarian:fortitude',
       kind: 'offensive',
       name: '坚忍',
       tiers: [
         { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'life', count: 3 },
-          effects: [gradedBranch('life', [3, 4, 5], (n) => ({ clause: { kind: 'heal', amount: n, to: { r: 'self' } } }))] }, // official:false 推定
+          effects: [
+            gradedBranch('life', [3, 4, 5], (n) => ({ clause: { kind: 'heal', amount: n, to: { r: 'self' } } })), // official:false 推定
+            {
+              clause: {
+                kind: 'conditional',
+                cond: { c: 'nOfAKind', n: 3 },
+                then: [{
+                  clause: {
+                    kind: 'optional',
+                    prompt: '三同点：移除自身 1 个状态？',
+                    steps: [{ clause: { kind: 'removeStatus', status: 'any', stacks: 1, to: { r: 'self' } } }],
+                  },
+                }],
+              },
+            },
+          ] },
         { level: 2, upgradeCostCP: 2, matcher: { k: 'countSymbol', symbol: 'life', count: 3 },
-          effects: [gradedBranch('life', [5, 6, 7], (n) => ({ clause: { kind: 'heal', amount: n, to: { r: 'self' } } }))] },
+          effects: [
+            gradedBranch('life', [5, 6, 7], (n) => ({ clause: { kind: 'heal', amount: n, to: { r: 'self' } } })),
+            {
+              clause: {
+                kind: 'conditional',
+                cond: { c: 'nOfAKind', n: 3 },
+                then: [{
+                  clause: {
+                    kind: 'optional',
+                    prompt: '三同点：移除自身 1 个状态？',
+                    steps: [{ clause: { kind: 'removeStatus', status: 'any', stacks: 1, to: { r: 'self' } } }],
+                  },
+                }],
+              },
+            },
+          ] },
       ],
     },
     {
@@ -260,10 +295,17 @@ export const BARBARIAN: HeroDef = {
       // 以下为占位推定（5 星极难达成），待获取官方值后替换。
       id: 'barbarian:bloodlust',
       kind: 'ultimate',
-      name: '血怒（占位，官方值待补）',
+      // 官方（双源一致，2026-10-14）：Rage —— 5 POW → 施加 Stun + 15 点伤害。
+      // 来源 ①原版 S1 规则书配套社区数据（namu wiki 逐字：「5 strength stun applied. 15 unblockable damage」）；
+      // 来源 ②法媒评测（aumeeplereporter）：「Rage, at 5 stars, inflicts 15 damage and a stun」。
+      // Ultimate 伤害类型：不可防御且不可避免（规则书 Damage Table），引擎以 undefendable + sourceKind ultimate 表达。
+      name: '怒火（Rage）',
       tiers: [
         { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'pow', count: 5 },
-          effects: [{ clause: { kind: 'dealDamage', amount: 22, damageType: 'attack', to: { r: 'opponent' }, sourceKind: 'ultimate' } }] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:stun', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'dealDamage', amount: 15, damageType: 'undefendable', to: { r: 'opponent' }, sourceKind: 'ultimate' } },
+          ] },
       ],
     },
   ],
@@ -581,12 +623,20 @@ export const PYROMANCER: HeroDef = {
       // ⚠️ official:false：官方 Ultimate 印在实体英雄面板上，图包未包含，数值未知。占位推定。
       id: 'pyromancer:scorchTheEarth',
       kind: 'ultimate',
-      name: '焦土（占位，官方值待补）',
+      // 官方（双源一致，2026-10-14）：Scorch the Earth! —— 5-of-a-kind Meteor（五颗 6）：
+      // 施加 Knockdown & Burn → Gain 3 Fire Mastery → Deal 12 dmg → 另对所有对手 2 点 collateral。
+      // 来源 ①原版 S1 规则书 PDF v1.1（filesusr.com 官方托管，文本层逐字）；
+      // 来源 ②Season One ReRolled 规则书（rulespal.com）—— 两版面板此条目完全一致。
+      // 1v1 下「all opponents」即唯一对手。
+      name: '焦土（Scorch the Earth!）',
       tiers: [
         { level: 1, upgradeCostCP: 0, matcher: { k: 'countFace', face: 6, count: 5 },
           effects: [
-            { clause: { kind: 'dealDamage', amount: 25, damageType: 'attack', to: { r: 'opponent' }, sourceKind: 'ultimate' } },
-            { clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 3, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:burn', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:fireMastery', stacks: 3, to: { r: 'self' } } },
+            { clause: { kind: 'dealDamage', amount: 12, damageType: 'undefendable', to: { r: 'opponent' }, sourceKind: 'ultimate' } },
+            { clause: { kind: 'dealDamage', amount: 2, damageType: 'collateral', to: { r: 'opponent' }, sourceKind: 'ultimate' } },
           ] },
       ],
     },

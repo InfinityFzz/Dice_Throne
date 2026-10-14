@@ -39,8 +39,19 @@ const draftPath = join(packDir, 'mapping.draft.json');
 const draft = JSON.parse(readFileSync(draftPath, 'utf8')) as Draft;
 const draftByFile = new Map<string, DraftEntry>(draft.entries.map((e) => [e.file, e]));
 
+/** TTS 状态令牌名（source 字段 "status <Name>"）→ shared 状态 id。 */
+const STATUS_NAME_TO_SHARED: Readonly<Record<string, string>> = {
+  stun: 'common:stun',
+  concussion: 'common:concussion',
+  knockdown: 'common:knockdown',
+  burn: 'common:burn',
+  'fire mastery': 'common:fireMastery',
+  evasive: 'common:evasive',
+  poison: 'common:poison',
+};
+
 const occupied = new Set<string>(
-  manifest.entries.filter((e) => e.kind === 'card' && e.confirmed).map((e) => e.logicalId),
+  manifest.entries.filter((e) => (e.kind === 'card' || e.kind === 'statusIcon') && e.confirmed).map((e) => e.logicalId),
 );
 const byFile = [...manifest.entries].sort((a, b) => a.file.localeCompare(b.file));
 
@@ -48,17 +59,24 @@ let confirmed = 0, duplicates = 0;
 const unmatched: string[] = [];
 
 for (const e of byFile) {
-  if (e.kind !== 'card' || !e.cardName) continue;
   if (e.confirmed) continue; // 已确认（含此前的手工条目）不动
-  const defId = nameMap[normalize(e.cardName)];
-  if (!defId) {
-    unmatched.push(`${e.file} "${e.cardName}"`);
+  let defId: string | undefined;
+  if (e.kind === 'card' && e.cardName) {
+    defId = nameMap[normalize(e.cardName)];
+    if (!defId) { unmatched.push(`${e.file} "${e.cardName}"`); continue; }
+  } else if (e.kind === 'statusIcon') {
+    // source 形如 "tts:908560170 status Stun"；取状态名查表
+    const m = /status\s+(.+)$/i.exec(String(e.source ?? ''));
+    const statusName = m?.[1]?.trim().toLowerCase();
+    defId = statusName ? STATUS_NAME_TO_SHARED[statusName] : undefined;
+    if (!defId) { unmatched.push(`${e.file} (status "${statusName ?? '?'}")`); continue; }
+  } else {
     continue;
   }
   if (occupied.has(defId)) {
     duplicates++;
     const d = draftByFile.get(e.file);
-    if (d) d.note = `与 ${defId} 重复（通用卡多英雄各一张），仅首张挂图`;
+    if (d) d.note = `与 ${defId} 重复（通用卡/共用状态多英雄各一份），仅首张挂图`;
     continue;
   }
   const d = draftByFile.get(e.file);
