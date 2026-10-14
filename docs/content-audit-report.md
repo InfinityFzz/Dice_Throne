@@ -350,3 +350,167 @@ L1 与卡图 L2 **完美衔接**（扒窃 2/3/4→3/4/5/6、狡诈/阴险 +3→+
 | 毒伤（Poison Wound!） | 「选一名玩家」（可含自己） | 固定对手 | 与 Roulette 同款，目标选择入口就绪后改 choose |
 | 偷袭 / 装填 / 闪避 的 spend | 玩家任意时机消耗 | 状态数据完备、无法主动消耗 | 引擎无 spendStatus 玩家入口（既有缺口，与 Gunslinger 轮一致） |
 | thenNode 打出窗口 | Roll Phase Action 卡须在特定时机打出 | 只能在 main 宽松打出、伤害悬桶 | 独立引擎任务，见第六轮 §23 |
+
+---
+
+# 第八轮：引擎契约扩展（MoonElf 前置，2026-10-14）
+
+> 定位：**只补通用引擎契约，不写死任何英雄/状态 id**（架构硬约束：引擎不得对具体内容 id 特判）。
+> TARGETED / ENTANGLE / BLIND 三个状态的注册由 MoonElf 内容层任务按既有模式
+> （gunslinger:bounty / shadowthief:shadows）以 `moonelf:` 前缀完成；本轮行为取证全部走
+> **自建 registry + 自造状态**（`test:` 前缀），引擎中立。
+
+## 28. 契约总览（4 项，全部通用机制、零英雄特判）
+
+| 契约 | 官方机制（MoonElf 面板状态卡原文） | 实现点 |
+|---|---|---|
+| `StatusDef.onAttacked` 逐字段独立求值 | TARGETED「+2 incoming Attack damage: When a player afflicted with this token is Attacked by an opponent, the attacker increases their dmg by 2. Persistent.」 | `engine/effects.ts` dealDamage handler：bonusDamage 与 attackerGainsCp 各自独立定位、独立生效（历史上 Bounty 两者总是一起出现，纯 CP 状态曾被漏发） |
+| `StatusDef.onRollPhaseStart` | ENTANGLE「Lose 1 roll attempt: A player afflicted with this token gets 1 fewer roll attempts during their next Offensive Roll Phase.」 | `engine/engine.ts` openOffensiveRoll：按当前进攻方状态汇总 rollAttemptsDelta（下限 0）后设置基础次数；`legal.ts`「剩 N 次」标签读 rollAttemptsLeft 自动跟随 |
+| `StatusDef.onConcludeRollPhase.failDie` | BLIND「On 1-2, fail Offensive Roll Phase: The next time a player afflicted with this token concludes their Offensive Roll Phase, they must remove this token and roll 1 die. On 1-2, their Offensive Roll Phase fails and has no effect of any kind.」 | `engine/engine.ts` concludeOffensiveRoll：announceAbility 宣布能力**之前** / passAbility 时点火——移除状态 → 掷骰 → 命中 failValues 则整个阶段作废（不激活能力、不入桶、不开防御，直接 main2） |
+| `StatusDef.expiresAtRollPhaseEnd` | ENTANGLE「At the conclusion of the Roll Phase, remove this token.」 | 与 failDie 同一收场点统一移除整枚 token；与 `discardAtTurnEnd`（endTurn + sinceTurn 判定）时机分离，不得混用 |
+
+## 29. 契约 1：onAttacked 逐字段解耦（TARGETED）
+
+- 官方 FAQ 口径沿用 Bounty 三条（入桶即触发、不因 pure 反伤触发、主伤害 >0 才触发），
+  已写入 `types/content.ts` 的 `StatusDef.onAttacked` 注释（原注释断言两字段总是一起出现，
+  属过度断言，本轮同步修正）。
+- 改动：dealDamage handler 由「两字段同时存在才触发」改为逐字段独立定位与生效；
+  日志 note 按实际生效字段拼接（只有加伤 / 只有 CP / 两者皆有）。
+- 取舍：每字段各取状态数组顺序中第一个携带它的状态（官方均为 limit 1，不叠加）；
+  多层叠加语义无官方依据，不做投机泛化。回归用例固化「两字段皆有」行为不破。
+
+## 30. 契约 2：onRollPhaseStart（ENTANGLE 少 N 次掷骰）
+
+- 实现：openOffensiveRoll 按当前进攻方身上所有状态的 rollAttemptsDelta 汇总，
+  `Math.max(0, MAX_ROLL_ATTEMPTS + delta)`；下限 0 防负数次数（pending 选项与
+  performRoll 守卫均假设 ≥ 0）。`legal.ts` 与 rollPendingOptions 的「掷骰（剩 N 次）」
+  读 rollAttemptsLeft，自动跟随，无需额外改动。
+- 取舍：delta 用常量 `number` 而非 Expr（官方为固定 1 次；按层数缩放的机制出现时再拓宽，
+  求值点不变）。与 `grantExtraRollAttempt` 正交——前者只开场结算一次，后者是效果执行期增量。
+
+## 31. 契约 3：onConcludeRollPhase.failDie（BLIND 收场掷骰）
+
+- 实现：concludeOffensiveRoll 在 announceAbility **宣布能力之前**与 passAbility 时点火：
+  先移除整枚 token（官方「must remove this token and roll 1 die」，移除与骰果无关）→
+  掷 failDie.count 颗骰（命名流 `dice:fail:<seat>`，种子化确定性）→ 任一面值命中 failValues
+  → 整个进攻掷骰阶段作废：不激活能力、不入桶、不开防御、不走 ultimateGate，
+  直接进 main2（只挂 cardWindow 窗口）。
+- 半结算防护：作废发生在 resolveAbility 之前，本契约不碰 bucket / defenseUsed / ladderStep；
+  进入阶段前既有的 bucket 内容（如 main2 悬置伤害，其结算时机由既有契约决定）不属本契约
+  管辖范围，保持原状。
+- UI 事件：`rollPhaseFailDie`（骰值 / 失败面 / failed 标记）+ `rollPhaseFailed` + `abilityVoided`；
+  移除本身走 statusChanged（经效果系统的 removeStatus，复用既有事件链）。
+- 出口语义：放弃激活同样触发收场（官方原文不区分出口）——阶段本就无效果，作废标记不改变
+  结果，但移除与掷骰照常发生。
+- failDie 字段保留 optional：当前唯一定义的收场行为；将来新增其他收场行为时在此加字段，
+  同步补引擎分支与 describe 模板。
+
+## 32. 契约 4：expiresAtRollPhaseEnd（ENTANGLE 结论时弃置）
+
+- 实现：与 failDie 同一收场点（concludeOffensiveRoll）无条件移除整枚 token（全部层数，
+  官方「remove this token」不是 1 层）；事件 `rollPhaseTokenExpired`。
+- 时机分离守门（测试固化）：expiresAtRollPhaseEnd 收场即弃；discardAtTurnEnd 收场不弃、
+  要等 endTurn 且带 sinceTurn 判定——两个契约不得混用同一时机。
+
+## 33. 取证与守门
+
+- 行为级取证 **18 例**（`packages/shared/src/engine/moonelf.test.ts`）：自建 registry +
+  自造状态（test:notTargeted / test:notBlind / test:notEntangle 等），全程走自建 registry
+  自己的 reduce；守方统一神枪手（狂战士防御骰含生命面会回血，污染 HP 断言）；
+  完整回合流 main1 →endMainPhase→ offensiveRoll →passAbility→ main2 →endMainPhase→
+  discard →endTurn。种子固化两例（`qa-me-blind-hit` 实测掷 2 作废 / `qa-me-blind-miss`
+  实测掷 4 照常），seed 名仅为可复现编号，实测值写在用例注释里。
+- describe 层新增渲染测试 **6 例**（`content/describe.test.ts`）：逐字段 onAttacked /
+  onRollPhaseStart / failDie / expiresAtRollPhaseEnd；全契约状态 zh 无渲染残渣、en 非空。
+- 已知边界：收场钩子只在 announceAbility / passAbility 两个出口点火（阶段机当前仅此两个
+  正常出口）；failDie 的 count>1 官方未出现（契约按 count 泛化实现，官方值 1）。
+
+## 34. 内容层待办（MoonElf 实装任务消费）
+
+- [x] `moonelf:targeted`（负面，limit 1，Persistent，`onAttacked.bonusDamage = 2`）
+- [x] `moonelf:entangle`（负面，limit 1，`onRollPhaseStart.rollAttemptsDelta = -1` + `expiresAtRollPhaseEnd`）
+- [x] `moonelf:blind`（负面，limit 1，`onConcludeRollPhase.failDie = { count: 1, failValues: [1, 2] }`）
+- common: 下**不放**通用版：官方状态 token 按英雄面板独立发行（evasive 在 common: 下是因为
+  多英雄面板共同印发），凭自觉造通用版没有官方依据（理由已写入 `content/statuses.ts` 头注）。
+
+---
+
+# 第九轮：MoonElf 实装（2026-10-14 · M3 第五位新英雄）
+
+> 定位：**内容层实装 + 2 处通用小扩展，零英雄特判引擎改动**。骰面/数值全部
+> official（三源交叉，零推定值）；已知偏差全部显式记账。行为取证 50 例
+> （moonelf.test.ts：18 契约 + 32 内容）+ describe 渲染 9 例；QA 独立探针
+> moonelf-contract-probe.test.ts 45 例不动。
+
+## 35. 官方数值来源（三源交叉，全部 official ✅ 零推定值）
+
+| 来源 | 覆盖 |
+|---|---|
+| ① TTS 官方图包逐张读图 | panel.webp（骰面 1-3 ARROW / 4-5 FOOT / 6 MOON、3 个状态与 stack limit）+ card-18..32 共 15 张专属卡（L2/L3 数值、升级 CP、专属行动卡全文、卡面下方相邻 L1 格 ×4） |
+| ② 2017 规则书（v0.9.4 两份扫描） | 英雄面板官方排版全文：HP 50、全部能力 L1 数值（长弓 4/5/7、致命射击 4、掩护射击 7、爆裂箭、缠足射击 7、致盲射击 8、月蚀 7、打偏防御全文）+ Ultimate 逐字 |
+| ③ namu wiki MoonElf 条目 | L1 数值与升级效果逐能力列出，与 ①② 一致（机翻仅作核对，不作依据） |
+
+L1 与卡图 L2/L3 **完美衔接**（长弓 4/5/7→4/6/8→5/7/9、致命射击 4→6、掩护射击 7→9、
+缠足射击 7→9、致盲射击 8→10、月蚀 7→9、打偏 ⌊箭/2⌋→每箭）。
+Ultimate「月蚀！（Lunar Eclipse!）」双源一致：5 月 → 获得闪避 + 施加致盲/缠足/锁定 + 12 点伤害。
+
+**版本判定（旧文 vs 现行版）**：Ultimate 伤害 2017 规则书旧值 **13**，现行版
+（TTS 面板 + namu）为 **12** → 按现行版 12 实装；BLIND 触发点 2017 规则书旧文
+「造成伤害时」，现行契约为「收场时」→ 按第八轮已过质量门的契约实装。
+
+**⚠️ 任务 spec 修正（向 team-lead flagged）**：任务书描述 Longbow II/III 缠足条件为
+「4 同色 / 3 同色」，但 TTS 卡图 card-18/19 逐字为 "On 4-of-a-kind (#'s), inflict Entangle"
+/ "On 3-of-a-kind (#'s)"（#s = 骰值同点图标），namu 机翻亦为「same number」——
+**按卡图实装** `nOfAKind 4`（L2）/ `nOfAKind 3`（L3），与 Barbarian Smack 的
+of-a-kind 同构；**不是**同符号/同色。正反例已入测试（4 同点缠足 / 无 4 同点不缠足）。
+
+## 36. 实装清单
+
+- **状态 3**（`moonelf:targeted 锁定` / `moonelf:entangle 缠足` / `moonelf:blind 致盲`）
+  + 通用修订 1（`common:evasive` 官方化，见 §37）。
+- **能力 13 槽**：长弓（3 档）/ 致命射击（2 档）/ 掩护射击（2 档）/ 爆裂箭（3 档）/
+  缠足射击（2 档）/ 致盲射击（2 档）/ 月蚀（2 档）/ 专注（附赠）/ 闪避行动（附赠）/
+  月赐（附赠）/ 月影（附赠）/ 打偏（防御，2 档）/ 月蚀！（Ultimate）。
+- **卡组 33 张**：通用 18 + 升级 10 + 专属行动 5（月之魔法 4CP / 接招 0CP /
+  齐射 1CP / 闪避 1CP / 暗月之影 PROMO 0CP）。
+- **注册挂图 6 处**：`registry.registerHero` / `index.ts` 命名导出 /
+  `describe.ts` ALL_HEROES + 新符号名（箭/足/月）/ `name-map.json` 15 条 /
+  `gen-asset-catalog.ts` HEROES → `catalog.ts` **153→188 条** / `assets:check` 通过。
+
+## 37. 通用小扩展 2 处（全部通用机制、零英雄特判）
+
+| 扩展 | 官方机制 | 实现点 |
+|---|---|---|
+| `Expr.floorDiv` | 打偏 L1「每 2 支箭 → 1 点伤害」= ⌊箭数/2⌋ | `types/core.ts` 联合成员 + `effects.ts` evalExpr case（b=0 归 0，与 ceilDiv 同口径）+ `describe.ts` 模板（zh `⌊a ÷ b⌋` / en `floor(a / b)`）+ 渲染测试（与 ceilDiv 措辞区分守门） |
+| `common:evasive` 官方化 | 面板原文「Spend & roll 1-2 to dodge an Attack」 | spendEffect = 掷 1 骰 → 点数 ≤2 才 avoidDamage；无论点数都消耗 1 层（spendStatus handler 先 removeStatus(1) 再执行 spendEffect）。顺带移除旧数据 next 里多余的 removeStatus（handler 已扣 1 层，旧数据属潜在双扣缺陷，因 spend 无入口未暴露） |
+
+## 38. 已知偏差（全部显式记账，非静默）
+
+| 项 | 官方 | 现状 | 原因 |
+|---|---|---|---|
+| 4 个附赠能力解锁 | 需先购入对应 II 级升级才解锁（Demising Shot II→Focus 等） | 常驻 L1 | 引擎能力槽无「随升级解锁」机制（同 ShadowThief 模式） |
+| Evasive Action / Evade! 目标 | 「a chosen player」可含自己/对手 | 固定自己 | 目标选择入口就绪后改 choose |
+| Ultimate 伤害 | 2017 规则书 13 | 12 | 现行版（TTS 面板 + namu）双源一致 12 |
+| BLIND 触发点 | 2017 规则书「造成伤害时」 | 收场时（announce / passAbility） | 第八轮契约经质量门验证（PASS），按契约实装 |
+| 接招 / 齐射打出时机 | Roll Phase Action 特定时机 | 只能 main 宽松打出、伤害悬桶 | thenNode 窗口缺失（既有缺口，第六轮 §23） |
+| 闪避 spend | 玩家任意时机消耗 | 状态数据完备、无主动消耗入口（测试用自建卡驱动 handler） | 引擎无 spendStatus 玩家入口（既有缺口） |
+| 升级卡张数 | 官方每张张数未获取 | 每张 1 本 | 图包无张数信息 |
+
+## 39. 取证与守门
+
+- 行为级取证 **50 例**（`engine/moonelf.test.ts` = 18 契约 + 32 内容）：
+  - 注册冒烟：骰面 1-3 箭 / 4-5 足 / 6 月、掷 5 骰、50 HP、13 能力 / 3 状态 / 33 卡组（18+10+5）、registry 校验、对局可建；
+  - TARGETED +2 不给 CP（守方带锁定入桶 6、CP 不变；对照悬赏入桶 5、CP +1）；
+  - ENTANGLE 完整回合流（缠足射击上 token → 对手回合开场 3→2 → 对手收场整枚移除）；
+  - BLIND 两分支（seed `qa-me-blind-hit` 实测掷 2 作废 / `qa-me-blind-miss` 实测掷 4 照常）；
+  - Missed Me L1 vs L2 同 seed 对照（防御骰 [1,1,5,5,1]：L1 回击 ⌊3/2⌋=1、L2 每箭=3，防止 ⌈4/2⌉=2 不变）；
+  - 爆裂箭池骰归属（seed `qa-me` 池 [6,5,2,1,6]：伤害 3+2 箭+1 足=6、按**池**月扣 2 CP——与进攻骰的 3 月不同，证明池归属契约）；
+  - 长弓三档 + of-a-kind 缠足正反例（4 同点 6 伤+缠足 / 3 箭无 4 同点 4 伤不缠足 / L3 三同点 5 伤+缠足）；
+  - Ultimate 12 不可防御（守 HP 38、不开防御窗口、三状态 + 己方闪避）；
+  - evasive 掷骰版 4 例（掷 1/2 避伤、掷 3/6 不避，无论点数都 3→2）；
+  - 其余能力数值 9 例（致命/掩护/月蚀/缠足/致盲射击 + 4 个附赠能力，含同帧锁定吃 +2 的入桶 6/9）。
+- describe 层新增渲染测试 **9 例**（`content/describe.test.ts` MoonElf 组）：
+  三状态契约措辞、打偏 L1 floorDiv vs L2 每箭区分、长弓 L2 三档 + 4 同点条件、
+  爆裂箭公式符号、Ultimate 12 不可防御 + 终极技能标注、月之魔法 / 暗月之影双分支。
+- 质量门：`npm test` **475/475**（434 基线 + 41 新增）；三包 `tsc` 零错误；
+  e2e 完整局 164 步通过；match 脚本对战通过；`assets:check` **188 条**。

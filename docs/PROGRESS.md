@@ -1,6 +1,6 @@
 # 项目进度与计划
 
-> 更新时间：2026-10-14（**Shadow Thief 实装完成，M3 4/7 英雄**）
+> 更新时间：2026-10-14（**MoonElf 实装完成，M3 5/7 英雄**）
 > 定位：**自用学习**，不公开部署、不分发、不商用；规则以官方为准；回合制不限时。
 > 设计/架构原始文档在 `md/`（架构文档 `md/docs/architecture/`，设计文档 `md/design/`）；
 > 官方数值校对记录在 `docs/content-audit-report.md`。
@@ -14,11 +14,12 @@
 | **M0** | 规则引擎跑通单局脚本对战（确定性、可复现） | ✅ **完成**（且超额：四英雄已官方校准） |
 | **M1** | 本地可对战，UI 走完整回合流程 | ✅ **完成**（本地热座 + 出牌闭环，见 §阶段 A） |
 | **M2** | 联机完整联调（权威校验、重连、持久化恢复） | ✅ **完成**（`npm run e2e` 全绿，见 §阶段 B） |
-| **M3** | 4+ 英雄完整内容 | 🔵 **4/7 实装**（Barbarian/Pyromancer/Gunslinger/ShadowThief 全部官方校准；余 3 英雄图已备好） |
+| **M3** | 4+ 英雄完整内容 | 🔵 **5/7 实装**（Barbarian/Pyromancer/Gunslinger/ShadowThief/MoonElf 全部官方校准；余 2 英雄图已备好） |
 
-提交历史（16 次）：
+提交历史（17 次）：
 
 ```
+<本次>  MoonElf 实装 —— M3 第五位新英雄：2 处通用小扩展（floorDiv + evasive 官方化）+ 三源校准零推定值（单测 434 → 475）
 e9bac23  ShadowThief 实装 —— M3 第二位新英雄：4 项引擎扩展 + 三源校准零推定值（单测 247 → 310）
 7462242  Gunslinger 实装 —— M3 第一位新英雄：4 项引擎扩展 + 三源校准零推定值（单测 184 → 247）
 ee85cb9  docs: O-1 销项 + content-lint 前置完成记录（单测 184）
@@ -38,7 +39,7 @@ f71eea6  Barbarian 官方数值校准
 fbdedc7  M0 规则引擎 + TTS 素材资产隔离层
 ```
 
-代码规模：约 7.6k 行 TS/TSX（引擎 ≈2.4k、内容层 ≈1.3k、服务端 ≈0.6k、前端 ≈0.9k、脚本 ≈2.4k）。
+代码规模：约 11.1k 行 TS/TSX（引擎 ≈2.3k、内容层 ≈3.2k、类型 ≈0.8k、服务端 ≈0.7k、前端 ≈1.6k、脚本 ≈2.4k；另测试 ≈4.4k 行）。
 
 ---
 
@@ -72,12 +73,16 @@ fbdedc7  M0 规则引擎 + TTS 素材资产隔离层
 | Pyromancer 焰术士 | 50 | 5 | 9 | 33（升级 10 + 专属 5+1PROMO + 通用 18） | 官方校准 |
 | Gunslinger 神枪手 | 50 | 5 | 9 | 33（升级 9 + 专属 5+1PROMO + 通用 18） | 官方校准（**零推定值**，三源交叉） |
 | ShadowThief 影贼 | 50 | 5 | 10 | 33（升级 8 + 专属 6+1PROMO + 通用 18） | 官方校准（**零推定值**，三源交叉） |
+| MoonElf 月精灵 | 50 | 5 | 13 | 33（升级 10 + 专属 5 + 通用 18） | 官方校准（**零推定值**，三源交叉） |
 
-- 卡牌 **78 张**（通用 18 + Barbarian 15 + Pyromancer 15 + Gunslinger 15 + ShadowThief 15），
+- 卡牌 **93 张**（通用 18 + Barbarian 15 + Pyromancer 15 + Gunslinger 15 + ShadowThief 15 + MoonElf 15），
   全部读官方卡图机制化，无官方 flavor text。
-- 状态库 **11 个**：burn / poison / evasive / fireMastery / stun / concussion / knockdown
-  + gunslinger 专属 reload（装填）/ bounty（悬赏）+ shadowthief 专属 shadows（隐入暗影）/ sneakAttack（偷袭）。
+- 状态库 **14 个**：burn / poison / evasive / fireMastery / stun / concussion / knockdown
+  + gunslinger 专属 reload（装填）/ bounty（悬赏）+ shadowthief 专属 shadows（隐入暗影）/ sneakAttack（偷袭）
+  + moonelf 专属 targeted（锁定）/ entangle（缠足）/ blind（致盲）。
   `common:poison` 已于 2026-10-14 官方化为 stackLimit 3 + Persistent（原 5/非持续为早期未记录值）。
+  `common:evasive` 已于 2026-10-14 官方化为**掷骰版花费**（面板原文「Spend & roll 1-2 to dodge an Attack」：
+  花费 1 层并掷 1 骰，掷 1-2 才避伤；无论点数都消耗 1 层）。
 - 已知偏差（2026-10-14 复核更正，以代码为准）：
   - ✅ **Ultimate 官方值已补**：`bloodlust`（Stun + 15 不可防御）、`scorchTheEarth`（12 不可防御 + 2 溅射），双源确认。
     ⚠️ 代码里 Ultimate 上方仍残留「official:false 占位推定」的旧注释，与下方官方值注释自相矛盾 —— **待清理**（C3）。
@@ -117,15 +122,17 @@ fbdedc7  M0 规则引擎 + TTS 素材资产隔离层
 - 三档资源包：`placeholder`（程序化 SVG，入库）/ `local-tts`（本地 TTS 导入，**真图不入库**）/ `reskin`。
 - TTS 官方图包切片 **300 张**（7 英雄 × cards/dice/panels/statuses），OCR 卡名 230 条。
 - 命中率 **66/89**（card 类 48/48 全命中）；剩余缺 23 = abilityIcon 19 + statusIcon 3 + background 1，均为 TTS 图包本身没有的图。
+- MoonElf 资产挂图（2026-10-14）：`name-map.json` +15 条（升级卡 10 + 专属行动卡 5），
+  `catalog.ts` 153→**188 条**（panel 1 + abilityIcon 13 + dieFace 6 + card 15），`assets:check` 通过。
 - 工具链：`npm run assets:import`（切片+OCR）、`assets:catalog`（生成目录）、`assets:check`（守门）、`assets:confirm`（卡名批量确认）。
 
 ### 六、验收指标（当前）
 
 ```
 3 包 tsc --noEmit       零错误
-npm test                310 / 310（引擎+MatchActor+Gunslinger 55 + ShadowThief 11 / describe 178 / conditions 16 / lint 3）
+npm test                475 / 475（MoonElf 50[18 契约+32 内容] + Gunslinger 55 + ShadowThief 11 / describe 295 / conditions 16 / lint 3 / 其余引擎+服务端）
 npm run test:assets     10 / 10
-npm run assets:check    153 条目录项，无孤立/遗漏（Gunslinger 89 → 120 → ShadowThief 153）
+npm run assets:check    188 条目录项，无孤立/遗漏（Gunslinger 89 → 120 → ShadowThief 153 → MoonElf 188）
 npm run match           完整局（25 回合），同种子 md5 一致
 npm run e2e             M2 端到端联调全绿（见 §四 阶段 B）
 vite build              通过（257 webp / 9.7M），真图未入库
@@ -139,6 +146,15 @@ ShadowThief 引擎扩展（2026-10-14，同样全部通用、零英雄特判，�
 `StatusDef.onAttacked.avoid`（阴影避伤，Ultimate/非攻击伤害豁免）/ `discardAtTurnEnd` + `sinceTurn`
 （回合末弃置时序）/ `defensiveRoll.abilityId` + `AbilityTier.defenseDiceCount`（双防御掷骰前二选一）；
 注册表 `upgradeCostCP` 校验由「严格递增」放宽为「非递减」（官方匕首打击 II 为 0 CP 升级）。
+
+MoonElf 引擎契约（2026-10-14 第八轮前置，4 项全部通用、零英雄特判，详见审计报告 §28–32）：
+`StatusDef.onAttacked` 逐字段独立求值 / `onRollPhaseStart.rollAttemptsDelta` /
+`onConcludeRollPhase.failDie` / `expiresAtRollPhaseEnd`。
+
+MoonElf 通用小扩展（2026-10-14 第九轮，2 处，详见审计报告 §37）：
+`Expr.floorDiv`（打偏 L1「每 2 支箭 1 伤害」= ⌊箭/2⌋；core 联合成员 + evalExpr + describe 模板三处同步）/
+`common:evasive` 官方化（面板「Spend & roll 1-2 to dodge an Attack」：掷 1 骰 1-2 才避伤、无论点数都消耗 1 层；
+顺带修复旧数据 spendEffect 里多余的 removeStatus —— handler 已扣 1 层，旧数据属潜在双扣缺陷）。
 
 ---
 
@@ -157,7 +173,7 @@ ShadowThief 引擎扩展（2026-10-14，同样全部通用、零英雄特判，�
 6. ✅ 断线重连：`room:rejoin` 令牌校验；座位与令牌跨断线保留；重连后视图与断线前逐字节一致。
 7. ✅ 房间英雄选择 + 观战位：大厅选人/准备开局；第三个连接进观战位并收到 `SpectatorView`。
 
-### P2 —— 阻塞「内容完整」（8–11 已清零；11 首位英雄 Gunslinger 已完成 2026-10-14）
+### P2 —— 阻塞「内容完整」（8–11 已清零；11 已完成 Gunslinger + ShadowThief + MoonElf 三位英雄）
 
 8. ✅ **`describe(e, lang)` 描述层**（design E6 / 附录 A 第 7 条）：`content/describe.ts` 703 行，
    **30 种 clause kind 全覆盖**、zh/en 双语；lint 守门 = 类型层强制穷尽 + 测试层 key 集合双向比对。
@@ -172,6 +188,11 @@ ShadowThief 引擎扩展（2026-10-14，同样全部通用、零英雄特判，�
     ✅ 实装前置 **content-lint 已就位**（`content/lint.test.ts`，2026-10-14 `330d9da`）：
     英雄/能力/状态/卡名必须含 CJK、zh 渲染不得回落英文 id；本轮再次实战抓到
     gunslinger 能力/状态词表缺登记（describe 词表已改为随 ALL_HEROES 数据自动构建）。
+    ✅ **ShadowThief 已完成**（2026-10-14）：三源交叉零推定值 + 4 项引擎扩展 + 契约测试 18 例。
+    ✅ **MoonElf 已完成**（2026-10-14）：三源交叉零推定值 + 第八轮 4 项引擎契约（质量门 PASS 379/379）
+    + 第九轮 2 处通用小扩展（floorDiv / evasive 官方化）+ 内容测试 32 例 + describe 渲染 9 例；
+    注册挂图 6 处，catalog 153→188。⚠️ 任务书 Longbow 缠足条件「同色」与卡图「of-a-kind (#s)」不符，
+    已按卡图实装 nOfAKind 4/3（审计报告 §35  flagged）。
 
 ---
 
@@ -272,12 +293,12 @@ npm test         # 41 个单测
 |---|---|---|
 | IP 路径 | 自用学习、真素材不入库、零官方文本 | 已拍板，保持不变 |
 | 官方数值来源 | **Ultimate 已补齐**（2026-10-14 双源）；**L1 约 10 处 `official:false` 推定**待官方值 | 用户订阅中文版 mod（3446854288）后按 SOP 接入（审计报告 §14） |
-| 5 英雄优先级 | ✅ Gunslinger + ShadowThief 已完成（均三源校准零推定值） | 下一位建议 MoonElf / Ninja / Raveness |
+| 5 英雄优先级 | ✅ Gunslinger + ShadowThief + MoonElf 已完成（均三源校准零推定值） | 下一位建议 Ninja / Raveness |
 | 描述层接入 UI | `describe()` 已实现并导出、**前端尚未调用** | 用户决定是否排入下轮 |
 | O-1 排查 | ✅ **已坐实并修复**（`0a527fc`，三层缺陷 + C2-4 组 4 例） | 已销项 |
-| thenNode 打出窗口 | Roll Phase Action 卡（Get Some!/redHot/Eat Lead!）暂只能在 main 宽松打出、伤害悬桶 | 独立引擎任务，建议排入 M3 收尾 |
-| spendStatus 玩家入口 | Reload/Evasive 数据完备但无法主动消耗（Quick Draw/Wild West 因此不生效） | 独立引擎任务（挂起/选择语义），与 optionalPrompt 一并考虑 |
-| 下一步方向 | 单测 310、M3 4/7 | 其余 3 英雄（MoonElf/Ninja/Raveness）/ L1 数值补齐 / 描述层接 UI / thenNode+spend 入口 |
+| thenNode 打出窗口 | Roll Phase Action 卡（Get Some!/redHot/Eat Lead!/MoonElf 接招·齐射）暂只能在 main 宽松打出、伤害悬桶 | 独立引擎任务，建议排入 M3 收尾 |
+| spendStatus 玩家入口 | Reload/Evasive 数据完备但无法主动消耗（Quick Draw/Wild West 因此不生效；evasive 已官方化为掷骰版，入口仍未开） | 独立引擎任务（挂起/选择语义），与 optionalPrompt 一并考虑 |
+| 下一步方向 | 单测 475、M3 5/7 | 其余 2 英雄（Ninja/Raveness）/ L1 数值补齐 / 描述层接 UI / thenNode+spend 入口 |
 
 ---
 
