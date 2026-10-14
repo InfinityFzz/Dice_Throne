@@ -112,7 +112,7 @@ fbdedc7  M0 规则引擎 + TTS 素材资产隔离层
 
 ```
 3 包 tsc --noEmit       零错误
-npm test                177 / 177（引擎 37 + MatchActor 4 + describe 124 + conditions 12）
+npm test                184 / 184（引擎 41 + MatchActor 4 + describe 124 + conditions 16 + lint 3 + other）
 npm run test:assets     10 / 10
 npm run assets:check    89 条目录项，无孤立/遗漏
 npm run match           完整局（25 回合），同种子 md5 一致
@@ -146,7 +146,9 @@ vite build              通过（257 webp / 9.7M），真图未入库
     ⚠️ 残余缺口是 **L1 数值**：约 10 处 `official:false` 推定，需官方值替换。
 11. **其余 5 英雄**（下轮 M3）：Gunslinger / ShadowThief / MoonElf / Ninja / Raveness —— 卡图与卡名已就位，
     实装后扩 `name-map.json` 再跑 `assets:confirm` 即可自动挂图。
-    ⚠️ 实装前必须先补 **content-lint：能力/状态必须有 zh 名**，否则新增英雄会回落成英文 id。
+    ✅ 实装前置 **content-lint 已就位**（`content/lint.test.ts`，2026-10-14 `330d9da`）：
+    英雄/能力/状态/卡名必须含 CJK、zh 渲染不得回落英文 id；上lint即抓到并修正
+    全部 15 张升级卡的英文名（现均为「重击 II」等中文名）。新增英雄不登记名字将直接红。
 
 ---
 
@@ -228,9 +230,14 @@ npm test         # 41 个单测
   `adjustDie` / `copyDieFace` 的自动取位规则未体现在文案。
 - **`optionalPrompt` 挂起（正解 C）未做**：骨架齐全（`PendingKind` 有枚举、`legal.ts` 有下发分支、`Action.chooseOption` 存在），
   缺 `reduce` 的 chooseOption 空实现 + UI 入口。**UI 入口就绪前挂起会让本地热座与联机卡死在 pending**，故本轮不做。
-- **O-1 疑似 Major（未取证）**：`engine.ts:310-316` 把 preDefense 与 postDefense 合并进同一「结算前」窗口，
-  postDefense 卡（如 `barbarian:headBash` 的 `damageDealtAtLeast 8`）疑似在伤害 flush 前求值而恒不成立。防御窗口已被证明能正常工作，O-1 待补测试坐实或证伪。
-- **Minor**：`hasDefenseWindowCards`(engine.ts:312) 的 preDefense 分支不看 CP，与 `legal.ts:111` 口径打架 → 下发灰显按钮（仅 UI 噪音）。
+- **~~O-1~~（已坐实并修复，`0a527fc`）**：行为级探针证实为**三层缺陷** ——
+  ① 伤害记账方向反了（flushNow 把承受方净伤记给承受方自己，实测攻方造成 8 记 0）；
+  ② headBash 官方语义是**攻击方**在防御结算后打出的门槛型行动卡（卡面 card-29 重读确认），
+  原实现放进防守方 flush 前窗口，条件恒不成立；
+  ③ 缺打出门槛（无效打出也消耗卡）。修法：记账归对手 + 防守窗口收窄 preDefense-only +
+  新增 `CardDef.playIf`（reduce 拒绝 / legalActions 灰显 / describe 渲染三处同口径）。
+  `conditions.test.ts` C2-4 组 4 例取证。
+- **Minor**：`hasDefenseWindowCards` 的 CP 口径 —— **已随 O-1 顺手修复**（两分支统一）。
 - **英文版描述是键位映射简版**：复数/冠词不讲究，`optional` / `promptNumber` 的 prompt 文案直接透传作者写的中文。真要上英文需 prompt 双语字段。
 - **e2e 步数/回合数每次不同**：`roomManager.ts:101` 用 `Date.now()+randomBytes` 当 seed，判绿只看「全部通过」一行，**不能据步数归因**。
 
@@ -242,10 +249,10 @@ npm test         # 41 个单测
 |---|---|---|
 | IP 路径 | 自用学习、真素材不入库、零官方文本 | 已拍板，保持不变 |
 | 官方数值来源 | **Ultimate 已补齐**（2026-10-14 双源）；**L1 约 10 处 `official:false` 推定**待官方值 | 用户订阅中文版 mod（3446854288）后按 SOP 接入（审计报告 §14） |
-| 5 英雄优先级 | 图与卡名齐备，实装顺序未定 | 用户指定（建议 Gunslinger → MoonElf → Ninja） |
-| 描述层接入 UI | `describe()` 已实现并导出、**前端尚未调用**（本轮只留导出，未改 web） | 用户决定是否排入下轮 |
-| O-1 排查 | postDefense 疑似在伤害 flush 前求值，**未取证** | 用户排期（quality-lead 建议下轮派给她坐实或证伪） |
-| 下一步方向 | 阶段 C（C1–C3）完成，P0/P1/P2 的 8–10 全部清零 | 用户选择：M3 五英雄 / L1 数值补齐 / O-1 排查 / 描述层接 UI |
+| 5 英雄优先级 | content-lint 前置已就位；建议 Gunslinger 优先 | 用户确认顺序后开工 |
+| 描述层接入 UI | `describe()` 已实现并导出、**前端尚未调用** | 用户决定是否排入下轮 |
+| O-1 排查 | ✅ **已坐实并修复**（`0a527fc`，三层缺陷 + C2-4 组 4 例） | 已销项 |
+| 下一步方向 | O-1 修复 + content-lint 完成，单测 184 | M3 五英雄（Gunslinger 起）/ L1 数值补齐 / 描述层接 UI |
 
 ---
 
