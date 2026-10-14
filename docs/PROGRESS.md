@@ -1,6 +1,6 @@
 # 项目进度与计划
 
-> 更新时间：2026-10-14（**阶段 B 完成，M2 联调通过，P0/P1 清零**）
+> 更新时间：2026-10-14（**Gunslinger 实装完成，M3 3/7 英雄**）
 > 定位：**自用学习**，不公开部署、不分发、不商用；规则以官方为准；回合制不限时。
 > 设计/架构原始文档在 `md/`（架构文档 `md/docs/architecture/`，设计文档 `md/design/`）；
 > 官方数值校对记录在 `docs/content-audit-report.md`。
@@ -11,14 +11,19 @@
 
 | 里程碑 | 定义 | 状态 |
 |---|---|---|
-| **M0** | 规则引擎跑通单局脚本对战（确定性、可复现） | ✅ **完成**（且超额：两英雄已官方校准） |
+| **M0** | 规则引擎跑通单局脚本对战（确定性、可复现） | ✅ **完成**（且超额：三英雄已官方校准） |
 | **M1** | 本地可对战，UI 走完整回合流程 | ✅ **完成**（本地热座 + 出牌闭环，见 §阶段 A） |
 | **M2** | 联机完整联调（权威校验、重连、持久化恢复） | ✅ **完成**（`npm run e2e` 全绿，见 §阶段 B） |
-| **M3** | 4+ 英雄完整内容 | 🔵 **2/2 已校准，图已备好其余 5 英雄** |
+| **M3** | 4+ 英雄完整内容 | 🔵 **3/7 实装**（Barbarian/Pyromancer/Gunslinger 全部官方校准；余 4 英雄图已备好） |
 
-提交历史（10 次）：
+提交历史（16 次）：
 
 ```
+7462242  Gunslinger 实装 —— M3 第一位新英雄：4 项引擎扩展 + 三源校准零推定值（单测 184 → 247）
+ee85cb9  docs: O-1 销项 + content-lint 前置完成记录（单测 184）
+330d9da  content-lint 中文名守门 + 升级卡名中文化（M3 前置）
+0a527fc  O-1 坐实并修复 —— postDefense 卡时机、伤害记账方向、打出门槛
+e15c0f3  docs: 同步阶段 C 完成后的提交历史（10 次）
 81ac6b1  C2 引擎条件三项全 PASS + C3 矛盾注释清理（单测 165 → 177）
 4660c06  C1 描述层 describe(e, lang) —— 30 种 clause kind 全覆盖 + lint 守门（单测 41 → 165）
 6d6dcf6  M2 联机完整联调 —— MatchActor 串行幂等 + append-only 持久化 + 重连/观战/选人
@@ -62,11 +67,14 @@ fbdedc7  M0 规则引擎 + TTS 素材资产隔离层
 
 | 英雄 | HP | 骰 | 能力槽 | 牌库 | 状态 |
 |---|---|---|---|---|---|
-| Barbarian 狂战士 | 50 | 5 | 10 | 33（升级 10 + 专属 5 + 通用 18） | 官方校准 |
-| Pyromancer 焰术士 | 50 | 5 | 9 | 33（升级 10 + 专属 5 + 通用 18） | 官方校准 |
+| Barbarian 狂战士 | 50 | 5 | 10 | 33（升级 10 + 专属 5+1PROMO + 通用 18） | 官方校准 |
+| Pyromancer 焰术士 | 50 | 5 | 9 | 33（升级 10 + 专属 5+1PROMO + 通用 18） | 官方校准 |
+| Gunslinger 神枪手 | 50 | 5 | 9 | 33（升级 9 + 专属 5+1PROMO + 通用 18） | 官方校准（**零推定值**，三源交叉） |
 
-- 卡牌 **48 张**（通用 18 + Barbarian 15 + Pyromancer 15），全部读官方卡图机制化，无官方 flavor text。
-- 状态库 **7 个**：burn / poison / evasive / fireMastery / stun / concussion / knockdown。
+- 卡牌 **63 张**（通用 18 ×3 英雄组 + Barbarian 15 + Pyromancer 15 + Gunslinger 15），
+  全部读官方卡图机制化，无官方 flavor text。
+- 状态库 **9 个**：burn / poison / evasive / fireMastery / stun / concussion / knockdown
+  + gunslinger 专属 reload（装填）/ bounty（悬赏）。
 - 已知偏差（2026-10-14 复核更正，以代码为准）：
   - ✅ **Ultimate 官方值已补**：`bloodlust`（Stun + 15 不可防御）、`scorchTheEarth`（12 不可防御 + 2 溅射），双源确认。
     ⚠️ 代码里 Ultimate 上方仍残留「official:false 占位推定」的旧注释，与下方官方值注释自相矛盾 —— **待清理**（C3）。
@@ -108,17 +116,21 @@ fbdedc7  M0 规则引擎 + TTS 素材资产隔离层
 - 命中率 **66/89**（card 类 48/48 全命中）；剩余缺 23 = abilityIcon 19 + statusIcon 3 + background 1，均为 TTS 图包本身没有的图。
 - 工具链：`npm run assets:import`（切片+OCR）、`assets:catalog`（生成目录）、`assets:check`（守门）、`assets:confirm`（卡名批量确认）。
 
-### 6. 验收指标（当前）
+### 六、验收指标（当前）
 
 ```
 3 包 tsc --noEmit       零错误
-npm test                184 / 184（引擎 41 + MatchActor 4 + describe 124 + conditions 16 + lint 3 + other）
+npm test                247 / 247（引擎+MatchActor+Gunslinger 55 / describe 173 / conditions 16 / lint 3）
 npm run test:assets     10 / 10
-npm run assets:check    89 条目录项，无孤立/遗漏
+npm run assets:check    120 条目录项，无孤立/遗漏（Gunslinger 实装后 89 → 120）
 npm run match           完整局（25 回合），同种子 md5 一致
 npm run e2e             M2 端到端联调全绿（见 §四 阶段 B）
 vite build              通过（257 webp / 9.7M），真图未入库
 ```
+
+Gunslinger 引擎扩展（2026-10-14，全部通用机制、零英雄特判，详见审计报告 §22）：
+`StatusDef.onAttacked`（Bounty 契约）/ `Condition.boundCompare`（双 roll 比较）/
+`Expr.incomingDamage`(防止½来袭) / `rollDicePool.owner`（按对手英雄骰面掷）。
 
 ---
 
@@ -137,18 +149,21 @@ vite build              通过（257 webp / 9.7M），真图未入库
 6. ✅ 断线重连：`room:rejoin` 令牌校验；座位与令牌跨断线保留；重连后视图与断线前逐字节一致。
 7. ✅ 房间英雄选择 + 观战位：大厅选人/准备开局；第三个连接进观战位并收到 `SpectatorView`。
 
-### P2 —— 阻塞「内容完整」（8–10 已清零，2026-10-14；11 为下轮 M3）
+### P2 —— 阻塞「内容完整」（8–11 已清零；11 首位英雄 Gunslinger 已完成 2026-10-14）
 
 8. ✅ **`describe(e, lang)` 描述层**（design E6 / 附录 A 第 7 条）：`content/describe.ts` 703 行，
    **30 种 clause kind 全覆盖**、zh/en 双语；lint 守门 = 类型层强制穷尽 + 测试层 key 集合双向比对。
 9. ✅ **引擎条件补全**：`conditions.test.ts` 12 例取证，Smack / Fortitude / Better D! **三项全部 PASS**（详见 §四 阶段 C）。
 10. ✅ **Ultimate**：官方值已补齐 + 自相矛盾的旧注释已清理（C3）。
     ⚠️ 残余缺口是 **L1 数值**：约 10 处 `official:false` 推定，需官方值替换。
-11. **其余 5 英雄**（下轮 M3）：Gunslinger / ShadowThief / MoonElf / Ninja / Raveness —— 卡图与卡名已就位，
+11. **其余 4 英雄**（M3 进行中）：ShadowThief / MoonElf / Ninja / Raveness —— 卡图与卡名已就位，
     实装后扩 `name-map.json` 再跑 `assets:confirm` 即可自动挂图。
+    ✅ **Gunslinger 已完成**（2026-10-14）：三源交叉校准零推定值 + 4 项引擎扩展
+    （onAttacked / boundCompare / incomingDamage / rollDicePool.owner）+ 取证测试 14 例。
+    实装流程已定型：读 panel → 逐张读专属卡 → 交叉官方规则书 → 扩 name-map → assets:catalog。
     ✅ 实装前置 **content-lint 已就位**（`content/lint.test.ts`，2026-10-14 `330d9da`）：
-    英雄/能力/状态/卡名必须含 CJK、zh 渲染不得回落英文 id；上lint即抓到并修正
-    全部 15 张升级卡的英文名（现均为「重击 II」等中文名）。新增英雄不登记名字将直接红。
+    英雄/能力/状态/卡名必须含 CJK、zh 渲染不得回落英文 id；本轮再次实战抓到
+    gunslinger 能力/状态词表缺登记（describe 词表已改为随 ALL_HEROES 数据自动构建）。
 
 ---
 
@@ -249,10 +264,12 @@ npm test         # 41 个单测
 |---|---|---|
 | IP 路径 | 自用学习、真素材不入库、零官方文本 | 已拍板，保持不变 |
 | 官方数值来源 | **Ultimate 已补齐**（2026-10-14 双源）；**L1 约 10 处 `official:false` 推定**待官方值 | 用户订阅中文版 mod（3446854288）后按 SOP 接入（审计报告 §14） |
-| 5 英雄优先级 | content-lint 前置已就位；建议 Gunslinger 优先 | 用户确认顺序后开工 |
+| 5 英雄优先级 | ✅ Gunslinger 已完成（三源校准零推定值） | 下一位建议 ShadowThief 或 MoonElf |
 | 描述层接入 UI | `describe()` 已实现并导出、**前端尚未调用** | 用户决定是否排入下轮 |
 | O-1 排查 | ✅ **已坐实并修复**（`0a527fc`，三层缺陷 + C2-4 组 4 例） | 已销项 |
-| 下一步方向 | O-1 修复 + content-lint 完成，单测 184 | M3 五英雄（Gunslinger 起）/ L1 数值补齐 / 描述层接 UI |
+| thenNode 打出窗口 | Roll Phase Action 卡（Get Some!/redHot/Eat Lead!）暂只能在 main 宽松打出、伤害悬桶 | 独立引擎任务，建议排入 M3 收尾 |
+| spendStatus 玩家入口 | Reload/Evasive 数据完备但无法主动消耗（Quick Draw/Wild West 因此不生效） | 独立引擎任务（挂起/选择语义），与 optionalPrompt 一并考虑 |
+| 下一步方向 | 单测 247、M3 3/7 | 其余 4 英雄 / L1 数值补齐（Barbarian/Pyromancer）/ 描述层接 UI / thenNode+spend 入口 |
 
 ---
 

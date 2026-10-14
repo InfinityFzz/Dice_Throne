@@ -254,3 +254,53 @@ Better D! 防御重掷窗口 —— 均为引擎条件缺口，与数值来源�
 - 本轮确认 3 条：common:stun / common:concussion / common:knockdown。
 - **当前命中 69/89：card 48/48 + statusIcon 20/20 全满**；剩缺 abilityIcon 19（TTS 包无独立能力图标）
   + background 1（表现层自由发挥）。资产侧无已知可补缺口。
+
+# 第六轮：Gunslinger 实装（2026-10-14 · M3 第一位新英雄）
+
+## 20. 官方数值来源（三源交叉，全部 official ✅ 零推定值）
+
+| 来源 | 覆盖 |
+|---|---|
+| ① TTS 官方图包逐张读图 | panel.webp（骰面/状态/stack limit）+ card-18..32 共 15 张专属卡（L2/L3 数值、升级 CP、专属行动卡全文、卡面下方相邻 L1 格 ×3） |
+| ② boardgame.bg《Dice Throne S2 Battle Chest》规则书 | 英雄面板官方排版全文：HP 50、全部能力 L1 数值（Revolver 3/4/5、BountyHunter 1、Showdown 7/5、Deadeye 6、TakeCover 5、FanTheHammer 7、QuickDraw passive、Duel 全文、Ultimate 全文） |
+| ③ namu wiki Gunslinger 条目 | L1 数值与升级效果逐能力列出，与 ①② 一致 |
+
+三源与卡图 L2/L3 **完美衔接**（Revolver 3/4/5→4/5/6、Showdown 7/5→8/6→9/6、
+BountyHunter 1→2、TakeCover 5→6、FanTheHammer 7→8、Deadeye 6→8）。
+Ultimate「枪林弹雨（Fill 'Em With Lead!）」双源一致：5 靶心 → 获得 1 闪避 + 悬赏 & 击倒 + 10 点伤害
+（② boardgame.bg + 繁中规则书 gokids PDF「槍林彈雨」）。
+
+## 21. 实装清单
+
+- **状态**（gunslinger 专属 2 + 通用修订 1）：
+  - `gunslinger:reload 装填`（正面，limit 2，spendEffect = 掷 1 骰加 ⌈点数/2⌉ 伤害）
+  - `gunslinger:bounty 悬赏`（负面，limit 1，Persistent，onAttacked = 攻击者 +1 伤害 & +1 CP）
+  - `common:evasive 闪避` stackLimit **2→3**（官方面板值；此前内容层无引用，修订无涟漪）
+- **能力 9 槽**：左轮 / 赏金猎人 / 对决 / 寻找掩护 / 花式射击 / 神枪手 / 决斗（防御，DEFENSE ROLL 1）/
+  快速拔枪（passive）/ 枪林弹雨（Ultimate）。
+- **卡组 33 张**：通用 18 + 升级 9 + 专属行动 5 + PROMO 1（且战且走，Dice Throne Comic #1）。
+  升级卡 9 张是官方卡组构成（读图），非缺漏。
+
+## 22. 为本英雄做的引擎扩展（4 项，全部通用机制、零英雄特判）
+
+| 扩展 | 官方机制 | 实现点 |
+|---|---|---|
+| `StatusDef.onAttacked` 契约 | Bounty「被攻击时攻击者 +1 伤害 & +1 CP」 | dealDamage handler 入桶时查目标状态的 onAttacked（官方 FAQ 三条口径见 core.ts 注释） |
+| `Condition.boundCompare` | Duel/Showdown「你与对手各掷 1 骰并比较」 | evalCondition 比较两个运行期绑定值 |
+| `Expr.incomingDamage` | Duel「防止 ½ 来袭伤害（向上取整）」 | 按 bucket 中 defendable 待结算量求值（与 prevention 同口径） |
+| `rollDicePool.owner` | Duel/Showdown 对手那颗按**对手**英雄骰面映射 | handler 按 owner 查英雄骰面；池归属契约不变 |
+
+## 23. 已知偏差（全部显式记账，非静默）
+
+| 项 | 官方 | 现状 | 原因 |
+|---|---|---|---|
+| Duel 二选一 | 玩家 may choose deal 3 / prevent ½ | `choose` 自动取 default（= prevent，保守） | 引擎 choose 无挂起（诚实桩） |
+| Roulette「选一名玩家」 | 可含自己 | 固定对手 | 同上；目标选择入口就绪后改 choose |
+| Quick Draw passive | upkeep 得装填 + spend 重掷 | 完全不生效（matcher const false 诚实渲染） | 引擎无 passive upkeep 钩子 + spend 无玩家入口（双路径断） |
+| Wild West! | spend 装填时可重掷 +1 伤害 | 打出后仅 log | 依赖 spend 玩家入口（缺失） |
+| Reload/Evasive 的 spend | 玩家任意时机消耗 | 状态数据完备、无法主动消耗 | 引擎/合法动作均无 spendStatus 入口（与 evasive 既有现状一致） |
+| Ultimate 尾注 | 消耗装填可重掷 | 不属效果，未实装 | 属掷骰阶段玩家交互，依赖 spend 入口 |
+
+**thenNode 打出窗口缺失**（本轮确认的既有缺口，非本轮引入）：redHot / Get Some! / Eat Lead! 等
+Roll Phase Action 卡当前只能在 main 阶段宽松打出（playCard 不校验 timing），伤害入桶后悬置
+到下一次 flushNow。补 thenNode 窗口是独立的引擎任务（与官方「攻击修正」时序对齐），本轮不做。
