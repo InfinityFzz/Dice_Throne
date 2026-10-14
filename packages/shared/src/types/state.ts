@@ -15,6 +15,12 @@ export interface RngState {
 export interface StatusInstance {
   readonly id: StatusId;
   readonly stacks: number;
+  /**
+   * 首次施加时的回合号（discardAtTurnEnd 类状态用：官方 Shadows「从回合开始就在身上、
+   * 完整结束一个自己回合后弃置」）。堆叠增长不重置（官方 FAQ：第二个实例无法获得，
+   * 原实例弃置时序不变）。手工构造的旧实例无此字段 → 视为本回合获得、不弃。
+   */
+  readonly sinceTurn?: number;
 }
 
 export interface CardInstance {
@@ -131,6 +137,11 @@ export interface GameState {
   readonly windows: WindowStack;
   /** 临时骰池（rollDicePool 用） */
   readonly tempDice: readonly number[];
+  /**
+   * 本次防御结算使用的防御能力 id（官方：多个防御能力须在掷骰前二选一）。
+   * doDefensiveRoll 写入、resolveDefense 读取后清除；缺省 = 第一个防御能力（向后兼容）。
+   */
+  readonly activeDefenseAbilityId?: string;
   /** 变量绑定（bind / bindRemovedTo） */
   readonly bindings: Readonly<Record<string, number>>;
   /** 本回合是否已获得额外进攻阶段（Stun 抢回合，防无限） */

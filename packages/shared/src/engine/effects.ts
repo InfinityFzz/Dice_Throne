@@ -190,9 +190,10 @@ function addStatus(d: Draft, seat: Seat, statusId: string, stacks: number): void
   const idx = p.statuses.findIndex((s) => s.id === statusId);
   if (idx >= 0) {
     const cur = p.statuses[idx] as StatusInstance;
-    p.statuses[idx] = { id: statusId, stacks: Math.min(cap, cur.stacks + stacks) };
+    // sinceTurn 不重置：官方 FAQ「第二个实例无法获得，原实例弃置时序不变」
+    p.statuses[idx] = { id: statusId, stacks: Math.min(cap, cur.stacks + stacks), sinceTurn: cur.sinceTurn };
   } else {
-    p.statuses.push({ id: statusId, stacks: Math.min(cap, stacks) });
+    p.statuses.push({ id: statusId, stacks: Math.min(cap, stacks), sinceTurn: d.s.turn });
   }
   d.emit('statusChanged', { seat, statusId, delta: stacks });
 }
@@ -244,11 +245,22 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
     // attack 类型伤害瞄准带此状态的目标 → 攻击者伤害 +N（入桶即触发，官方 FAQ：
     // 对手防御中 prevent/avoid 多少都不影响）+ 得 M 点 CP。直接 addDamage，不走
     // dealDamage clause，避免自递归。amount>0 才触发（「必须激活造成至少 1 点伤害的攻击」）。
-    if (c.damageType === 'attack' && amount > 0) {
+    if (c.damageType === 'attack' && amount > 0 && c.sourceKind !== 'ultimate') {
+      // 官方 Shadows 类（StatusDef.onAttacked.avoid 通用契约）：被普通攻击瞄准 →
+      // 全避 defendable（bucket avoid 只清 defendable+collateral，天然不碰 undefendable/pure；
+      // Ultimate 经 sourceKind:'ultimate' 豁免）。与 Bounty 加成可共存——
+      // 官方：攻击仍「成功」、其他效果照常发生（加伤入桶后被 avoid 清掉，CP 照发）。
+      const avoider = d.player(to).statuses
+        .find((s) => d.content.getStatus(s.id)?.onAttacked?.avoid === true);
+      if (avoider) {
+        d.s.bucket = addAvoid(d.s.bucket, to);
+        d.emit('note', { kind: 'log', text: `${d.content.getStatus(avoider.id)?.name ?? avoider.id}：避开本次攻击伤害` });
+      }
+      // ★ 按 bonusDamage 精确匹配，避免同目标身上 avoid-only 状态（Shadows）抢匹配、漏发 Bounty
       const hooked = d.player(to).statuses
-        .find((s) => d.content.getStatus(s.id)?.onAttacked !== undefined);
+        .find((s) => d.content.getStatus(s.id)?.onAttacked?.bonusDamage !== undefined);
       const hook = hooked ? d.content.getStatus(hooked.id)?.onAttacked : undefined;
-      if (hooked && hook) {
+      if (hooked && hook && hook.bonusDamage !== undefined && hook.attackerGainsCp !== undefined) {
         d.s.bucket = addDamage(d.s.bucket, evalExpr(d, hook.bonusDamage, seat), 'attack', to, seat, 'ability');
         const attacker = d.player(seat);
         attacker.cp = Math.min(15, attacker.cp + evalExpr(d, hook.attackerGainsCp, seat));

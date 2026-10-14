@@ -296,3 +296,47 @@ describe('describe: Gunslinger 新增模板', () => {
     assert.ok(t.includes('子弹'), `bullet 符号名丢失 → ${t}`);
   });
 });
+
+// ════════════════════════════════════════════════════════════════
+// describe: ShadowThief 实装新增模板（onAttacked.avoid / discardAtTurnEnd / 骰面符号）
+// ════════════════════════════════════════════════════════════════
+describe('describe: ShadowThief 新增模板', () => {
+  test('阴影状态：avoid 契约 + 回合末弃置两条都渲染出来', () => {
+    const shadows = createDefaultRegistry().getStatus('shadowthief:shadows');
+    assert.ok(shadows, '阴影状态应已注册');
+    const t = describeStatus(shadows as StatusDef, 'zh');
+    assert.ok(t.includes('隐入暗影'), `状态名丢失 → ${t}`);
+    assert.ok(t.includes('避开'), `onAttacked.avoid 语义丢失 → ${t}`);
+    assert.ok(t.includes('弃置'), `discardAtTurnEnd 语义丢失 → ${t}`);
+  });
+
+  test('偷袭状态：可消耗 + 掷骰加伤的 spendEffect 渲染出来', () => {
+    const sneak = createDefaultRegistry().getStatus('shadowthief:sneakAttack');
+    assert.ok(sneak, '偷袭状态应已注册');
+    const t = describeStatus(sneak as StatusDef, 'zh');
+    assert.ok(t.includes('偷袭'), `状态名丢失 → ${t}`);
+    assert.ok(t.includes('可消耗'), `spendable 丢失 → ${t}`);
+    assert.ok(t.includes('掷 1 颗骰'), `spendEffect 掷骰丢失 → ${t}`);
+  });
+
+  test('暗影防御：匕首/钱袋/阴影三个符号名与毒/偷袭状态名都在', () => {
+    const t = describeAbility(abilityOf('shadowthief', 'shadowthief:shadowDefense'), 1);
+    for (const w of ['匕首', '钱袋', '阴影', '中毒', '偷袭']) {
+      assert.ok(t.includes(w), `${w} 丢失 → ${t}`);
+    }
+  });
+
+  test('暗影刺击（Ultimate）：CP+5 伤害与阴影状态都在', () => {
+    const t = describeAbility(abilityOf('shadowthief', 'shadowthief:shadowShank'), 1);
+    assert.ok(t.includes('5'), `Ultimate 伤害基数丢失 → ${t}`);
+    assert.ok(t.includes('CP'), `CP 表达式丢失 → ${t}`);
+    assert.ok(t.includes('隐入暗影'), `Ultimate 附赠阴影丢失 → ${t}`);
+  });
+
+  test('狂野暗影：playIf 恒不满足 → 描述带「无法打出」门槛前缀（诚实灰显，不做虚假自动改骰）', () => {
+    const card = createDefaultRegistry().getCard('shadowthief:wildShadow');
+    assert.ok(card, '狂野暗影应已注册');
+    const t = describeCard(card, 'zh');
+    assert.ok(t.includes('才可打出'), `playIf 门槛前缀丢失 → ${t}`);
+  });
+});

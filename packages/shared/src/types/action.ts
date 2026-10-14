@@ -16,8 +16,8 @@ export type Action =
   | { t: 'toggleLock'; index: number }
   | { t: 'announceAbility'; abilityId: EntityId }
   | { t: 'passAbility' }
-  // 防御
-  | { t: 'defensiveRoll' }
+  // 防御（多个防御能力时 abilityId 二选一，官方须在掷骰前选定；缺省 = 第一个）
+  | { t: 'defensiveRoll'; abilityId?: string }
   // 响应窗口
   | { t: 'respondPass' }
   // 通用选择

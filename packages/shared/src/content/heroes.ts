@@ -1015,3 +1015,459 @@ export const GUNSLINGER: HeroDef = {
   statuses: gunslingerStatuses,
   deck: [...COMMON_CARDS, ...gunslingerUpgrades, ...gunslingerHeroCards],
 };
+
+// ── 影贼（Shadow Thief）：经济+毒药+暗影规避，后期爆发 ──────────────────
+// 2026-10-14 官方校准（M3 第二位新英雄），三源交叉零推定值：
+// ① TTS 图包逐张读图（panel.webp + card-18..32 共 15 张专属卡，L2 数值与专属行动卡全文）；
+// ② rulespal《Dice Throne S1 ReRolled》规则书面板（L1 全值 + Ultimate，官方排版）；
+// ③ namu wiki Shadow Thief 条目（L1 数值与升级效果逐能力列出，与 ①② 一致）。
+// L1 与卡图 L2 完美衔接（Dagger 4/6/8 不变、Pickpocket 2/3/4→3/4/5/6、
+// Shifty gain 3→4、Insidious gain 3→4、ShadowDefense roll 4→5、CounterStrike 1→2×匕首）。
+// Ultimate「Shadow Shank!」= rulespal 面板逐字（5 阴影 → 获得 3 CP + 阴影，造成 CP+5 伤害）。
+// 本英雄**没有推定值**。已知偏差见 docs/content-audit-report.md 第七轮。
+
+const shadowthiefUpgrades: readonly CardDef[] = [
+  // 官方升级卡 8 张（卡组构成读自图包；每张 1 本，官方张数未获取暂记 1）
+  { defId: 'shadowthief:daggerStrike:2', name: '匕首打击 II', kind: 'upgrade', costCp: 0,
+    timing: ['main1', 'main2'], targetAbilityId: 'shadowthief:daggerStrike', tier: 2, count: 1, effects: [] },
+  { defId: 'shadowthief:pickpocket:2', name: '扒窃 II', kind: 'upgrade', costCp: 1,
+    timing: ['main1', 'main2'], targetAbilityId: 'shadowthief:pickpocket', tier: 2, count: 1, effects: [] },
+  { defId: 'shadowthief:shiftyStrike:2', name: '狡诈打击 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'shadowthief:shiftyStrike', tier: 2, count: 1, effects: [] },
+  { defId: 'shadowthief:insidiousStrike:2', name: '阴险打击 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'shadowthief:insidiousStrike', tier: 2, count: 1, effects: [] },
+  { defId: 'shadowthief:shadowDance:2', name: '暗影之舞 II', kind: 'upgrade', costCp: 1,
+    timing: ['main1', 'main2'], targetAbilityId: 'shadowthief:shadowDance', tier: 2, count: 1, effects: [] },
+  { defId: 'shadowthief:carducopia:2', name: '卡牌丰饶 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'shadowthief:carducopia', tier: 2, count: 1, effects: [] },
+  { defId: 'shadowthief:shadowDefense:2', name: '暗影防御 II', kind: 'upgrade', costCp: 3,
+    timing: ['main1', 'main2'], targetAbilityId: 'shadowthief:shadowDefense', tier: 2, count: 1, effects: [] },
+  { defId: 'shadowthief:counterStrike:2', name: '反击 II', kind: 'upgrade', costCp: 4,
+    timing: ['main1', 'main2'], targetAbilityId: 'shadowthief:counterStrike', tier: 2, count: 1, effects: [] },
+];
+
+/** 以 CP 为伤害源（官方：按激活时的 CP 计伤、激活不消耗 CP；顺序上「先获得 N CP 再结算」） */
+const cpDmg = (half: boolean): EffectDef => ({
+  clause: {
+    kind: 'dealDamage',
+    amount: half
+      ? { e: 'ceilDiv', a: { e: 'cp', target: { r: 'self' } }, b: 2 }
+      : { e: 'cp', target: { r: 'self' } },
+    damageType: 'attack', to: { r: 'opponent' },
+  },
+});
+
+/** Pickpocket 的「至多 N CP 改为从对手处偷取」：choose 自动取 default（不偷，保守） */
+const stealOption = (max: number): EffectDef => ({
+  clause: {
+    kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'shadow', min: 1 },
+    then: [{
+      clause: {
+        kind: 'choose', who: 'owner',
+        options: [
+          { id: 'noSteal', label: '照常获得（不偷取）', isDefault: true, effects: [] },
+          ...Array.from({ length: max }, (_, i) => {
+            const n = i + 1;
+            const opt: { id: string; label: string; effects: readonly EffectDef[] } = {
+              id: `steal${n}`,
+              label: `从对手处偷取 ${n} CP（对手不足则偷不走）`,
+              effects: [
+                { clause: { kind: 'bind', name: 'oppCp', value: { e: 'cp', target: { r: 'opponent' } } } },
+                {
+                  clause: {
+                    kind: 'conditional',
+                    cond: { c: 'boundAtLeast', name: 'oppCp', min: n },
+                    then: [
+                      { clause: { kind: 'loseCp', amount: n, to: { r: 'opponent' } } },
+                      { clause: { kind: 'gainCp', amount: n, to: { r: 'self' } } },
+                    ],
+                  },
+                },
+              ],
+            };
+            return opt;
+          }),
+        ],
+      },
+    }],
+  },
+});
+
+/** ShadowDefense 两个等级共用的结算效果（守方 seat 求值；骰 = 防御骰池） */
+const shadowDefenseEffects: readonly EffectDef[] = [
+  { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'dagger', min: 2 },
+    then: [{ clause: { kind: 'inflictStatus', status: 'common:poison', stacks: 1, to: { r: 'attacker' } } }] } },
+  { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'bag', min: 1 },
+    then: [{ clause: { kind: 'inflictStatus', status: 'shadowthief:sneakAttack', stacks: 1, to: { r: 'self' } } }] } },
+  { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'shadow', min: 2 },
+    then: [
+      { clause: { kind: 'inflictStatus', status: 'shadowthief:sneakAttack', stacks: 1, to: { r: 'self' } } },
+      { clause: { kind: 'inflictStatus', status: 'shadowthief:shadows', stacks: 1, to: { r: 'self' } } },
+      // 官方「immediately (ignoring incoming dmg)」：全避本次来袭 defendable
+      { clause: { kind: 'avoidDamage', to: { r: 'self' } } },
+    ] } },
+];
+
+/** CounterStrike 两个等级共用：匕首反伤倍率不同 + 匕首&阴影施加毒 */
+const counterStrikeEffects = (perDagger: number): readonly EffectDef[] => [
+  { clause: { kind: 'dealDamage', amount: { e: 'mul', a: { e: 'countSymbol', symbol: 'dagger' }, b: perDagger },
+    damageType: 'attack', to: { r: 'attacker' } } },
+  { clause: {
+    kind: 'conditional',
+    cond: { c: 'and', of: [
+      { c: 'diceSymbolAtLeast', symbol: 'dagger', min: 1 },
+      { c: 'diceSymbolAtLeast', symbol: 'shadow', min: 1 },
+    ] },
+    then: [{ clause: { kind: 'inflictStatus', status: 'common:poison', stacks: 1, to: { r: 'attacker' } } }],
+  } },
+];
+
+const shadowthiefStatuses: readonly StatusDef[] = [
+  {
+    // 官方值（Shadow Thief 面板原图，2026-10-14）：Stack limit 1；正面；Persistent。
+    // 「因对手进攻掷骰阶段受伤时不受伤、不防御（攻击仍算成功、其他效果照常）；
+    //   不防 Ultimate 与非进攻掷骰阶段伤害（毒/灼烧等）；带着它完整结束一个自己回合后弃置。」
+    // 机制经 StatusDef.onAttacked.avoid + discardAtTurnEnd 两条通用契约接入引擎，
+    // 引擎不认本 id、只认契约（架构硬约束）。弃置时序：inflictStatus 盖 sinceTurn 章，
+    // 官方「a turn in which you started with the same token」= 本回合内获得的不算。
+    id: 'shadowthief:shadows',
+    name: '隐入暗影',
+    polarity: 'positive',
+    stackLimit: 1,
+    persistent: true,
+    spendable: false,
+    onAttacked: { avoid: true },
+    discardAtTurnEnd: true,
+  },
+  {
+    // 官方值（Shadow Thief 面板原图）：Stack limit 1；正面。
+    // 「进攻掷骰阶段结束时可消耗：掷 1 骰，把点数加到伤害总量（攻击修正）。」
+    // 官方细则（rulespal）：可在攻击激活后的任意时机消耗（防御掷骰前后均可），但须在伤害结算前。
+    // ⚠️ 已知边界（与 evasive/reload 同款）：spend 类状态尚无玩家主动消耗的动作入口，
+    // 状态数据先按官方登记（spendEffect 语义完备），入口补齐后即生效。
+    id: 'shadowthief:sneakAttack',
+    name: '偷袭',
+    polarity: 'positive',
+    stackLimit: 1,
+    persistent: false,
+    spendable: true,
+    spendEffect: [
+      { clause: { kind: 'rollDicePool', count: 1, bindSumTo: 'sneakRoll' } },
+      { clause: { kind: 'dealDamage', amount: { e: 'var', name: 'sneakRoll' },
+        damageType: 'attack', to: { r: 'opponent' } } },
+    ],
+  },
+];
+
+/** ShadowThief 专属行动卡（card-26..32，2026-10-14 逐张读图；Shadow Meld! 为 PROMO） */
+const shadowthiefHeroCards: readonly CardDef[] = [
+  // Sneaky!：1 CP，Main Phase Action：获得偷袭
+  { defId: 'shadowthief:sneaky', name: '偷偷摸摸', kind: 'mainPhase', costCp: 1,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [{ clause: { kind: 'inflictStatus', status: 'shadowthief:sneakAttack', stacks: 1, to: { r: 'self' } } }] },
+  // Poison Wound!：2 CP，Instant：对一名玩家施加毒。
+  // ⚠️ 已知偏差（显式记账）：官方 "a chosen player"（可含自己），1v1 固定对手——
+  // 与 Roulette 同款：目标选择入口就绪后改 choose。
+  { defId: 'shadowthief:poisonWound', name: '毒伤', kind: 'instant', costCp: 2,
+    timing: ['thenNode', 'preDefense', 'postDefense'], count: 1,
+    effects: [{ clause: { kind: 'inflictStatus', status: 'common:poison', stacks: 1, to: { r: 'opponent' } } }] },
+  // Wild Shadow!：4 CP，Roll Phase Action：改变任意一颗骰的值（暗影中改 2 颗）。
+  // ⚠️ 未实装（显式记账）：需要「玩家选骰 + 选目标面值」交互，引擎无此挂起窗口；
+  // playIf 恒 false 诚实灰显（卡在卡组、资产可挂图），不做虚假自动改骰。
+  { defId: 'shadowthief:wildShadow', name: '狂野暗影', kind: 'rollPhase', costCp: 4,
+    timing: ['thenNode'], count: 1,
+    playIf: { c: 'not', of: { c: 'always' } },
+    effects: [{ clause: { kind: 'log', text: '官方效果「改变任意一颗骰的值」需要玩家选骰赋值交互，暂未实装' } }] },
+  // Shadow Coin!：0 CP，Instant：获得 2 CP；暗影中改为 3 CP
+  { defId: 'shadowthief:shadowCoin', name: '暗影硬币', kind: 'instant', costCp: 0,
+    timing: ['thenNode', 'preDefense', 'postDefense'], count: 1,
+    effects: [{
+      clause: {
+        kind: 'conditional',
+        cond: { c: 'statusPresent', target: { r: 'self' }, status: 'shadowthief:shadows' },
+        then: [{ clause: { kind: 'gainCp', amount: 3, to: { r: 'self' } } }],
+        else: [{ clause: { kind: 'gainCp', amount: 2, to: { r: 'self' } } }],
+      },
+    }] },
+  // Enter The Shadows!：4 CP，Instant：获得阴影
+  { defId: 'shadowthief:enterTheShadows', name: '遁入暗影', kind: 'instant', costCp: 4,
+    timing: ['thenNode', 'preDefense', 'postDefense'], count: 1,
+    effects: [{ clause: { kind: 'inflictStatus', status: 'shadowthief:shadows', stacks: 1, to: { r: 'self' } } }] },
+  // Card Trick!：2 CP，Main Phase Action：目标对手随机弃 1；暗影中抽 2，否则抽 1
+  { defId: 'shadowthief:cardTrick', name: '卡牌戏法', kind: 'mainPhase', costCp: 2,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [
+      { clause: { kind: 'discardCards', amount: 1, mode: 'random', to: { r: 'opponent' } } },
+      {
+        clause: {
+          kind: 'conditional',
+          cond: { c: 'statusPresent', target: { r: 'self' }, status: 'shadowthief:shadows' },
+          then: [{ clause: { kind: 'drawCards', amount: 2, to: { r: 'self' } } }],
+          else: [{ clause: { kind: 'drawCards', amount: 1, to: { r: 'self' } } }],
+        },
+      },
+    ] },
+  // Shadow Meld!：0 CP，Main Phase Action，PROMO（Dice Throne Comic #1）：
+  // 掷 1 骰：阴影 → 获得偷袭 & 2 CP；其他 → 抽 1
+  { defId: 'shadowthief:shadowMeld', name: '暗影融合（PROMO）', kind: 'mainPhase', costCp: 0,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [
+      { clause: { kind: 'rollDicePool', count: 1, cases: [
+        { on: 'shadow', effects: [
+          { clause: { kind: 'inflictStatus', status: 'shadowthief:sneakAttack', stacks: 1, to: { r: 'self' } } },
+          { clause: { kind: 'gainCp', amount: 2, to: { r: 'self' } } },
+        ] },
+      ] } },
+      { clause: {
+        kind: 'conditional',
+        cond: { c: 'not', of: { c: 'diceSymbolAtLeast', symbol: 'shadow', min: 1 } },
+        then: [{ clause: { kind: 'drawCards', amount: 1, to: { r: 'self' } } }],
+      } },
+    ] },
+];
+
+export const SHADOWTHIEF: HeroDef = {
+  id: 'shadowthief',
+  name: '影贼',
+  dieFaces: [
+    // 官方值（Shadow Thief 面板原图逐面核读，2026-10-14）：1-2 DAGGER，3-4 BAG，5 CARD，6 SHADOW
+    { value: 1, symbols: ['dagger'] },
+    { value: 2, symbols: ['dagger'] },
+    { value: 3, symbols: ['bag'] },
+    { value: 4, symbols: ['bag'] },
+    { value: 5, symbols: ['card'] },
+    { value: 6, symbols: ['shadow'] },
+  ],
+  diceCount: 5,
+  startHp: 50, // S1 全英雄 50（rulespal 组件清单 + 系列惯例）
+  abilities: [
+    {
+      // 官方 L2（card-18，0 CP）：3/4/5 匕首 → 4/6/8 不变，新增「出卡牌 → 抽 1」。
+      // L1 = 4/6/8 + 出钱袋得 1 CP + 出阴影施加毒（rulespal 面板 + namu wiki 双源一致）。
+      id: 'shadowthief:daggerStrike',
+      kind: 'offensive',
+      name: '匕首打击',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'graded', symbol: 'dagger', tierMins: [3, 4, 5] },
+          effects: [
+            gradedBranch('dagger', [4, 6, 8], (n) => dmgTo(n)),
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'bag', min: 1 },
+              then: [{ clause: { kind: 'gainCp', amount: 1, to: { r: 'self' } } }] } },
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'shadow', min: 1 },
+              then: [{ clause: { kind: 'inflictStatus', status: 'common:poison', stacks: 1, to: { r: 'opponent' } } }] } },
+          ] },
+        { level: 2, upgradeCostCP: 0, matcher: { k: 'graded', symbol: 'dagger', tierMins: [3, 4, 5] },
+          effects: [
+            gradedBranch('dagger', [4, 6, 8], (n) => dmgTo(n)),
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'bag', min: 1 },
+              then: [{ clause: { kind: 'gainCp', amount: 1, to: { r: 'self' } } }] } },
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'shadow', min: 1 },
+              then: [{ clause: { kind: 'inflictStatus', status: 'common:poison', stacks: 1, to: { r: 'opponent' } } }] } },
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'card', min: 1 },
+              then: [{ clause: { kind: 'drawCards', amount: 1, to: { r: 'self' } } }] } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（rulespal 面板）：3/4/5 钱袋 → 2/3/4 CP；出阴影 → 至多 1 CP 改为从对手处偷取。
+      // 官方 L2（card-19，1 CP）：2/3/4/5 钱袋 → 3/4/5/6 CP；偷取上限 2。
+      // ⚠️ 偷取为玩家二选一，choose 自动取 default（不偷，保守）——与 Duel/Roulette 同款记账。
+      id: 'shadowthief:pickpocket',
+      kind: 'offensive',
+      name: '扒窃',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'graded', symbol: 'bag', tierMins: [3, 4, 5] },
+          effects: [
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'bag', min: 5 },
+              then: [{ clause: { kind: 'gainCp', amount: 4, to: { r: 'self' } } }],
+              else: [{ clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'bag', min: 4 },
+                then: [{ clause: { kind: 'gainCp', amount: 3, to: { r: 'self' } } }],
+                else: [{ clause: { kind: 'gainCp', amount: 2, to: { r: 'self' } } }] } }] } },
+            stealOption(1),
+          ] },
+        { level: 2, upgradeCostCP: 1, matcher: { k: 'graded', symbol: 'bag', tierMins: [2, 3, 4, 5] },
+          effects: [
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'bag', min: 5 },
+              then: [{ clause: { kind: 'gainCp', amount: 6, to: { r: 'self' } } }],
+              else: [{ clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'bag', min: 4 },
+                then: [{ clause: { kind: 'gainCp', amount: 5, to: { r: 'self' } } }],
+                else: [{ clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'bag', min: 3 },
+                  then: [{ clause: { kind: 'gainCp', amount: 4, to: { r: 'self' } } }],
+                  else: [{ clause: { kind: 'gainCp', amount: 3, to: { r: 'self' } } }] } }] } }] } },
+            stealOption(2),
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（rulespal 面板）：小顺 → 获得 3 CP，然后造成 ½ CP 伤害（向上取整）。
+      // 官方 L2（card-20 上半，2 CP）：获得 4 CP，其余同。
+      // 官方细则：伤害按激活时 CP 计、激活不消耗 CP；「先获得再结算」按卡面顺序。
+      id: 'shadowthief:shiftyStrike',
+      kind: 'offensive',
+      name: '狡诈打击',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'smallStraight' },
+          effects: [
+            { clause: { kind: 'gainCp', amount: 3, to: { r: 'self' } } },
+            cpDmg(true),
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'smallStraight' },
+          effects: [
+            { clause: { kind: 'gainCp', amount: 4, to: { r: 'self' } } },
+            cpDmg(true),
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（rulespal 面板）：大顺 → 获得 3 CP，然后造成 CP 伤害。
+      // 官方 L2（card-21 上半，2 CP）：获得 4 CP，其余同。
+      id: 'shadowthief:insidiousStrike',
+      kind: 'offensive',
+      name: '阴险打击',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'largeStraight' },
+          effects: [
+            { clause: { kind: 'gainCp', amount: 3, to: { r: 'self' } } },
+            cpDmg(false),
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'largeStraight' },
+          effects: [
+            { clause: { kind: 'gainCp', amount: 4, to: { r: 'self' } } },
+            cpDmg(false),
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（card-20 下半，狡诈打击 II 附赠能力）：2 匕首 + 2 阴影 →
+      // 造成 ½ CP 伤害（向上取整）+ 施加毒。
+      // ⚠️ 已知偏差（显式记账）：官方需先购入狡诈打击 II 才解锁此能力，
+      // 引擎能力槽无「随升级解锁」机制，简化为常驻 L1。
+      id: 'shadowthief:shadowStrike',
+      kind: 'offensive',
+      name: '阴影打击',
+      tiers: [
+        { level: 1, upgradeCostCP: 0,
+          matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'dagger', count: 2 },
+            { k: 'countSymbol', symbol: 'shadow', count: 2 },
+          ] },
+          effects: [cpDmg(true),
+            { clause: { kind: 'inflictStatus', status: 'common:poison', stacks: 1, to: { r: 'opponent' } } }] },
+      ],
+    },
+    {
+      // 官方 L1（card-21 下半，阴险打击 II 附赠能力）：匕首+钱袋+卡牌+阴影 各一 →
+      // 获得 1 CP + 获得偷袭 + 抽 1 + 施加毒。常驻简化同 shadowStrike。
+      id: 'shadowthief:shankAttack',
+      kind: 'offensive',
+      name: '刺伤攻击',
+      tiers: [
+        { level: 1, upgradeCostCP: 0,
+          matcher: { k: 'allOf', of: [
+            { k: 'countSymbol', symbol: 'dagger', count: 1 },
+            { k: 'countSymbol', symbol: 'bag', count: 1 },
+            { k: 'countSymbol', symbol: 'card', count: 1 },
+            { k: 'countSymbol', symbol: 'shadow', count: 1 },
+          ] },
+          effects: [
+            { clause: { kind: 'gainCp', amount: 1, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'shadowthief:sneakAttack', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'drawCards', amount: 1, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:poison', stacks: 1, to: { r: 'opponent' } } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（rulespal 面板）：3 阴影 → 掷 1 骰，造成 ½ 点数的**纯粹伤害**；
+      // 然后获得阴影 & 偷袭。
+      // 官方 L2（card-22，1 CP）：新增抽 1。
+      id: 'shadowthief:shadowDance',
+      kind: 'offensive',
+      name: '暗影之舞',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'shadow', count: 3 },
+          effects: [
+            { clause: { kind: 'rollDicePool', count: 1, bindSumTo: 'danceRoll' } },
+            { clause: { kind: 'dealDamage', amount: { e: 'ceilDiv', a: { e: 'var', name: 'danceRoll' }, b: 2 },
+              damageType: 'pure', to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'shadowthief:shadows', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'shadowthief:sneakAttack', stacks: 1, to: { r: 'self' } } },
+          ] },
+        { level: 2, upgradeCostCP: 1, matcher: { k: 'countSymbol', symbol: 'shadow', count: 3 },
+          effects: [
+            { clause: { kind: 'rollDicePool', count: 1, bindSumTo: 'danceRoll' } },
+            { clause: { kind: 'dealDamage', amount: { e: 'ceilDiv', a: { e: 'var', name: 'danceRoll' }, b: 2 },
+              damageType: 'pure', to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'shadowthief:shadows', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'shadowthief:sneakAttack', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'drawCards', amount: 1, to: { r: 'self' } } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（rulespal 面板）：2 卡牌 → 抽 1。
+      // 官方 L2（card-23，2 CP）：抽「1 × 卡牌数」；出阴影 → 对手随机弃 1；出钱袋 → 得 1 CP。
+      id: 'shadowthief:carducopia',
+      kind: 'offensive',
+      name: '卡牌丰饶',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'card', count: 2 },
+          effects: [{ clause: { kind: 'drawCards', amount: 1, to: { r: 'self' } } }] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'countSymbol', symbol: 'card', count: 2 },
+          effects: [
+            { clause: { kind: 'drawCards', amount: { e: 'countSymbol', symbol: 'card' }, to: { r: 'self' } } },
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'shadow', min: 1 },
+              then: [{ clause: { kind: 'discardCards', amount: 1, mode: 'random', to: { r: 'opponent' } } }] } },
+            { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'bag', min: 1 },
+              then: [{ clause: { kind: 'gainCp', amount: 1, to: { r: 'self' } } }] } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（rulespal 面板）：防御掷 4 骰：双匕首 → 对攻击者施加毒；
+      // 钱袋 → 获得偷袭；双阴影 → 立即获得偷袭与阴影（无视来袭伤害）。
+      // 官方 L2（card-24，3 CP）：防御掷骰 4→5，效果同。
+      id: 'shadowthief:shadowDefense',
+      kind: 'defensive',
+      name: '暗影防御',
+      defenseDiceCount: 4,
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'const', value: true }, effects: shadowDefenseEffects },
+        { level: 2, upgradeCostCP: 3, matcher: { k: 'const', value: true },
+          effects: shadowDefenseEffects, defenseDiceCount: 5 },
+      ],
+    },
+    {
+      // 官方 L1（rulespal 面板）：防御掷 5 骰：造成 1 × 匕首数伤害；匕首&阴影 → 对攻击者施加毒。
+      // 官方 L2（card-25，4 CP）：2 × 匕首数，其余同。
+      id: 'shadowthief:counterStrike',
+      kind: 'defensive',
+      name: '反击',
+      defenseDiceCount: 5,
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'const', value: true }, effects: counterStrikeEffects(1) },
+        { level: 2, upgradeCostCP: 4, matcher: { k: 'const', value: true }, effects: counterStrikeEffects(2) },
+      ],
+    },
+    {
+      // 官方 Ultimate（rulespal 面板逐字）：5 阴影（5-of-a-kind）→
+      // 获得 3 CP 并获得阴影；然后造成 CP+5 伤害。
+      // Ultimate 伤害不可防御（规则书 Damage Table），引擎口径同 gunslinger ultimate；
+      // sourceKind:'ultimate' 同时是阴影「不防 Ultimate」细则的豁免通道。
+      id: 'shadowthief:shadowShank',
+      kind: 'ultimate',
+      name: '暗影刺击（Shadow Shank!）',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'shadow', count: 5 },
+          effects: [
+            { clause: { kind: 'gainCp', amount: 3, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'shadowthief:shadows', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'dealDamage', amount: { e: 'add', a: { e: 'cp', target: { r: 'self' } }, b: 5 },
+              damageType: 'undefendable', to: { r: 'opponent' }, sourceKind: 'ultimate' } },
+          ] },
+      ],
+    },
+  ],
+  statuses: shadowthiefStatuses,
+  deck: [...COMMON_CARDS, ...shadowthiefUpgrades, ...shadowthiefHeroCards],
+};

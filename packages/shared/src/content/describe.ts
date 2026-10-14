@@ -20,10 +20,10 @@ import type {
 } from '../types/core.js';
 import type { AbilitySlotDef, CardDef, StatusDef } from '../types/content.js';
 import { COMMON_STATUSES } from './statuses.js';
-import { BARBARIAN, GUNSLINGER, PYROMANCER } from './heroes.js';
+import { BARBARIAN, GUNSLINGER, PYROMANCER, SHADOWTHIEF } from './heroes.js';
 
 /** 新增英雄只改这一行（名称词表随数据自动构建，漏登记会被 lint 守门抓住） */
-const ALL_HEROES = [BARBARIAN, PYROMANCER, GUNSLINGER] as const;
+const ALL_HEROES = [BARBARIAN, PYROMANCER, GUNSLINGER, SHADOWTHIEF] as const;
 
 // ── 语言 ─────────────────────────────────────────────
 export type Lang = 'zh' | 'en';
@@ -130,11 +130,13 @@ const SYM_WORD: Record<Lang, Record<string, string>> = {
     sword: '剑', life: '生命', pow: '力量',
     flame: '焰', blaze: '炽焰', fierySoul: '炎魂', meteor: '陨星',
     bullet: '子弹', dash: '疾冲', bullseye: '靶心',
+    dagger: '匕首', bag: '钱袋', card: '卡牌', shadow: '阴影',
   },
   en: {
     sword: 'sword', life: 'life', pow: 'power',
     flame: 'flame', blaze: 'blaze', fierySoul: 'fiery soul', meteor: 'meteor',
     bullet: 'bullet', dash: 'dash', bullseye: 'bullseye',
+    dagger: 'dagger', bag: 'bag', card: 'card', shadow: 'shadow',
   },
 };
 
@@ -711,9 +713,19 @@ export function describeStatus(s: StatusDef, lang: Lang = DEFAULT_LANG): string 
   if (s.persistent) bits.push(zh ? '持续' : 'persistent');
   if (s.spendable) bits.push(zh ? '可消耗' : 'spendable');
   if (s.onAttacked) {
-    bits.push(zh
-      ? `被攻击时：攻击者对其伤害 +${describeExpr(s.onAttacked.bonusDamage, lang)} 且攻击者获得 ${describeExpr(s.onAttacked.attackerGainsCp, lang)} CP`
-      : `when bearer is attacked: attacker's dmg +${describeExpr(s.onAttacked.bonusDamage, lang)} and attacker gains ${describeExpr(s.onAttacked.attackerGainsCp, lang)} CP`);
+    if (s.onAttacked.bonusDamage !== undefined && s.onAttacked.attackerGainsCp !== undefined) {
+      bits.push(zh
+        ? `被攻击时：攻击者对其伤害 +${describeExpr(s.onAttacked.bonusDamage, lang)} 且攻击者获得 ${describeExpr(s.onAttacked.attackerGainsCp, lang)} CP`
+        : `when bearer is attacked: attacker's dmg +${describeExpr(s.onAttacked.bonusDamage, lang)} and attacker gains ${describeExpr(s.onAttacked.attackerGainsCp, lang)} CP`);
+    }
+    if (s.onAttacked.avoid) {
+      bits.push(zh
+        ? '被普通攻击时：全部避开（不防 Ultimate 与非攻击伤害）'
+        : 'avoids all dmg from normal attacks (not vs Ultimates / non-attack dmg)');
+    }
+  }
+  if (s.discardAtTurnEnd) {
+    bits.push(zh ? '带着它完整结束一个自己回合后弃置' : 'discarded after concluding a full turn with it');
   }
   let out = bits.join(' · ');
   if (s.upkeep) {

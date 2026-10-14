@@ -277,17 +277,24 @@ function resolveAbility(d: Draft, abilityId: EntityId): void {
   finishResolution(d);
 }
 
-function doDefensiveRoll(d: Draft): void {
+function doDefensiveRoll(d: Draft, abilityId?: string): void {
   const seat = d.s.activeSeat;
   const defender = d.other(seat);
   const dp = d.player(defender);
   dp.defenseUsed = true; // 不变量：一次 Roll Phase 内防御掷骰 ≤ 1
   const hero = d.content.getHero(dp.heroId);
-  const slot = hero.abilities.find((a) => a.kind === 'defensive');
+  // 官方：多个防御能力须在掷骰前二选一（有效性已在 reduce 层校验）；
+  // 缺省 = 第一个（向后兼容，单防御能力英雄行为不变）。
+  const defensives = hero.abilities.filter((a) => a.kind === 'defensive');
+  const slot = abilityId ? defensives.find((a) => a.id === abilityId) : defensives[0];
   if (!slot?.defenseDiceCount) { finishResolution(d); return; }
+  d.s.activeDefenseAbilityId = slot.id;
+  // 骰数按等级取（官方暗影防御 L1=4 / L2=5）：tier 覆盖优先，缺省回落槽位值
+  const tierObj = slot.tiers.find((x) => x.level === currentTier(d, defender, slot.id)) ?? slot.tiers[0];
+  const diceCount = tierObj?.defenseDiceCount ?? slot.defenseDiceCount;
 
   const values: number[] = [];
-  for (let i = 0; i < slot.defenseDiceCount; i++) {
+  for (let i = 0; i < diceCount; i++) {
     const r = nextInt(d.s.rng, `dice:def:${defender}`, 6);
     d.s.rng = r.rng;
     values.push(r.value + 1);
@@ -326,7 +333,11 @@ function resolveDefense(d: Draft): void {
   const defender = d.other(d.s.activeSeat);
   const dp = d.player(defender);
   const values = [...d.s.tempDice];
-  const slot = d.content.getHero(dp.heroId).abilities.find((a) => a.kind === 'defensive');
+  // 用 doDefensiveRoll 选定的防御能力（官方多防御能力二选一）；缺省 = 第一个
+  const chosenId = d.s.activeDefenseAbilityId;
+  d.s.activeDefenseAbilityId = undefined;
+  const heroAb = d.content.getHero(dp.heroId).abilities.filter((a) => a.kind === 'defensive');
+  const slot = chosenId ? heroAb.find((a) => a.id === chosenId) : heroAb[0];
   const t = slot ? (slot.tiers.find((x) => x.level === currentTier(d, defender, slot.id)) ?? slot.tiers[0]) : undefined;
   if (t && slot) {
     // 防御 matcher 以防御骰为作用域
@@ -408,6 +419,23 @@ function endTurn(d: Draft): void {
   for (const seat of [0, 1] as Seat[]) {
     const p = d.player(seat);
     p.permissionTokens = p.permissionTokens.filter((t) => t.releaseAt !== 'turnEnd');
+  }
+  // 官方 Shadows 类（StatusDef.discardAtTurnEnd 通用契约）：从回合开始就在身上的
+  // 该类状态随本回合结束弃置（sinceTurn < 当前 turn = 已历经完整的自己回合开场）。
+  // 本回合内获得的（Shadow Dance 等）不弃，官方「a turn in which you started with the token」。
+  {
+    const concluding = d.player(d.s.activeSeat);
+    const kept: typeof concluding.statuses = [];
+    for (const st of concluding.statuses) {
+      const def = d.content.getStatus(st.id);
+      const stamped = (st as { sinceTurn?: number }).sinceTurn;
+      if (def?.discardAtTurnEnd && stamped !== undefined && stamped < d.s.turn) {
+        d.emit('statusChanged', { seat: d.s.activeSeat, statusId: st.id, delta: -st.stacks });
+        continue;
+      }
+      kept.push(st);
+    }
+    concluding.statuses = kept;
   }
   d.s.activeSeat = d.other(d.s.activeSeat);
   d.s.turn += 1;
@@ -552,7 +580,13 @@ export function reduce(
 
     case 'defensiveRoll': {
       if (state.phase !== 'defensiveRoll') return err('wrongPhase', '不在防御掷骰阶段');
-      doDefensiveRoll(d);
+      // 官方：多个防御能力二选一——指定的 abilityId 必须是防守方英雄的防御能力
+      if (action.abilityId) {
+        const hero = d.content.getHero(d.player(d.other(state.activeSeat)).heroId);
+        const ok = hero.abilities.some((a) => a.kind === 'defensive' && a.id === action.abilityId);
+        if (!ok) return err('illegalAction', `不是有效的防御能力：${action.abilityId}`);
+      }
+      doDefensiveRoll(d, action.abilityId);
       break;
     }
 

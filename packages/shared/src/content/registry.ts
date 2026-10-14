@@ -5,7 +5,7 @@ import type { CardDef, HeroDef, StatusDef } from '../types/content.js';
 import type { CardId, DamageType, EffectDef, HeroId, StatusId } from '../types/core.js';
 import { COMMON_STATUSES } from './statuses.js';
 import { COMMON_CARDS } from './cards.js';
-import { BARBARIAN, GUNSLINGER, PYROMANCER } from './heroes.js';
+import { BARBARIAN, GUNSLINGER, PYROMANCER, SHADOWTHIEF } from './heroes.js';
 
 const VALID_DAMAGE_TYPES: readonly DamageType[] = ['attack', 'undefendable', 'collateral', 'pure'];
 
@@ -53,8 +53,10 @@ export class ContentRegistry {
         if (slot.tiers.length === 0) errors.push(`${slot.id}: 无 tier`);
         let prevCost = -1;
         for (const t of slot.tiers) {
-          if (t.upgradeCostCP <= prevCost) {
-            errors.push(`${slot.id} tier${t.level}: upgradeCostCP 必须严格递增（累计总价口径）`);
+          // 非递减（不要求严格递增）：官方存在 0 CP 升级卡（影贼匕首打击 II，2026-10-14 读图），
+          // 累计总价口径下 L1=0/L2=0 合法；只拦「越升越便宜」。
+          if (t.upgradeCostCP < prevCost) {
+            errors.push(`${slot.id} tier${t.level}: upgradeCostCP 必须非递减（累计总价口径）`);
           }
           prevCost = t.upgradeCostCP;
         }
@@ -121,6 +123,7 @@ export function createDefaultRegistry(): ContentRegistry {
   reg.registerHero(BARBARIAN);
   reg.registerHero(PYROMANCER);
   reg.registerHero(GUNSLINGER);
+  reg.registerHero(SHADOWTHIEF);
   const errors = reg.validate();
   if (errors.length > 0) {
     throw new Error(`content-lint 失败:\n${errors.map((e) => ` - ${e}`).join('\n')}`);

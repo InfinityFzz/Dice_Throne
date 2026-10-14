@@ -62,5 +62,20 @@
  "spinthechamber": "gunslinger:spinTheChamber",
  "roulette": "gunslinger:roulette",
  "eatlead": "gunslinger:eatLead",
- "runandgun": "gunslinger:runAndGun"
+ "runandgun": "gunslinger:runAndGun",
+ "daggerstrikeii": "shadowthief:daggerStrike:2",
+ "pickpocketii": "shadowthief:pickpocket:2",
+ "shiftystrikeii": "shadowthief:shiftyStrike:2",
+ "insidiousstrikeii": "shadowthief:insidiousStrike:2",
+ "shadowdanceii": "shadowthief:shadowDance:2",
+ "carducopiaii": "shadowthief:carducopia:2",
+ "shadowdefenseii": "shadowthief:shadowDefense:2",
+ "counterstrikeii": "shadowthief:counterStrike:2",
+ "sneaky": "shadowthief:sneaky",
+ "poisonwound": "shadowthief:poisonWound",
+ "wildshadow": "shadowthief:wildShadow",
+ "shadowcoin": "shadowthief:shadowCoin",
+ "entertheshadows": "shadowthief:enterTheShadows",
+ "cardtrick": "shadowthief:cardTrick",
+ "shadowmeld": "shadowthief:shadowMeld"
 }

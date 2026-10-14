@@ -8,11 +8,13 @@ import type { StatusDef } from '../types/content.js';
 
 export const COMMON_STATUSES: readonly StatusDef[] = [
   {
+    // 官方值（Shadow Thief 面板原图 + S1 规则书，2026-10-14 修正）：Stack limit 3；Persistent；
+    // 每层在维持阶段受 1 点不可防御伤害。此前 limit 5 / 非持续为早期未记录值（审计第七轮销项）。
     id: 'common:poison',
     name: '中毒',
     polarity: 'negative',
-    stackLimit: 5,
-    persistent: false,
+    stackLimit: 3,
+    persistent: true,
     spendable: false,
     upkeep: {
       order: 'damage',

@@ -22,6 +22,18 @@ function push(out: LegalActionView[], a: LegalActionView): void {
   out.push(a);
 }
 
+/** 防御掷骰动作：多个防御能力时按官方「掷骰前二选一」逐能力下发（单能力保持原样） */
+function defensiveRollActions(d: Drafted, defender: Seat, out: LegalActionView[]): void {
+  const defs = d.content.getHero(d.player(defender).heroId).abilities.filter((a) => a.kind === 'defensive');
+  if (defs.length > 1) {
+    for (const a of defs) {
+      push(out, { t: 'defensiveRoll', abilityId: a.id, label: `防御掷骰 · ${a.name}`, enabled: true });
+    }
+  } else {
+    push(out, { t: 'defensiveRoll', label: '防御掷骰', enabled: true });
+  }
+}
+
 /** 掷骰阶段可用动作（pending=abilityAnnounce 或 phase=offensiveRoll） */
 function rollActions(d: Drafted, seat: Seat, out: LegalActionView[]): void {
   const p = d.player(seat);
@@ -105,7 +117,7 @@ export function computeLegalActions(d: Drafted, seat: Seat): LegalActionView[] {
         rollActions(d, seat, out);
         return out;
       case 'defensiveRoll':
-        push(out, { t: 'defensiveRoll', label: '防御掷骰', enabled: true });
+        defensiveRollActions(d, seat, out);
         return out;
       case 'defenseWindow': {
         // 防御重掷窗口：可打出 preDefense 时机卡，或 pass 结算。
@@ -145,7 +157,7 @@ export function computeLegalActions(d: Drafted, seat: Seat): LegalActionView[] {
 
   if (seat !== d.s.activeSeat) {
     if (d.s.phase === 'defensiveRoll') {
-      push(out, { t: 'defensiveRoll', label: '防御掷骰', enabled: true });
+      defensiveRollActions(d, seat, out);
     }
     return out;
   }
@@ -159,7 +171,7 @@ export function computeLegalActions(d: Drafted, seat: Seat): LegalActionView[] {
       rollActions(d, seat, out);
       break;
     case 'defensiveRoll':
-      push(out, { t: 'defensiveRoll', label: '防御掷骰', enabled: true });
+      defensiveRollActions(d, seat, out);
       break;
     case 'discard':
       push(out, { t: 'discardCards', label: '弃牌至上限', enabled: true });
@@ -182,7 +194,7 @@ export function toAction(v: LegalActionView, extra?: { uids?: readonly EntityId[
     case 'toggleLock': return v.index === undefined ? null : { t: 'toggleLock', index: v.index };
     case 'announceAbility': return v.abilityId === undefined ? null : { t: 'announceAbility', abilityId: v.abilityId };
     case 'passAbility': return { t: 'passAbility' };
-    case 'defensiveRoll': return { t: 'defensiveRoll' };
+    case 'defensiveRoll': return { t: 'defensiveRoll', ...(v.abilityId ? { abilityId: v.abilityId } : {}) };
     case 'playCard': return v.uid === undefined ? null : { t: 'playCard', uid: v.uid };
     case 'sellCard': return v.uid === undefined ? null : { t: 'sellCard', uid: v.uid };
     case 'buyUpgrade':

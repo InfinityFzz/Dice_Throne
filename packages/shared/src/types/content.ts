@@ -14,6 +14,11 @@ export interface AbilityTier {
   readonly matcher: DiceMatcher;
   readonly effects: readonly EffectDef[];
   readonly name?: string;
+  /**
+   * 防御掷骰骰数（仅防御能力；官方 Shadow Thief 暗影防御 L1=4 / L2=5）。
+   * 缺省回落到 AbilitySlot.defenseDiceCount。
+   */
+  readonly defenseDiceCount?: number;
 }
 
 export interface AbilitySlotDef {
@@ -45,11 +50,23 @@ export interface StatusDef {
    * ③主伤害 amount 为 0 时不触发（「必须激活造成至少 1 点伤害的攻击」——入桶时点无法预知
    *   后续修正，按主伤害 > 0 近似，已知近似记账）。
    * 引擎只认本契约、不认任何具体状态 id（架构硬约束：不得对具体英雄/内容 id 特判）。
+   *
+   * `avoid: true`（官方 Shadow Thief Shadows 类）：持有者被普通攻击瞄准时**全部避开**
+   * defendable 伤害（bucket avoid 只清 defendable+collateral，天然不作用于 undefendable/pure，
+   * 与官方「不防 Ultimate、不防非进攻掷骰阶段伤害」细则吻合——Ultimate 经 sourceKind:'ultimate'
+   * 豁免）。与 bonusDamage/attackerGainsCp 可共存（官方：攻击仍「成功」、其他效果照常发生）。
    */
   readonly onAttacked?: {
-    readonly bonusDamage: Expr;
-    readonly attackerGainsCp: Expr;
+    readonly bonusDamage?: Expr;
+    readonly attackerGainsCp?: Expr;
+    readonly avoid?: true;
   };
+  /**
+   * 官方 Shadows 类弃置时序：持有者**从回合开始就带着**该状态并完整结束一个自己回合后弃置。
+   * 引擎实现：inflictStatus 首次施加时盖 `sinceTurn` 章，endTurn 时若 sinceTurn < 当前 turn
+   * 则弃置（本回合内获得的不算——官方「a turn in which you started with the same token」）。
+   */
+  readonly discardAtTurnEnd?: boolean;
 }
 
 export type CardKind = 'upgrade' | 'mainPhase' | 'rollPhase' | 'instant';
