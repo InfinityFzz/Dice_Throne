@@ -96,6 +96,13 @@ export type Expr =
   | { e: 'cp'; target: TargetRef }
   | { e: 'hp'; target: TargetRef }
   | { e: 'var'; name: string }
+  /**
+   * 当前 bucket 中 target 的**待结算可防御伤害**（defendable 入桶总量）。
+   * 官方 Gunslinger Duel「prevent ½ dmg (rounded up)」：防御窗口内防止一半来袭伤害。
+   * 为什么只算 defendable：prevention 在 flush 时只抵消 defendable 桶（bucket.ts），
+   * 按同一口径求值才不会宣称防止它实际防止不了的伤害。
+   */
+  | { e: 'incomingDamage'; target: TargetRef }
   | { e: 'add' | 'sub' | 'mul'; a: Expr; b: Expr }
   | { e: 'min' | 'max'; a: Expr; b: Expr }
   /** 向上取整除法（Vegas Baby!：获得 ⌈点数/2⌉ CP） */
@@ -114,6 +121,11 @@ export type Condition =
    */
   | { c: 'nOfAKind'; n: number; target?: TargetRef }
   | { c: 'boundAtLeast'; name: string; min: number }
+  /**
+   * 两个绑定值互相比较（官方 Gunslinger Duel「你与攻击者各掷 1 骰，你的点数 ≥ 对手」）。
+   * 绑定值都是运行期变量，无法用 boundAtLeast（min 是常量）表达。
+   */
+  | { c: 'boundCompare'; a: string; op: '>=' | '>' | '<=' | '<'; b: string }
   | { c: 'and'; of: readonly Condition[] }
   | { c: 'not'; of: Condition };
 
@@ -159,7 +171,13 @@ export type EffectClause =
   // 骰子
   | { kind: 'rollDicePool'; count: Expr; cases?: readonly { on: Sym; effects: readonly EffectDef[] }[]; bindSumTo?: string;
       /** true = 每颗命中骰各结算一次（官方 Pyroblast「Add 3 × 🔥 dmg」语义）；false/缺省 = 每符号至多一次 */
-      perDie?: boolean }
+      perDie?: boolean;
+      /**
+       * 掷**谁的**英雄骰面（缺省 = 效果执行者自己）。
+       * 官方 Gunslinger Duel/Showdown「你与攻击者各掷 1 骰」——对手那颗必须按攻击者的英雄骰面
+       * 映射符号。掷出的值仍进 tempDice（池归属契约不变），cases 的符号匹配按 owner 骰面。
+       */
+      owner?: TargetRef }
   | { kind: 'setDieFace'; toFace: 1 | 2 | 3 | 4 | 5 | 6; count: Expr }
   | { kind: 'adjustDie'; delta: Expr }
   | { kind: 'copyDieFace' }

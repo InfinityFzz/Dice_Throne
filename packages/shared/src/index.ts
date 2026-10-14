@@ -21,4 +21,4 @@ export * from './content/heroes.js';
 export * from './content/registry.js';
 export * from './content/describe.js';
 
-export { BARBARIAN, PYROMANCER } from './content/heroes.js';
+export { BARBARIAN, PYROMANCER, GUNSLINGER } from './content/heroes.js';

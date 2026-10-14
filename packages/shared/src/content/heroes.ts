@@ -6,7 +6,7 @@
  * ⚠️ 自用学习定位：机制自洽的自制数值，**非官方数值**，不含官方卡面文本。
  * 官方数值校准需在上线前做一次 rules-lawyering pass（架构 B8）。
  */
-import type { CardDef, HeroDef } from '../types/content.js';
+import type { CardDef, HeroDef, StatusDef } from '../types/content.js';
 import type { EffectDef } from '../types/core.js';
 import { COMMON_CARDS } from './cards.js';
 
@@ -38,8 +38,8 @@ const barbarianUpgrades: readonly CardDef[] = [
     timing: ['main1', 'main2'], targetAbilityId: 'barbarian:thickSkin', tier: 2, count: 1, effects: [] },
 ];
 
-/** graded 的条件分支展开（官方 Smack/Fortitude/Fireball 为 3 档） */
-function gradedBranch(symbol: 'sword' | 'life' | 'flame', tierDmg: readonly [number, number, number], mk: (n: number) => EffectDef): EffectDef {
+/** graded 的条件分支展开（官方 Smack/Fortitude/Fireball 为 3 档；Gunslinger Revolver 同构） */
+function gradedBranch(symbol: string, tierDmg: readonly [number, number, number], mk: (n: number) => EffectDef): EffectDef {
   return {
     clause: {
       kind: 'conditional',
@@ -651,4 +651,367 @@ export const PYROMANCER: HeroDef = {
   ],
   statuses: [],
   deck: [...COMMON_CARDS, ...pyromancerUpgrades, ...pyromancerHeroCards],
+};
+
+// ── 神枪手：悬赏经济 + 装填增伤 + 概率型防御 ──────────────
+// 2026-10-14 官方校准（第三位英雄，M3 第一位）：骰面/状态/能力 L1-L3 数值/专属卡全部读自
+// 官方 TTS 图包卡面（panel.webp + card-18..32 逐张读图，15/15）。L1 数值另经双源交叉印证：
+//   ① boardgame.bg《Dice Throne S2 Battle Chest》规则书英雄面板文本（官方排版）；
+//   ② namu wiki Gunslinger 条目（逐能力列出 L1 数值与升级效果）。
+// 两源与卡图 L2/L3 完美衔接（Revolver 3/4/5→4/5/6、Showdown 7/5→8/6→9/6、
+// BountyHunter 1→2、TakeCover 5→6、FanTheHammer 7→8、Deadeye 6→8），故 L1 全部 official ✅，
+// 本英雄**没有推定值**。Ultimate「枪林弹雨」数值双源一致（boardgame.bg + 繁中规则书 gokids PDF）。
+const gunslingerStatuses: readonly StatusDef[] = [
+  {
+    // 官方值（Gunslinger 技能板原图，2026-10-14）：Stack limit 2；正面效果。
+    // 「结束进攻掷骰阶段且带有攻击时可消耗：掷 1 骰，把点数的一半（向上取整）作为伤害加到该次攻击。」
+    // ⚠️ 已知边界（与 evasive 同款）：spend 类状态尚无玩家主动消耗的动作入口，
+    // 状态数据先按官方登记（spendEffect 语义完备），入口补齐后即生效。
+    id: 'gunslinger:reload',
+    name: '装填',
+    polarity: 'positive',
+    stackLimit: 2,
+    persistent: false, // 面板未标 Persistent
+    spendable: true,
+    spendEffect: [
+      { clause: { kind: 'rollDicePool', count: 1, bindSumTo: 'reloadRoll' } },
+      { clause: { kind: 'dealDamage', amount: { e: 'ceilDiv', a: { e: 'var', name: 'reloadRoll' }, b: 2 },
+        damageType: 'attack', to: { r: 'opponent' } } },
+    ],
+  },
+  {
+    // 官方值（Gunslinger 技能板原图）：Stack limit 1；Persistent。
+    // 「受此 token 影响的玩家被对手攻击时：攻击者伤害 +1 并获得 1 CP。」
+    // 机制经 StatusDef.onAttacked 通用契约接入引擎（effects.ts dealDamage handler），
+    // 引擎不认本 id、只认契约（架构硬约束）。官方 FAQ 三条口径已写入 core.ts 注释。
+    id: 'gunslinger:bounty',
+    name: '悬赏',
+    polarity: 'negative',
+    stackLimit: 1,
+    persistent: true,
+    spendable: false,
+    onAttacked: { bonusDamage: 1, attackerGainsCp: 1 },
+  },
+];
+
+const gunslingerUpgrades: readonly CardDef[] = [
+  // 官方 CP = 卡面左上角印刷价（card-18..25、31 逐张读图，2026-10-14）
+  { defId: 'gunslinger:duel:2', name: '决斗 II', kind: 'upgrade', costCp: 3,
+    timing: ['main1', 'main2'], targetAbilityId: 'gunslinger:duel', tier: 2, count: 1, effects: [] },
+  { defId: 'gunslinger:showdown:2', name: '对决 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'gunslinger:showdown', tier: 2, count: 1, effects: [] },
+  { defId: 'gunslinger:showdown:3', name: '对决 III', kind: 'upgrade', costCp: 3,
+    timing: ['main1', 'main2'], targetAbilityId: 'gunslinger:showdown', tier: 3, count: 1, effects: [] },
+  { defId: 'gunslinger:revolver:2', name: '左轮 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'gunslinger:revolver', tier: 2, count: 1, effects: [] },
+  { defId: 'gunslinger:fanTheHammer:2', name: '花式射击 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'gunslinger:fanTheHammer', tier: 2, count: 1, effects: [] },
+  { defId: 'gunslinger:bountyHunter:2', name: '赏金猎人 II', kind: 'upgrade', costCp: 1,
+    timing: ['main1', 'main2'], targetAbilityId: 'gunslinger:bountyHunter', tier: 2, count: 1, effects: [] },
+  { defId: 'gunslinger:takeCover:2', name: '寻找掩护 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'gunslinger:takeCover', tier: 2, count: 1, effects: [] },
+  { defId: 'gunslinger:deadeye:2', name: '神枪手 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'gunslinger:deadeye', tier: 2, count: 1, effects: [] },
+  { defId: 'gunslinger:quickDraw:2', name: '快速拔枪 II', kind: 'upgrade', costCp: 2,
+    timing: ['main1', 'main2'], targetAbilityId: 'gunslinger:quickDraw', tier: 2, count: 1, effects: [] },
+];
+
+/** Gunslinger 专属行动卡（card-26..32，2026-10-14 逐张读图；Run And Gun! 为 PROMO） */
+const gunslingerHeroCards: readonly CardDef[] = [
+  // Wild West!：1 CP，Roll Phase Action，Attack Modifier。
+  // 官方卡面："When you spend a Reload, you may re-roll that die one time. If you do,
+  // add an additional 1 dmg to the outcome." —— 触发点在「消耗装填」这个玩家动作上，
+  // 而 spend 类状态当前没有玩家动作入口（见 gunslinger:reload 注释），故暂不可行使。
+  // 与 Warm Up「自由出价换 FM」同款已知偏差：登记卡（卡组完整 33 张、资产可挂图），
+  // 效果不行使，log 记账。
+  { defId: 'gunslinger:wildWest', name: '蛮荒西部', kind: 'rollPhase', costCp: 1,
+    timing: ['thenNode'], count: 1,
+    effects: [{ clause: { kind: 'log', text: '官方效果「消耗装填时可重掷那颗骰一次并 +1 伤害」依赖 spend 玩家入口，暂不行使' } }] },
+  // Wanted!：2 CP，直接给对手上悬赏（1v1「chosen opponent」即唯一对手，无偏差）
+  { defId: 'gunslinger:wanted', name: '通缉', kind: 'mainPhase', costCp: 2,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [{ clause: { kind: 'inflictStatus', status: 'gunslinger:bounty', stacks: 1, to: { r: 'opponent' } } }] },
+  // Spin The Chamber!：1 CP，获得 1 层装填
+  { defId: 'gunslinger:spinTheChamber', name: '转轮', kind: 'mainPhase', costCp: 1,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [{ clause: { kind: 'inflictStatus', status: 'gunslinger:reload', stacks: 1, to: { r: 'self' } } }] },
+  // Roulette!：1 CP，掷 1 骰：子弹→2 伤害；疾冲→击倒；靶心→悬赏。
+  // ⚠️ 已知偏差（显式记账）：官方 "Choose a player"（可含自己），1v1 MVP 固定对手——
+  // 引擎 choose 当前自动取 default（无挂起），目标选择先按主流用法收敛，入口就绪后改 choose。
+  { defId: 'gunslinger:roulette', name: '俄罗斯轮盘', kind: 'mainPhase', costCp: 1,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [{
+      clause: { kind: 'rollDicePool', count: 1, cases: [
+        { on: 'bullet', effects: [{ clause: { kind: 'dealDamage', amount: 2, damageType: 'attack', to: { r: 'opponent' } } }] },
+        { on: 'dash', effects: [{ clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } }] },
+        { on: 'bullseye', effects: [{ clause: { kind: 'inflictStatus', status: 'gunslinger:bounty', stacks: 1, to: { r: 'opponent' } } }] },
+      ] },
+    }] },
+  // Eat Lead!：1 CP，Roll Phase Action，Attack Modifier。
+  // 官方卡面："Roll 5: Add 1 × bullet to the total dmg. If at least 4 dmg was added, inflict Knockdown."
+  // perDie 每颗子弹 +1 伤害（与主攻击同桶合并）；「加入 ≥4」= 子弹数 ≥4，
+  // diceSymbolAtLeast 在 tempDice 在场时按临时池求值（effects.ts evalCondition），同序列内直接可判。
+  { defId: 'gunslinger:eatLead', name: '吃铅弹', kind: 'rollPhase', costCp: 1,
+    timing: ['thenNode'], count: 1,
+    effects: [
+      { clause: { kind: 'rollDicePool', count: 5, perDie: true, cases: [
+        { on: 'bullet', effects: [{ clause: { kind: 'dealDamage', amount: 1, damageType: 'attack', to: { r: 'opponent' } } }] },
+      ] } },
+      { clause: { kind: 'conditional', cond: { c: 'diceSymbolAtLeast', symbol: 'bullet', min: 4 },
+        then: [{ clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } }] } },
+    ] },
+  // Run And Gun!：0 CP，PROMO（Dice Throne Comic Issue One）。
+  // 官方卡面："Roll 1: On bullseye, inflict Bounty & Knockdown on a chosen opponent.
+  // On any other outcome, draw 1 card." —— bullseye = 6 点。
+  { defId: 'gunslinger:runAndGun', name: '且战且走（PROMO）', kind: 'mainPhase', costCp: 0,
+    timing: ['main1', 'main2'], count: 1,
+    effects: [
+      { clause: { kind: 'rollDicePool', count: 1, bindSumTo: 'rng1' } },
+      { clause: { kind: 'conditional', cond: { c: 'boundAtLeast', name: 'rng1', min: 6 },
+        then: [
+          { clause: { kind: 'inflictStatus', status: 'gunslinger:bounty', stacks: 1, to: { r: 'opponent' } } },
+          { clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } },
+        ],
+        else: [{ clause: { kind: 'drawCards', amount: 1, to: { r: 'self' } } }] } },
+    ] },
+];
+
+/** Duel/Showdown 共用的「你与对手各掷 1 骰并比较」骨架（官方 Gunslinger 招牌机制） */
+function duelRolls(selfBind: string, oppBind: string): readonly EffectDef[] {
+  return [
+    // 对手那颗必须按对手的英雄骰面映射符号（rollDicePool.owner，2026-10-14 引擎扩展）
+    { clause: { kind: 'rollDicePool', count: 1, owner: { r: 'opponent' }, bindSumTo: oppBind } },
+    { clause: { kind: 'rollDicePool', count: 1, bindSumTo: selfBind } },
+  ];
+}
+
+export const GUNSLINGER: HeroDef = {
+  id: 'gunslinger',
+  name: '神枪手',
+  dieFaces: [
+    // 官方值（Gunslinger 技能板原图逐面核读，2026-10-14）：1-3 BULLET，4-5 DASH，6 BULLSEYE
+    { value: 1, symbols: ['bullet'] },
+    { value: 2, symbols: ['bullet'] },
+    { value: 3, symbols: ['bullet'] },
+    { value: 4, symbols: ['dash'] },
+    { value: 5, symbols: ['dash'] },
+    { value: 6, symbols: ['bullseye'] },
+  ],
+  diceCount: 5,
+  startHp: 50,
+  abilities: [
+    {
+      // 官方 L2（card-21，2 CP）：3/4/5 子弹 → 4/5/6；4-of-a-kind（点数轴）→ 击倒。
+      // L1 = 3/4/5 伤害、无击倒（boardgame.bg 面板 + namu wiki 双源一致）。
+      id: 'gunslinger:revolver',
+      kind: 'offensive',
+      name: '左轮',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'bullet', count: 3 },
+          effects: [gradedBranch('bullet', [3, 4, 5], (n) => dmgTo(n))] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'countSymbol', symbol: 'bullet', count: 3 },
+          effects: [
+            gradedBranch('bullet', [4, 5, 6], (n) => dmgTo(n)),
+            { clause: { kind: 'conditional', cond: { c: 'nOfAKind', n: 4 },
+              then: [{ clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } }] } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L2（card-23，1 CP）：2 子弹+2 靶心 → 悬赏 + 2 不可防御。
+      // L1 = 悬赏 + 1 不可防御（boardgame.bg 面板 + namu wiki 双源一致）。
+      id: 'gunslinger:bountyHunter',
+      kind: 'offensive',
+      name: '赏金猎人',
+      tiers: [
+        { level: 1, upgradeCostCP: 0,
+          matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'bullet', count: 2 }, { k: 'countSymbol', symbol: 'bullseye', count: 2 }] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'gunslinger:bounty', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'dealDamage', amount: 1, damageType: 'undefendable', to: { r: 'opponent' } } },
+          ] },
+        { level: 2, upgradeCostCP: 1,
+          matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'bullet', count: 2 }, { k: 'countSymbol', symbol: 'bullseye', count: 2 }] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'gunslinger:bounty', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'dealDamage', amount: 2, damageType: 'undefendable', to: { r: 'opponent' } } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（boardgame.bg 面板 + namu wiki 双源）：小顺 → 双方各掷 1 骰，你的点数 ≥ 对手 → 7，否则 5。
+      // L2（card-19，2 CP）→ 8/6；L3（card-20，3 CP）→ 9/6（卡图逐张读图）。
+      id: 'gunslinger:showdown',
+      kind: 'offensive',
+      name: '对决',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'smallStraight' },
+          effects: [
+            ...duelRolls('sdSelf', 'sdOpp'),
+            { clause: { kind: 'conditional', cond: { c: 'boundCompare', a: 'sdSelf', op: '>=', b: 'sdOpp' },
+              then: [dmgTo(7)], else: [dmgTo(5)] } },
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'smallStraight' },
+          effects: [
+            ...duelRolls('sdSelf', 'sdOpp'),
+            { clause: { kind: 'conditional', cond: { c: 'boundCompare', a: 'sdSelf', op: '>=', b: 'sdOpp' },
+              then: [dmgTo(8)], else: [dmgTo(6)] } },
+          ] },
+        { level: 3, upgradeCostCP: 3, matcher: { k: 'smallStraight' },
+          effects: [
+            ...duelRolls('sdSelf', 'sdOpp'),
+            { clause: { kind: 'conditional', cond: { c: 'boundCompare', a: 'sdSelf', op: '>=', b: 'sdOpp' },
+              then: [dmgTo(9)], else: [dmgTo(6)] } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（card-24 下方相邻格 MARK THE TARGET）：3 疾冲 → 获得 2 闪避 + 悬赏。
+      // L2（card-24，2 CP）：2 子弹+3 疾冲 → 获得 1 闪避 + 6 伤害（卡图逐张读图）。
+      id: 'gunslinger:takeCover',
+      kind: 'offensive',
+      name: '寻找掩护',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'dash', count: 3 },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 2, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'gunslinger:bounty', stacks: 1, to: { r: 'opponent' } } },
+          ] },
+        { level: 2, upgradeCostCP: 2,
+          matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'bullet', count: 2 }, { k: 'countSymbol', symbol: 'dash', count: 3 }] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            dmgTo(6),
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（card-22 下方相邻格 PISTOL WHIP）：2 疾冲+1 靶心 → 获得 1 闪避 + 击倒 + 1 不可防御。
+      // L2（card-22，2 CP）：大顺 → 获得 2 闪避 + 8 伤害（卡图逐张读图）。
+      id: 'gunslinger:fanTheHammer',
+      kind: 'offensive',
+      name: '花式射击',
+      tiers: [
+        { level: 1, upgradeCostCP: 0,
+          matcher: { k: 'allOf', of: [{ k: 'countSymbol', symbol: 'dash', count: 2 }, { k: 'countSymbol', symbol: 'bullseye', count: 1 }] },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'dealDamage', amount: 1, damageType: 'undefendable', to: { r: 'opponent' } } },
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'largeStraight' },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 2, to: { r: 'self' } } },
+            dmgTo(8),
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（card-25 下方相邻格 ENFORCER）：3 靶心 → 获得 1 闪避 + 对两个对手各悬赏&击倒
+      // （1v1 下「两个对手」即唯一对手，两状态都给对手）。L2（card-25，2 CP）：4 靶心 → 击倒 + 8 不可防御。
+      id: 'gunslinger:deadeye',
+      kind: 'offensive',
+      name: '神枪手',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'bullseye', count: 3 },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'gunslinger:bounty', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } },
+          ] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'countSymbol', symbol: 'bullseye', count: 4 },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'dealDamage', amount: 8, damageType: 'undefendable', to: { r: 'opponent' } } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（boardgame.bg 面板）：防御掷骰 1；你与攻击者各掷 1 骰，你的点数 ≥ 攻击者（S1 卡面
+      // "equal or greater"）→ 可选：造成 3 伤害 或 防止一半来袭伤害（向上取整）；否则造成 1 伤害。
+      // L2（card-18，3 CP）效果与 L1 相同（升级价值在官方规则为「本能力升级」的一般 CP 消耗）。
+      //
+      // ⚠️ 已知偏差（显式记账）：官方「你 may choose to either…」是玩家二选一；
+      // 引擎 choose 当前自动取 default（无挂起，choose handler 诚实注释）。default 取
+      // 「防止一半来袭伤害」（防御能力的保守语义：不替玩家主动加害）。
+      // 引擎为此扩展三项（2026-10-14）：boundCompare 条件 / rollDicePool.owner /
+      // incomingDamage 表达式（core.ts 注释有官方卡面原文与口径说明）。
+      id: 'gunslinger:duel',
+      kind: 'defensive',
+      name: '决斗',
+      defenseDiceCount: 1,
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'const', value: true },
+          effects: [
+            ...duelRolls('duelSelf', 'duelOpp'),
+            { clause: { kind: 'conditional', cond: { c: 'boundCompare', a: 'duelSelf', op: '>=', b: 'duelOpp' },
+              then: [{
+                clause: { kind: 'choose', who: 'owner', options: [
+                  { id: 'duelCover', label: '防止一半来袭伤害（向上取整）', isDefault: true,
+                    effects: [{ clause: { kind: 'preventDamage',
+                      amount: { e: 'ceilDiv', a: { e: 'incomingDamage', target: { r: 'self' } }, b: 2 },
+                      to: { r: 'self' } } }] },
+                  { id: 'duelStrike', label: '对攻击者造成 3 点伤害',
+                    effects: [{ clause: { kind: 'dealDamage', amount: 3, damageType: 'attack', to: { r: 'attacker' } } }] },
+                ] } },
+              ],
+              else: [{ clause: { kind: 'dealDamage', amount: 1, damageType: 'attack', to: { r: 'attacker' } } }] } },
+          ] },
+        { level: 2, upgradeCostCP: 3, matcher: { k: 'const', value: true },
+          effects: [
+            ...duelRolls('duelSelf', 'duelOpp'),
+            { clause: { kind: 'conditional', cond: { c: 'boundCompare', a: 'duelSelf', op: '>=', b: 'duelOpp' },
+              then: [{
+                clause: { kind: 'choose', who: 'owner', options: [
+                  { id: 'duelCover', label: '防止一半来袭伤害（向上取整）', isDefault: true,
+                    effects: [{ clause: { kind: 'preventDamage',
+                      amount: { e: 'ceilDiv', a: { e: 'incomingDamage', target: { r: 'self' } }, b: 2 },
+                      to: { r: 'self' } } }] },
+                  { id: 'duelStrike', label: '对攻击者造成 3 点伤害',
+                    effects: [{ clause: { kind: 'dealDamage', amount: 3, damageType: 'attack', to: { r: 'attacker' } } }] },
+                ] } },
+              ],
+              else: [{ clause: { kind: 'dealDamage', amount: 1, damageType: 'attack', to: { r: 'attacker' } } }] } },
+          ] },
+      ],
+    },
+    {
+      // 官方 L1（boardgame.bg 面板 PASSIVE）：维持阶段获得 1 装填；
+      // L2（card-31，2 CP）追加「消耗装填时可重掷那颗骰一次」。
+      // ⚠️ 已知偏差（显式记账）：引擎没有 passive 能力的 upkeep 钩子（StatusDef.upkeep 只覆盖
+      // 状态），且 spend 类状态没有玩家动作入口（见 gunslinger:reload）——两条路径都断，
+      // 故本能力登记但**完全不生效**（matcher const false 诚实渲染「永不触发」）。
+      // 引擎补 passive upkeep 钩子 + spend 入口后，把 matcher 改 const true 并填 effects。
+      id: 'gunslinger:quickDraw',
+      kind: 'passive',
+      name: '快速拔枪',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'const', value: false }, effects: [] },
+        { level: 2, upgradeCostCP: 2, matcher: { k: 'const', value: false }, effects: [] },
+      ],
+    },
+    {
+      id: 'gunslinger:fillEmWithLead',
+      kind: 'ultimate',
+      // 官方（双源一致，2026-10-14）：Fill 'Em With Lead! —— 5 靶心（5-of-a-kind）：
+      // 获得 1 闪避 → 施加悬赏与击倒 → 造成 10 点伤害。
+      // 来源 ①boardgame.bg《Dice Throne S2 Battle Chest》规则书面板文本（官方排版逐字）；
+      // 来源 ②繁中规则书（gokids PDF）：「獲得閃避。施加懸賞與擊倒。然後造成 10 傷害。」
+      // Ultimate 伤害：不可防御且不可避免（规则书 Damage Table），引擎口径同 bloodlust。
+      // 卡面尾部「若消耗一个装填可重掷那颗骰」属掷骰阶段的玩家交互（激活前改骰），
+      // 不是效果的一部分——依赖 spend 入口，同 quickDraw 暂不行使。
+      name: '枪林弹雨（Fill ’Em With Lead!）',
+      tiers: [
+        { level: 1, upgradeCostCP: 0, matcher: { k: 'countSymbol', symbol: 'bullseye', count: 5 },
+          effects: [
+            { clause: { kind: 'inflictStatus', status: 'common:evasive', stacks: 1, to: { r: 'self' } } },
+            { clause: { kind: 'inflictStatus', status: 'gunslinger:bounty', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'inflictStatus', status: 'common:knockdown', stacks: 1, to: { r: 'opponent' } } },
+            { clause: { kind: 'dealDamage', amount: 10, damageType: 'undefendable', to: { r: 'opponent' }, sourceKind: 'ultimate' } },
+          ] },
+      ],
+    },
+  ],
+  statuses: gunslingerStatuses,
+  deck: [...COMMON_CARDS, ...gunslingerUpgrades, ...gunslingerHeroCards],
 };

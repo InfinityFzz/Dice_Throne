@@ -80,10 +80,13 @@ export const COMMON_STATUSES: readonly StatusDef[] = [
     spendable: false,
   },
   {
+    // 官方值（Gunslinger 技能板原图，2026-10-14）：Stack limit 3；spend 后 roll 1-2 免除本次伤害。
+    // spend 尚无玩家动作入口（引擎/合法动作均无 spendStatus 入口）——与 reload 同款已知边界，
+    // 状态数据先按官方登记，入口补齐后即生效。
     id: 'common:evasive',
     name: '闪避',
     polarity: 'positive',
-    stackLimit: 2,
+    stackLimit: 3,
     persistent: true,
     spendable: true,
     spendEffect: [{

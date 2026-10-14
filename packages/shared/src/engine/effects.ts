@@ -111,6 +111,13 @@ export function evalExpr(d: Draft, expr: Expr, seat: Seat): number {
     case 'cp': return d.player(resolveTarget(d, expr.target, seat)).cp;
     case 'hp': return d.player(resolveTarget(d, expr.target, seat)).hp;
     case 'var': return d.s.bindings[expr.name] ?? 0;
+    case 'incomingDamage': {
+      // 防御窗口语义：bucket 中 target 的待结算可防御伤害（与 prevention 的作用口径一致）
+      const to = resolveTarget(d, expr.target, seat);
+      return d.s.bucket.entries
+        .filter((e) => e.toSeat === to && e.bucketKind === 'defendable')
+        .reduce((acc, e) => acc + e.amount, 0);
+    }
     case 'add': return evalExpr(d, expr.a, seat) + evalExpr(d, expr.b, seat);
     case 'sub': return evalExpr(d, expr.a, seat) - evalExpr(d, expr.b, seat);
     case 'mul': return evalExpr(d, expr.a, seat) * evalExpr(d, expr.b, seat);
@@ -159,6 +166,17 @@ export function evalCondition(d: Draft, cond: Condition, seat: Seat): boolean {
       return false;
     }
     case 'boundAtLeast': return (d.s.bindings[cond.name] ?? 0) >= cond.min;
+    case 'boundCompare': {
+      const a = d.s.bindings[cond.a] ?? 0;
+      const b = d.s.bindings[cond.b] ?? 0;
+      switch (cond.op) {
+        case '>=': return a >= b;
+        case '>': return a > b;
+        case '<=': return a <= b;
+        case '<': return a < b;
+      }
+      return false;
+    }
     case 'and': return cond.of.every((c) => evalCondition(d, c, seat));
     case 'not': return !evalCondition(d, cond.of, seat);
   }
@@ -222,6 +240,21 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
     if (c.kind !== 'dealDamage') return;
     const to = resolveTarget(d, c.to, seat);
     const amount = evalExpr(d, c.amount, seat);
+    // 官方 Bounty 类挂钩（StatusDef.onAttacked 通用契约，引擎不认具体状态 id）：
+    // attack 类型伤害瞄准带此状态的目标 → 攻击者伤害 +N（入桶即触发，官方 FAQ：
+    // 对手防御中 prevent/avoid 多少都不影响）+ 得 M 点 CP。直接 addDamage，不走
+    // dealDamage clause，避免自递归。amount>0 才触发（「必须激活造成至少 1 点伤害的攻击」）。
+    if (c.damageType === 'attack' && amount > 0) {
+      const hooked = d.player(to).statuses
+        .find((s) => d.content.getStatus(s.id)?.onAttacked !== undefined);
+      const hook = hooked ? d.content.getStatus(hooked.id)?.onAttacked : undefined;
+      if (hooked && hook) {
+        d.s.bucket = addDamage(d.s.bucket, evalExpr(d, hook.bonusDamage, seat), 'attack', to, seat, 'ability');
+        const attacker = d.player(seat);
+        attacker.cp = Math.min(15, attacker.cp + evalExpr(d, hook.attackerGainsCp, seat));
+        d.emit('note', { kind: 'log', text: `${d.content.getStatus(hooked.id)?.name ?? hooked.id}：攻击者伤害增加并获得 CP` });
+      }
+    }
     // 条件不可防御（官方 Smack 4-of-a-kind）：effectWalk 时按当前骰池判定
     const damageType = c.undefendableIf && evalCondition(d, c.undefendableIf, seat)
       ? 'undefendable' as const
@@ -342,6 +375,10 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
   rollDicePool(d, c, seat) {
     if (c.kind !== 'rollDicePool') return;
     const count = evalExpr(d, c.count, seat);
+    // owner：掷谁的英雄骰面（官方 Gunslinger Duel/Showdown「你与攻击者各掷 1 骰」）。
+    // 缺省 = 执行者自己；掷出的值照常进 tempDice（池归属契约不变）。
+    const ownerSeat = c.owner ? resolveTarget(d, c.owner, seat) : seat;
+    const ownerHero = d.content.getHero(d.player(ownerSeat).heroId);
     const values: number[] = [];
     for (let i = 0; i < count; i++) {
       const { value, rng } = nextInt(d.s.rng, `dice:pool:${seat}`, 6);
@@ -351,13 +388,13 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
     d.s.tempDice = values;
     if (c.bindSumTo) d.s.bindings[c.bindSumTo] = values.reduce((a, b) => a + b, 0);
     d.emit('note', { kind: 'tempDiceRolled', seat, values });
-    // cases：缺省按符号去重（每符号至多结算一次）；perDie 时每颗命中骰各结算一次
+    // cases：缺省按符号去重（每符号至多结算一次）；perDie 时每颗命中骰各结算一次。
+    // 符号映射按 owner 的英雄骰面（不是执行者的）。
     const cases = c.cases ?? [];
     const out: EffectDef[] = [];
-    const hero = d.content.getHero(d.player(seat).heroId);
     if (c.perDie) {
       for (const v of values) {
-        const face = hero.dieFaces.find((f) => f.value === v);
+        const face = ownerHero.dieFaces.find((f) => f.value === v);
         const syms = face ? [...face.symbols] : [];
         for (const cs of cases) {
           if (syms.includes(cs.on)) out.push(...cs.effects);
@@ -365,7 +402,7 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
       }
     } else {
       const seen = new Set<string>();
-      const syms = d.tempSymbols(seat);
+      const syms = values.flatMap((v) => ownerHero.dieFaces.find((f) => f.value === v)?.symbols ?? []);
       for (const cs of cases) {
         if (seen.has(cs.on)) continue;
         seen.add(cs.on);

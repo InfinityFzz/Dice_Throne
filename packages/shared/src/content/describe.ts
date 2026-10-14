@@ -20,7 +20,10 @@ import type {
 } from '../types/core.js';
 import type { AbilitySlotDef, CardDef, StatusDef } from '../types/content.js';
 import { COMMON_STATUSES } from './statuses.js';
-import { BARBARIAN, PYROMANCER } from './heroes.js';
+import { BARBARIAN, GUNSLINGER, PYROMANCER } from './heroes.js';
+
+/** 新增英雄只改这一行（名称词表随数据自动构建，漏登记会被 lint 守门抓住） */
+const ALL_HEROES = [BARBARIAN, PYROMANCER, GUNSLINGER] as const;
 
 // ── 语言 ─────────────────────────────────────────────
 export type Lang = 'zh' | 'en';
@@ -126,10 +129,12 @@ const SYM_WORD: Record<Lang, Record<string, string>> = {
   zh: {
     sword: '剑', life: '生命', pow: '力量',
     flame: '焰', blaze: '炽焰', fierySoul: '炎魂', meteor: '陨星',
+    bullet: '子弹', dash: '疾冲', bullseye: '靶心',
   },
   en: {
     sword: 'sword', life: 'life', pow: 'power',
     flame: 'flame', blaze: 'blaze', fierySoul: 'fiery soul', meteor: 'meteor',
+    bullet: 'bullet', dash: 'dash', bullseye: 'bullseye',
   },
 };
 
@@ -137,7 +142,9 @@ const STATUS_WORD: Record<Lang, Record<string, string>> = {
   zh: { any: '任意状态' },
   en: { any: 'any status' },
 };
-for (const s of COMMON_STATUSES) {
+// 通用状态 + 各英雄专属状态统一入表（新增英雄/状态零登记，直接从数据构建）
+const ALL_STATUSES: readonly StatusDef[] = [...COMMON_STATUSES, ...ALL_HEROES.flatMap((h) => h.statuses)];
+for (const s of ALL_STATUSES) {
   STATUS_WORD.zh[s.id] = s.name;
   STATUS_WORD.en[s.id] = shortId(s.id);
 }
@@ -149,7 +156,7 @@ export function setStatusLabel(id: StatusId, lang: Lang, name: string): void {
 
 /** 能力名（升级卡文案需要）；与状态名同源，均可在数据层整体替换 */
 const ABILITY_WORD: Record<Lang, Record<string, string>> = { zh: {}, en: {} };
-for (const hero of [BARBARIAN, PYROMANCER]) {
+for (const hero of ALL_HEROES) {
   for (const slot of hero.abilities) {
     ABILITY_WORD.zh[slot.id] = slot.name;
     ABILITY_WORD.en[slot.id] = shortId(slot.id);
@@ -216,6 +223,10 @@ export function describeExpr(x: Expr, lang: Lang = DEFAULT_LANG): string {
       return zh ? `${targetPossessive(x.target, lang)}HP` : `${targetPossessive(x.target, lang)} HP`;
     case 'var':
       return x.name;
+    case 'incomingDamage':
+      return zh
+        ? `${targetPossessive(x.target, lang)}来袭伤害`
+        : `incoming damage to ${targetName(x.target, lang)}`;
     case 'add':
       if (isLit(x.a, 0)) return describeExpr(x.b, lang);
       if (isLit(x.b, 0)) return describeExpr(x.a, lang);
@@ -278,6 +289,10 @@ export function describeCondition(c: Condition, lang: Lang = DEFAULT_LANG): stri
     }
     case 'boundAtLeast':
       return `${c.name} ≥ ${c.min}`;
+    case 'boundCompare': {
+      const op = c.op === '<=' ? '≤' : c.op === '>=' ? '≥' : c.op;
+      return `${c.a} ${op} ${c.b}`;
+    }
     case 'and': {
       if (c.of.length === 0) return zh ? '无条件成立' : 'always true';
       return c.of.map((s) => describeCondition(s, lang)).join(zh ? ' 且 ' : ' and ');
@@ -460,6 +475,7 @@ export const CLAUSE_TEMPLATES: Record<EffectClause['kind'], (c: EffectClause, la
     const zh = lang === 'zh';
     const n = describeExpr(c.count, lang);
     let s = zh ? `掷 ${n} 颗骰` : `roll ${n} dice`;
+    if (c.owner) s += zh ? `（按${targetName(c.owner, lang)}的英雄骰面）` : ` (using ${targetName(c.owner, lang)}'s die faces)`;
     if (c.bindSumTo) s += zh ? `，总点数记为 ${c.bindSumTo}` : `, sum recorded as ${c.bindSumTo}`;
     for (const cs of c.cases ?? []) {
       const sym = symName(cs.on, lang);
@@ -694,6 +710,11 @@ export function describeStatus(s: StatusDef, lang: Lang = DEFAULT_LANG): string 
   ];
   if (s.persistent) bits.push(zh ? '持续' : 'persistent');
   if (s.spendable) bits.push(zh ? '可消耗' : 'spendable');
+  if (s.onAttacked) {
+    bits.push(zh
+      ? `被攻击时：攻击者对其伤害 +${describeExpr(s.onAttacked.bonusDamage, lang)} 且攻击者获得 ${describeExpr(s.onAttacked.attackerGainsCp, lang)} CP`
+      : `when bearer is attacked: attacker's dmg +${describeExpr(s.onAttacked.bonusDamage, lang)} and attacker gains ${describeExpr(s.onAttacked.attackerGainsCp, lang)} CP`);
+  }
   let out = bits.join(' · ');
   if (s.upkeep) {
     const when = s.upkeep.order === 'damage' ? (zh ? '伤害结算时' : 'at damage step') : (zh ? '衰减时' : 'at decay step');

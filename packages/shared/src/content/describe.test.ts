@@ -254,3 +254,45 @@ describe('describe: 关键数值与修饰语义不丢失', () => {
     }
   });
 });
+
+// ════════════════════════════════════════════════════════════════
+// describe: Gunslinger 实装新增模板（boundCompare / incomingDamage / owner / onAttacked）
+// ════════════════════════════════════════════════════════════════
+describe('describe: Gunslinger 新增模板', () => {
+  test('Duel：双 roll 比较（boundCompare）+ 防止一半来袭（incomingDamage）+ 按对手骰面掷', () => {
+    const t = describeAbility(abilityOf('gunslinger', 'gunslinger:duel'), 1);
+    assert.ok(t.includes('掷 1 颗骰'), `双 roll 丢失 → ${t}`);
+    assert.ok(t.includes('duelSelf') && t.includes('duelOpp'), `boundCompare 绑定名丢失 → ${t}`);
+    assert.ok(t.includes('来袭伤害'), `incomingDamage 语义丢失 → ${t}`);
+    assert.ok(t.includes('英雄骰面'), `rollDicePool.owner 语义丢失 → ${t}`);
+  });
+
+  test('Showdown：7/5 双分支数值都在', () => {
+    const t = describeAbility(abilityOf('gunslinger', 'gunslinger:showdown'), 1);
+    assert.ok(t.includes('7') && t.includes('5'), `Showdown L1 7/5 丢失 → ${t}`);
+  });
+
+  test('悬赏状态：onAttacked 契约渲染（攻击者伤害 +1 且获得 CP）', () => {
+    const bounty = createDefaultRegistry().getStatus('gunslinger:bounty');
+    assert.ok(bounty, '悬赏状态应已注册');
+    const t = describeStatus(bounty as StatusDef, 'zh');
+    assert.ok(t.includes('悬赏'), `状态名丢失 → ${t}`);
+    assert.ok(t.includes('+1'), `bonusDamage 丢失 → ${t}`);
+    assert.ok(t.includes('CP'), `attackerGainsCp 丢失 → ${t}`);
+  });
+
+  test('装填状态：spendEffect 的掷骰 + 半价向上取整都在', () => {
+    const reload = createDefaultRegistry().getStatus('gunslinger:reload');
+    assert.ok(reload, '装填状态应已注册');
+    const t = describeStatus(reload as StatusDef, 'zh');
+    assert.ok(t.includes('装填'), `状态名丢失 → ${t}`);
+    assert.ok(t.includes('⌈'), `ceilDiv 语义丢失 → ${t}`);
+  });
+
+  test('Eat Lead!：perDie 每颗子弹 +1 与「≥4 击倒」条件都在', () => {
+    const card = createDefaultRegistry().getCard('gunslinger:eatLead');
+    const t = describeCard(card, 'zh');
+    assert.ok(t.includes('每颗'), `perDie 丢失 → ${t}`);
+    assert.ok(t.includes('子弹'), `bullet 符号名丢失 → ${t}`);
+  });
+});

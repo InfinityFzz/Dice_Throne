@@ -2,7 +2,7 @@
  * 内容数据模型（作者层 DSL）。新增英雄 = 新增一个 HeroDef，零引擎改动。
  * 硬验收标准：引擎不得对任何具体 HeroId 做特判。
  */
-import type { Condition, DieFace, DiceMatcher, EffectDef, EntityId, HeroId, StatusId, CardId, Phase } from './core.js';
+import type { Condition, DieFace, DiceMatcher, EffectDef, EntityId, Expr, HeroId, StatusId, CardId, Phase } from './core.js';
 
 export type AbilityKind = 'offensive' | 'defensive' | 'passive' | 'ultimate';
 
@@ -36,6 +36,19 @@ export interface StatusDef {
   readonly upkeep?: {
     readonly order: 'damage' | 'decay';
     readonly effects: readonly EffectDef[];
+  };
+  /**
+   * 持有者被 **attack 类型**伤害瞄准时的通用挂钩（官方 Gunslinger Bounty）：
+   * 攻击者对该目标的伤害入桶时追加 bonusDamage（同目标、同 attack 类型），并获得 attackerGainsCp 点 CP。
+   * 官方 FAQ 口径：①对手防御中 prevent/avoid 多少都不影响加成与 CP（入桶即触发，与结算结果无关）；
+   * ②不因防御方的伤害（pure 反伤）触发——damageType!=='attack' 天然不命中；
+   * ③主伤害 amount 为 0 时不触发（「必须激活造成至少 1 点伤害的攻击」——入桶时点无法预知
+   *   后续修正，按主伤害 > 0 近似，已知近似记账）。
+   * 引擎只认本契约、不认任何具体状态 id（架构硬约束：不得对具体英雄/内容 id 特判）。
+   */
+  readonly onAttacked?: {
+    readonly bonusDamage: Expr;
+    readonly attackerGainsCp: Expr;
   };
 }
 
