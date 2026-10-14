@@ -292,6 +292,8 @@ function doDefensiveRoll(d: Draft): void {
     d.s.rng = r.rng;
     values.push(r.value + 1);
   }
+  // ★ 防御骰池的创建点（owner）：此后直到 resolveDefense 销毁前，
+  //   任何 runEffects 调用都不得清空它 —— 防御窗口打出的卡要能改写这批骰（DEFECT-03）。
   d.s.tempDice = values;
   d.emit('defenseRolled', { seat: defender, values });
 
@@ -334,6 +336,7 @@ function resolveDefense(d: Draft): void {
     const view: DiceView = { values, symbols, locked: values.map(() => true) };
     if (evaluate(t.matcher, view).matched) runEffects(d, t.effects, defender);
   }
+  // ★ 防御骰池的销毁点（owner）：防御能力已按这批骰求值完毕，此后 tempDice 必须清空。
   d.s.tempDice = [];
   finishResolution(d);
 }
@@ -479,6 +482,14 @@ export function reduce(
   const d = new Draft(state, content);
   const { seat, action } = env;
 
+  // 防御动作（defensiveRoll / respondPass）按设计不受「当前行动方」限制（见 isDefensiveAction），
+  // 因此它被拒的唯一可能原因就是阶段不对。把它排在 pending 守卫之前，避免把
+  // 「防御窗口已结束（如 4-of-a-kind 不可防御已直接结算）」误报成「不是你的回合」（DEFECT-01）。
+  // ⚠️ 只改变**已被拒绝**动作的拒绝码：defensiveRoll + 非 defensiveRoll 阶段在当前守卫下
+  //    必然被拒（pending 守卫或 case 内守卫），不存在由拒变收的情况。
+  if (action.t === 'defensiveRoll' && state.phase !== 'defensiveRoll') {
+    return err('wrongPhase', '不在防御掷骰阶段');
+  }
   if (state.pending && state.pending.seat !== seat) {
     return err('notYourTurn', `当前等待 seat ${state.pending.seat} 响应`);
   }
@@ -559,6 +570,8 @@ export function reduce(
         const [card0] = dwSeat.hand.splice(idx0, 1);
         if (card0) dwSeat.discard.push(card0);
         d.emit('cardPlayed', { seat, defId: card0!.defId, name: def0.name });
+        // ★ tempDice 归防御阶梯所有，runEffects 不得销毁：卡效果可以改写它
+        //   （rerollDice scope:'defense' = Better D!），改写结果必须活到 resolveDefense。
         runEffects(d, def0.effects, seat);
         // 窗口保持可重入：还有可打的卡就继续等，否则直接结算
         if (hasDefenseWindowCards(d, seat)) makeDefenseWindow(d, seat);

@@ -261,10 +261,21 @@ describe('官方校准新增机制', () => {
     }
     const fortitude = barb.abilities.find((a) => a.id === 'barbarian:fortitude')!;
     for (const tier of fortitude.tiers) {
-      const cond = tier.effects[1]!.clause as { kind: string; cond: { c: string; n: number }; then: readonly { clause: { kind: string } }[] };
+      // 锁**行为**优于锁包装形状：这里断言「3 同点 → 移除自身 1 个任意状态」这个效果本身，
+      // 而不是它外层裹的是什么。（本用例曾断言 then[0] 是 optional 包装；
+      // MVP 按必发处理后已解开包裹，官方 may 语义以已知偏差记在 heroes.ts 的注释里。）
+      const cond = tier.effects[1]!.clause as {
+        kind: string;
+        cond: { c: string; n: number };
+        then: readonly { clause: { kind: string; status?: string; stacks?: number; to?: { r: string } } }[];
+      };
       assert.equal(cond.cond.c, 'nOfAKind');
       assert.equal(cond.cond.n, 3);
-      assert.equal(cond.then[0]!.clause.kind, 'optional');
+      const eff = cond.then[0]!.clause;
+      assert.equal(eff.kind, 'removeStatus', '3 同点应直接挂 removeStatus 效果（不再包 optional）');
+      assert.equal(eff.status, 'any');
+      assert.equal(eff.stacks, 1);
+      assert.equal(eff.to?.r, 'self');
     }
   });
 

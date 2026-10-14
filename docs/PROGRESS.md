@@ -64,7 +64,11 @@ fbdedc7  M0 规则引擎 + TTS 素材资产隔离层
 
 - 卡牌 **48 张**（通用 18 + Barbarian 15 + Pyromancer 15），全部读官方卡图机制化，无官方 flavor text。
 - 状态库 **7 个**：burn / poison / evasive / fireMastery / stun / concussion / knockdown。
-- 已知偏差（记录在审计报告 §10）：双英雄 **L1 与 Ultimate 数值为占位**；Smack 的 4-of-a-kind 不可防御、Fortitude 的 3-of-a-kind 移除状态缺引擎条件；Better D! 空效果（待防御重掷窗口）。
+- 已知偏差（2026-10-14 复核更正，以代码为准）：
+  - ✅ **Ultimate 官方值已补**：`bloodlust`（Stun + 15 不可防御）、`scorchTheEarth`（12 不可防御 + 2 溅射），双源确认。
+    ⚠️ 代码里 Ultimate 上方仍残留「official:false 占位推定」的旧注释，与下方官方值注释自相矛盾 —— **待清理**（C3）。
+  - ✅ Smack 4-of-a-kind 不可防御、Fortitude 3-of-a-kind 移除状态、Better D! 防御重掷 —— 均已声明接入（dad1abb），**行为正确性复核中**（C2）。
+  - ⚠️ **L1 数值仍有多处推定**：`heroes.ts` 约 10 处 `official:false L1 推定`（此前文档误记为"L1 已齐备"）。
 
 ### 3. 服务端（`packages/server/src`）
 
@@ -105,7 +109,7 @@ fbdedc7  M0 规则引擎 + TTS 素材资产隔离层
 
 ```
 3 包 tsc --noEmit       零错误
-npm test                41 / 41（引擎 37 + MatchActor 4）
+npm test                177 / 177（引擎 37 + MatchActor 4 + describe 124 + conditions 12）
 npm run test:assets     10 / 10
 npm run assets:check    89 条目录项，无孤立/遗漏
 npm run match           完整局（25 回合），同种子 md5 一致
@@ -130,13 +134,16 @@ vite build              通过（257 webp / 9.7M），真图未入库
 6. ✅ 断线重连：`room:rejoin` 令牌校验；座位与令牌跨断线保留；重连后视图与断线前逐字节一致。
 7. ✅ 房间英雄选择 + 观战位：大厅选人/准备开局；第三个连接进观战位并收到 `SpectatorView`。
 
-### P2 —— 阻塞「内容完整」
+### P2 —— 阻塞「内容完整」（8–10 已清零，2026-10-14；11 为下轮 M3）
 
-8. **`describe(e, lang)` 描述层**（design E6 / 附录 A 第 7 条）：缺一个 kind 即 lint 失败、内容不允许上线。
-9. **引擎条件补全**：4-of-a-kind（Smack 不可防御）、3-of-a-kind（Fortitude 移除状态）、防御重掷窗口（Better D!）。
-10. **两个 Ultimate 为占位**：`barbarian:bloodlust`（血怒）、`pyromancer:scorchTheEarth`（焦土）。
-    L1 数值已齐备（Barbarian 官方技能板 / Pyromancer 升级卡面），无需补。
-11. **其余 5 英雄**：Gunslinger / ShadowThief / MoonElf / Ninja / Raveness —— 卡图与卡名已就位，实装后扩 `name-map.json` 再跑 `assets:confirm` 即可自动挂图。
+8. ✅ **`describe(e, lang)` 描述层**（design E6 / 附录 A 第 7 条）：`content/describe.ts` 703 行，
+   **30 种 clause kind 全覆盖**、zh/en 双语；lint 守门 = 类型层强制穷尽 + 测试层 key 集合双向比对。
+9. ✅ **引擎条件补全**：`conditions.test.ts` 12 例取证，Smack / Fortitude / Better D! **三项全部 PASS**（详见 §四 阶段 C）。
+10. ✅ **Ultimate**：官方值已补齐 + 自相矛盾的旧注释已清理（C3）。
+    ⚠️ 残余缺口是 **L1 数值**：约 10 处 `official:false` 推定，需官方值替换。
+11. **其余 5 英雄**（下轮 M3）：Gunslinger / ShadowThief / MoonElf / Ninja / Raveness —— 卡图与卡名已就位，
+    实装后扩 `name-map.json` 再跑 `assets:confirm` 即可自动挂图。
+    ⚠️ 实装前必须先补 **content-lint：能力/状态必须有 zh 名**，否则新增英雄会回落成英文 id。
 
 ---
 
@@ -181,14 +188,48 @@ npm test         # 41 个单测
 - 幂等缓存不跨进程保留 —— 重启后首次重发不会被识别为 duplicate（但状态仍正确，因为序号是单调的）。
 - 房间元信息（含重连令牌）也在 JSONL 里，token 落盘；自用学习场景可接受，若要对外需改存服务端会话。
 
-### 阶段 C：M3 内容
+### 阶段 C：内容收尾（C1–C3） ✅ 已完成 2026-10-14
 
-| # | 任务 | 验收 |
-|---|---|---|
-| C1 | `describe()` 描述层 + lint 守门 | 缺 kind 即 CI 失败 |
-| C2 | 引擎条件补全（4/3-of-a-kind、防御重掷） | Smack / Fortitude / Better D! 语义正确 |
-| C3 | 补齐 L1 / Ultimate 官方数值 | 占位项清零 |
-| C4 | 其余 5 英雄实装（图与卡名现成） | 真图命中率同步提升到 ≈85% |
+| # | 任务 | 状态 | 验收证据 |
+|---|---|---|---|
+| C1 | `describe()` 描述层 + lint 守门 | ✅ | `content/describe.ts` 703 行 + `describe.test.ts` 124 例；**30/30 kind 全覆盖**（原估 31 系 grep 目测误差，以 `core.ts` × `EFFECT_HANDLERS` 双向比对为准）；故意删 `heal` 模板 → 守门报 `['heal']` |
+| C2 | 引擎条件补全（4/3-of-a-kind、防御重掷） | ✅ | `engine/conditions.test.ts` 12 例（含正例+反例+骰池归属哨兵）；Smack / Fortitude / Better D! **三项全 PASS**，已无缺陷固化断言 |
+| C3 | Ultimate 官方值 + 矛盾注释清理 | ✅ | 官方值 dad1abb 已补；本轮删 3 行与官方值自相矛盾的「数值未知/占位推定」旧注释，官方来源注释全保留 |
+
+**C2 修掉的三个缺陷**（质量复核发现，非文档假设）：
+
+| 缺陷 | 级别 | 根因 | 修法 |
+|---|---|---|---|
+| 防御窗口打出的卡把防御骰清空 | **Blocker** | `effects.ts:520` `runEffects` 末尾无条件清 `tempDice` | 重定**骰池归属契约**：谁把池放进 `tempDice` 谁负责取出。防御骰池 owner = 防御阶梯（跨多次 runEffects 存活），临时骰池 owner = 本次 runEffects（掷过则回滚到进入时的池，不是清空） |
+| 4 同点时守方 defensiveRoll 拒绝码误导 | Minor | pending 守卫先于 phase 守卫 | `defensiveRoll` 的 phase 守卫前置；只改变**已被拒绝**动作的拒绝码，不存在由拒变收 |
+| Fortitude「3 同点移除状态」永不生效 | Major | `optional` handler 恒返回 `[]` | 解开内容层 `optional` 包裹改必发（方案 B，见下） |
+
+**关键决策：Fortitude 走「MVP 必发」而非「引擎层自动行使 optional」（方案 A→B 改判）**
+
+- **A**：改引擎 `optional` handler 为自动行使 → 内容层保留官方 `may` 声明。
+- **B**：解开内容层 `optional` 包裹改 `conditional + removeStatus` → 引擎桩保持 no-op。
+- **选 B 的决定性理由（失败模式）**：A 的契约是「引擎对任何 `optional` 一律自动行使」，
+  下轮 M3 要实装 5 个英雄，一旦出现「可选且带代价」的效果（如「可选：受 2 点伤害以获得 X」），
+  引擎会**替玩家做出损害性决定**；B 的失败模式是「效果不生效」，属保守失败。
+  引擎层默认行为在「多做一件事」与「少做一件事」之间，必须默认选后者。
+- 官方 `may` 与 MVP 必发的偏差以**已知偏差注释**显式记账（不是静默偏差），并在 `effects.ts` 留回滚锚点。
+
+**已知边界（不修，记录备查）**：
+
+- **Fortitude 必发会吃掉正面状态（已实测复现，非理论）**：`removeStatus('any')` 走负面优先，
+  但身上**一个负面状态都没有**时会退而移除正面状态 —— 实测只挂 `fireMastery 2` 时打出三同点 → `fireMastery 2→1`。
+  1v1 下 Barbarian 自身可能携带 burn/knockdown/stun/concussion/poison，触发概率低但**路径确实存在**。
+  当前无「身上存在负面状态」条件可用于加守卫，待条件能力补齐后收紧。
+- **描述层 4 处与求值语义不一致**（C1 发现，未修）：`nOfAKind.target` 在防御上下文被静默忽略；
+  `discardCards mode:'choice'` 实际固定取手牌第一张；`cards.ts:55/57` 用 `stacks: 99` 当「全部」哨兵（描述直出"99 层"）；
+  `adjustDie` / `copyDieFace` 的自动取位规则未体现在文案。
+- **`optionalPrompt` 挂起（正解 C）未做**：骨架齐全（`PendingKind` 有枚举、`legal.ts` 有下发分支、`Action.chooseOption` 存在），
+  缺 `reduce` 的 chooseOption 空实现 + UI 入口。**UI 入口就绪前挂起会让本地热座与联机卡死在 pending**，故本轮不做。
+- **O-1 疑似 Major（未取证）**：`engine.ts:310-316` 把 preDefense 与 postDefense 合并进同一「结算前」窗口，
+  postDefense 卡（如 `barbarian:headBash` 的 `damageDealtAtLeast 8`）疑似在伤害 flush 前求值而恒不成立。防御窗口已被证明能正常工作，O-1 待补测试坐实或证伪。
+- **Minor**：`hasDefenseWindowCards`(engine.ts:312) 的 preDefense 分支不看 CP，与 `legal.ts:111` 口径打架 → 下发灰显按钮（仅 UI 噪音）。
+- **英文版描述是键位映射简版**：复数/冠词不讲究，`optional` / `promptNumber` 的 prompt 文案直接透传作者写的中文。真要上英文需 prompt 双语字段。
+- **e2e 步数/回合数每次不同**：`roomManager.ts:101` 用 `Date.now()+randomBytes` 当 seed，判绿只看「全部通过」一行，**不能据步数归因**。
 
 ---
 
@@ -197,9 +238,11 @@ npm test         # 41 个单测
 | 项 | 现状 | 需谁定 |
 |---|---|---|
 | IP 路径 | 自用学习、真素材不入库、零官方文本 | 已拍板，保持不变 |
-| 官方数值来源 | 英文 TTS mod（908560170）读图；**两个 Ultimate 仍占位** | 用户订阅中文版 mod（3446854288）后按 SOP 接入（见审计报告 §14） |
+| 官方数值来源 | **Ultimate 已补齐**（2026-10-14 双源）；**L1 约 10 处 `official:false` 推定**待官方值 | 用户订阅中文版 mod（3446854288）后按 SOP 接入（审计报告 §14） |
 | 5 英雄优先级 | 图与卡名齐备，实装顺序未定 | 用户指定（建议 Gunslinger → MoonElf → Ninja） |
-| 下一步方向 | 阶段 B（M2 联机）完成 | 用户选择：M3 加英雄 / 补引擎条件与 Ultimate / 加 `describe()` 描述层 |
+| 描述层接入 UI | `describe()` 已实现并导出、**前端尚未调用**（本轮只留导出，未改 web） | 用户决定是否排入下轮 |
+| O-1 排查 | postDefense 疑似在伤害 flush 前求值，**未取证** | 用户排期（quality-lead 建议下轮派给她坐实或证伪） |
+| 下一步方向 | 阶段 C（C1–C3）完成，P0/P1/P2 的 8–10 全部清零 | 用户选择：M3 五英雄 / L1 数值补齐 / O-1 排查 / 描述层接 UI |
 
 ---
 

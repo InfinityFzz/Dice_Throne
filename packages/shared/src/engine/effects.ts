@@ -456,8 +456,28 @@ export const EFFECT_HANDLERS: Record<EffectClause['kind'], (d: Draft, clause: Ef
     const def = c.options.find((o) => o.isDefault) ?? c.options[0];
     return def ? [...def.effects] : [];
   },
+  /**
+   * 诚实桩：引擎当前**不支持玩家选择**，optional 恒不行使。
+   *
+   * 为什么不做成"自动行使"：自动行使会让卡面继续宣称「可选」而引擎偷偷强制执行 ——
+   * 那是系统撒谎，且会让守护「卡面保留玩家选择权」的断言变成**假绿**
+   * （测试为一个已经不存在的属性继续背书）。假绿比一条诚实的红测试危险得多。
+   * 官方 may 语义改在**内容层以已知偏差显式记账**（见 heroes.ts 的 barbarian:fortitude），
+   * 不在引擎层用自动行使静默替代。
+   *
+   * ⚠️ 内容层约束：**不得**依赖 optional 产生任何效果（当前恒为 no-op）。
+   *    需要「玩家二选一」语义时请用 `choose`（有 isDefault 兜底），不要用 optional。
+   *
+   * ★ 回滚锚点：将来实现 optionalPrompt 挂起时需**同时**做两件事（缺一不可）
+   *   ① 本 handler：改为产出 optionalPrompt 挂起，并在 reduce 的 chooseOption 分支兑现。
+   *      依赖的骨架已存在：PendingKind 枚举、legal.ts 的 optionalPrompt 下发分支、
+   *      Action.chooseOption；**缺的是** reduce 里 chooseOption 的空实现
+   *      （engine.ts 的 case 只 break）与 UI 渲染入口。
+   *      ⚠️ UI 入口未就绪就挂起，会让本地热座与联机**卡死在 pending 上无法推进**。
+   *   ② heroes.ts：把 barbarian:fortitude 的 removeStatus 重新包回 optional 子句，
+   *      还原官方「可移除」语义（该处注释已记好这一步）。
+   */
   optional(_d, _c, _seat) {
-    // 兜底：不行使（永不替玩家消耗资源）
     return [];
   },
   promptNumber(d, c, _seat) {
@@ -492,8 +512,28 @@ function shuffleFromDraft(d: Draft, stream: string, items: readonly CardInstance
   return { items: arr, rng: r };
 }
 
-/** 执行效果序列。next 用 pushFront 保序。 */
+/**
+ * 执行效果序列。next 用 pushFront 保序。
+ *
+ * ── 池归属（谁把骰池放进 tempDice，谁负责把它取出来）────────────────
+ * tempDice 是「当前骰池」，有两种截然不同的生命周期，此前被混为一谈（DEFECT-03）：
+ *
+ *  1. 防御骰池：由 doDefensiveRoll(engine.ts:297) 创建，由 resolveDefense(engine.ts:340)
+ *     在求值完防御能力后销毁。它必须**跨多次 runEffects 调用存活** —— 防御窗口里打出的卡
+ *     （如 Better D! 的 rerollDice scope:'defense'）要能就地改写它，且改写结果必须传到
+ *     resolveDefense。因此 runEffects **无权**销毁进入时就存在的骰池。
+ *
+ *  2. 临时骰池（rollDicePool）：生命周期 = 本次效果序列（如 Pyroblast「Roll 5，每 🔥 +3」）。
+ *     rollDicePool 只是 handler，无法知道自己的 cases 何时跑完，所以由 runEffects 代管销毁。
+ *
+ * 判据：本次序列是否**自己**掷过 rollDicePool。
+ *   - 掷过 → 序列结束时回滚到进入时的骰池（通常为空；若当时正处防御窗口则恢复防御骰池，
+ *     避免一张 scratch-pool 卡把防御骰顶掉）。
+ *   - 没掷过 → 一个字都不动，把（可能被 rerollDice 改写过的）骰池原样交还给调用方。
+ */
 export function runEffects(d: Draft, effects: readonly EffectDef[], seat: Seat): void {
+  const poolOnEntry = [...d.s.tempDice];
+  let scratchPoolRolled = false;
   const queue: { def: EffectDef; seat: Seat }[] = effects.map((def) => ({ def, seat }));
   let frames = 0;
   while (queue.length > 0) {
@@ -508,6 +548,7 @@ export function runEffects(d: Draft, effects: readonly EffectDef[], seat: Seat):
       d.emit('note', { kind: 'engineGuardTripped', guardReason: 'unknownClause', kind2: frame.def.clause.kind });
       continue;
     }
+    if (frame.def.clause.kind === 'rollDicePool') scratchPoolRolled = true;
     const produced = handler(d, frame.def.clause, frame.seat);
     if (frame.def.next?.length) {
       queue.unshift(...frame.def.next.map((def) => ({ def, seat: frame.seat })));
@@ -516,6 +557,6 @@ export function runEffects(d: Draft, effects: readonly EffectDef[], seat: Seat):
       queue.unshift(...produced.map((def) => ({ def, seat: frame.seat })));
     }
   }
-  // 临时骰池判定后销毁
-  d.s.tempDice = [];
+  // 只有自己掷的临时骰池才销毁：没掷过就保留进入时的（可能被改写的）骰池
+  if (scratchPoolRolled) d.s.tempDice = poolOnEntry;
 }

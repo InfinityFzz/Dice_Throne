@@ -204,7 +204,7 @@ describe('describe: 关键数值与修饰语义不丢失', () => {
     assert.ok(t.includes('至少造成 1 点'), `反噬触发条件丢失 → ${t}`);
   });
 
-  test('Barbarian 坚忍：分档治疗 + 三同点必发移除状态（官方 may → MVP 必发）', () => {
+  test('Barbarian 坚忍：分档治疗 + 三同点移除自身状态（MVP 必发，卡面不得标注可选）', () => {
     const t = describeAbility(abilityOf('barbarian', 'barbarian:fortitude'), 2);
     assert.ok(t.includes('7'), `L2 最高档治疗 7 丢失 → ${t}`);
     assert.ok(t.includes('3 次'), `nOfAKind n=3 丢失 → ${t}`);

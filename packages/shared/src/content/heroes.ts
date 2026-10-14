@@ -235,7 +235,23 @@ export const BARBARIAN: HeroDef = {
     },
     {
       // 官方 L2（卡面红色边框 = 进攻类）：3/4/5 心 → 治疗 5/6/7；
-      // 「3-of-a-kind 可移除自身 1 状态」（nOfAKind 条件，2026-10-14 接入；auto 模式不行使）
+      // 「3-of-a-kind 可移除自身 1 状态」（nOfAKind 条件，2026-10-14 接入）。
+      //
+      // ⚠️ 已知偏差（**显式记账**，不是静默偏差）：官方原文是 "may" —— **可选**。
+      //    本实现按**必发**处理：引擎不支持 optionalPrompt 挂起 —— PendingKind 有枚举、
+      //    legal.ts 有下发分支、Action 有 chooseOption，但 reduce 的 chooseOption 分支是空实现，
+      //    且 UI 没有入口；一旦真的挂起，本地热座与联机会**卡死在 pending 上无法推进**，
+      //    那比"效果不生效"严重得多。因此这里不包 `optional`，直接写成 conditional + removeStatus。
+      //
+      // ★ 回滚锚点（将来 optionalPrompt 挂起 + UI 入口就绪后）：
+      //   ① 在 effects.ts 的 optional handler 实现挂起（当前是 `return []` 的诚实桩，注释里有指引）；
+      //   ② 把下面两处 removeStatus 重新包回 `optional` 子句，即还原官方 may 语义。
+      //
+      // ⚠️ 残留风险（已实测复现，非理论推演）：removeStatus status:'any' 走**负面优先**移除，
+      //    但仅当身上**一个负面状态都没有**时，它会退而吃掉**正面**状态 ——
+      //    实测「身上只挂 fireMastery 2 层」时打出三同点，结果是 fireMastery 2 → 1。
+      //    1v1 下 Barbarian 自身可能携带的负面状态为 burn / knockdown / stun /
+      //    concussion / poison，因此该分支概率低，但**触发路径确实存在**。（见 effects.ts 的 removeStatus）
       id: 'barbarian:fortitude',
       kind: 'offensive',
       name: '坚忍',
@@ -247,13 +263,9 @@ export const BARBARIAN: HeroDef = {
               clause: {
                 kind: 'conditional',
                 cond: { c: 'nOfAKind', n: 3 },
-                then: [{
-                  clause: {
-                    kind: 'optional',
-                    prompt: '三同点：移除自身 1 个状态？',
-                    steps: [{ clause: { kind: 'removeStatus', status: 'any', stacks: 1, to: { r: 'self' } } }],
-                  },
-                }],
+                // 官方 may（可选）→ MVP 按**必发**处理；已知偏差的记账见本能力头部注释，
+                // 那里也写了回滚锚点（optionalPrompt 就绪后把这条重新包回 optional 即可）。
+                then: [{ clause: { kind: 'removeStatus', status: 'any', stacks: 1, to: { r: 'self' } } }],
               },
             },
           ] },
@@ -264,13 +276,9 @@ export const BARBARIAN: HeroDef = {
               clause: {
                 kind: 'conditional',
                 cond: { c: 'nOfAKind', n: 3 },
-                then: [{
-                  clause: {
-                    kind: 'optional',
-                    prompt: '三同点：移除自身 1 个状态？',
-                    steps: [{ clause: { kind: 'removeStatus', status: 'any', stacks: 1, to: { r: 'self' } } }],
-                  },
-                }],
+                // 官方 may（可选）→ MVP 按**必发**处理；已知偏差的记账见本能力头部注释，
+                // 那里也写了回滚锚点（optionalPrompt 就绪后把这条重新包回 optional 即可）。
+                then: [{ clause: { kind: 'removeStatus', status: 'any', stacks: 1, to: { r: 'self' } } }],
               },
             },
           ] },
@@ -291,8 +299,6 @@ export const BARBARIAN: HeroDef = {
       ],
     },
     {
-      // ⚠️ official:false：Barbarian 的 Ultimate 印在实体面板上，图包未包含，数值未知。
-      // 以下为占位推定（5 星极难达成），待获取官方值后替换。
       id: 'barbarian:bloodlust',
       kind: 'ultimate',
       // 官方（双源一致，2026-10-14）：Rage —— 5 POW → 施加 Stun + 15 点伤害。
@@ -620,7 +626,6 @@ export const PYROMANCER: HeroDef = {
       ],
     },
     {
-      // ⚠️ official:false：官方 Ultimate 印在实体英雄面板上，图包未包含，数值未知。占位推定。
       id: 'pyromancer:scorchTheEarth',
       kind: 'ultimate',
       // 官方（双源一致，2026-10-14）：Scorch the Earth! —— 5-of-a-kind Meteor（五颗 6）：
