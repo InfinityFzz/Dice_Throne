@@ -56,6 +56,8 @@ const FORCE = has('--force');
 const WITH_BODY = !has('--no-body');
 const SAVE_CROPS = has('--save-crops');
 const HERO_FILTER = val('--hero', '').split(',').map((s) => s.trim()).filter(Boolean);
+// OCR 语言：英文官方版用 eng；中文版 mod（3446854288）用 chi_sim（首次运行会自动下载语言包）
+const LANG = val('--lang', 'eng');
 const LIMIT = Number.parseInt(val('--limit', '0'), 10) || 0;
 
 // ── 类型 ─────────────────────────────────────────────────────────
@@ -314,7 +316,7 @@ async function main(): Promise<void> {
 
   if (SAVE_CROPS) mkdirSync(CROPS_DIR, { recursive: true });
 
-  const worker = await createWorker('eng', undefined, {
+  const worker = await createWorker(LANG, undefined, {
     // tesseract.js 默认把下载的语言包写到 CWD（会把 5MB 的 eng.traineddata 丢到仓库根），
     // 显式指到已 gitignore 的 .ocr-work/tessdata。
     cachePath: join(ROOT, '.ocr-work/tessdata'),

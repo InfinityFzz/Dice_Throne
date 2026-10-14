@@ -9,6 +9,7 @@ export * from './engine/matcher.js';
 export * from './engine/bucket.js';
 export * from './engine/effects.js';
 export * from './engine/engine.js';
+export * from './engine/legal.js';
 export * from './engine/project.js';
 
 export * from './content/statuses.js';

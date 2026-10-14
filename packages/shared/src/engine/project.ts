@@ -9,6 +9,7 @@ import type { CardInstance, GameState } from '../types/state.js';
 import type { Seat } from '../types/core.js';
 import type { ContentRegistry } from '../content/registry.js';
 import { computeCandidates } from './engine.js';
+import { computeLegalActions } from './legal.js';
 import { Draft } from './effects.js';
 
 function cardView(content: ContentRegistry, c: CardInstance): CardView {
@@ -97,6 +98,7 @@ export function projectState(state: GameState, content: ContentRegistry, seat: S
       pendingKind: state.pending?.kind ?? null,
       pendingOptions: (state.pending?.options ?? []).map((o) => ({ id: o.id, label: o.label })),
     },
+    legalActions: computeLegalActions(d, seat),
     winner: state.winner,
     finished: state.finished,
   };

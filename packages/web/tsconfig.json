@@ -1,7 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src",
+    // 不设 rootDir：web 直接 import @dt/shared 源码（本地热座模式），
+    // 设了 rootDir 会因跨包源码不在其下而报 TS6059（noEmit 下本来也用不到）
     "noEmit": true,
     "jsx": "react-jsx",
     "allowImportingTsExtensions": true,

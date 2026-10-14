@@ -19,7 +19,11 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const packDir = join(root, 'packages/web/src/assets/packs/local-tts');
 const dryRun = process.argv.includes('--dry-run');
 
-const normalize = (name: string): string => name.toLowerCase().replace(/[^a-z0-9]/g, '');
+/**
+ * 卡名规范化：小写 + 去掉所有非字母数字、非汉字的字符（标点/空白/引号等）。
+ * 保留汉字是为了中文版 mod（3446854288）的卡名能直接进 name-map 对照。
+ */
+const normalize = (name: string): string => name.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
 
 interface Entry {
   logicalId: string; kind: string; file: string; confirmed?: boolean;

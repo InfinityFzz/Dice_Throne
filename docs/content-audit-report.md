@@ -164,3 +164,48 @@ Infernal Infusion!（0 PROMO：meteor→FM 补满，否则抽 1）。
 - 命中率变化：**23/84 → 66/89**（card 类 48/48 全命中）。剩余缺 23：
   abilityIcon 19（TTS 包无独立能力图标）、statusIcon 3（stun/concussion/knockdown 无 token 图）、
   background 1（桌面，表现层自由发挥）。
+
+---
+
+# 第四轮：可玩闭环 + 中文版 mod 数值接入（2026-10-14）
+
+## 13. 可玩闭环（本轮重点，非数值）
+
+- `packages/shared/src/engine/legal.ts` 新增 `computeLegalActions / getLegalActions / toAction`：
+  按与 `reduce()` **相同守卫**推导动作集，「UI 可见 ⇔ 引擎接受」；
+  CP 不足等不可执行项仍下发但 `enabled=false` + `reason`（灰显说明原因，而非按钮消失）。
+- `PlayerView.legalActions` 下发（架构 §2.2.3 落地）。
+- `packages/shared/src/engine/legal.test.ts`：
+  - 属性测试：5 个种子各推进到分出胜负，每步断言 legalActions 中 enabled 项喂给 reduce 必被接受；
+    非行动方不得出现越权动作。
+  - **T14 投影泄漏测试**（架构 §2.2.2 要求 M1 前落地）：断言 PlayerView 中不含对手手牌/牌库 uid、
+    自己牌库 uid（顺序属隐藏信息）、rng 状态、bucket 明细。
+- 前端：本地热座模式（`packages/web/src/local.ts`，浏览器内直接跑引擎，权威端是本标签页，
+  仍走 `projectState` 投影，UI 与联机模式同构）；出牌/卖牌/买升级/弃牌/choose 全部由
+  legalActions 驱动；战斗日志来自引擎事件流。
+
+## 14. 中文版 mod（3446854288）—— 已就绪，等订阅
+
+现状：本机 TTS 工坊缓存只有英文官方版 `908560170.json`（`Dice Throne [official] [scripted]`），
+**中文版 mod 未订阅**，因此数值仍以英文版为准。
+
+接入 SOP（订阅后 3 步）：
+
+1. Steam 创意工坊订阅中文版并在 TTS 里打开一次 → 缓存出现
+   `…/Mods/Workshop/3446854288.json`。
+2. `npm run assets:import -- --mod "D:/Users/InfinityFzz/Documents/My Games/Tabletop Simulator/Mods/Workshop/3446854288.json"`
+   （切片 + 入库 manifest；真图仍不入库）
+3. `node --import tsx scripts/ocr-card-names.ts --lang chi_sim`
+   本轮已把 OCR 语言参数化（`--lang`，默认 eng），并把 `confirm-tts-mapping.ts` 的卡名规范化
+   改为保留汉字（`\p{L}\p{N}`），中文卡名可直接进 `name-map.json` 对照。
+
+## 15. 待补数值（精确清单）
+
+| 项 | 现状 | 需要 |
+|---|---|---|
+| `barbarian:bloodlust`（血怒，Ultimate） | 占位：5 METEOR？数值自撰 | 官方 Ultimate 条件与伤害 |
+| `pyromancer:scorchTheEarth`（焦土，Ultimate） | 占位 | 官方 Ultimate 条件与伤害 |
+
+L1 数值：Barbarian（官方技能板）与 Pyromancer（升级卡面 L1 行）**均已齐备**，无需补。
+其余已知偏差见 §10：Smack 4-of-a-kind 不可防御、Fortitude 3-of-a-kind 移除状态、
+Better D! 防御重掷窗口 —— 均为引擎条件缺口，与数值来源无关。

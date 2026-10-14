@@ -4,6 +4,7 @@
  * 这是 fail-safe 白名单，不是深拷贝后 delete。
  */
 import type { CardId, EntityId, HeroId, LadderStep, PendingKind, Phase, Seat, StatusId } from './core.js';
+import type { Action } from './action.js';
 
 export interface CardView {
   readonly uid: EntityId;
@@ -67,11 +68,34 @@ export interface SharedView {
   readonly pendingOptions: readonly { id: string; label: string }[];
 }
 
+/**
+ * 服务端下发的合法动作（架构 §2.2.3）。UI 只渲染这个集合 —— 「可见」⇔「引擎会接受」。
+ * `enabled=false` 的项仍然下发（灰显 + reason），让玩家知道为什么现在点不了。
+ */
+export interface LegalActionView {
+  readonly t: Action['t'];
+  readonly label: string;
+  readonly enabled: boolean;
+  readonly reason?: string;
+  /** playCard / sellCard：目标手牌 uid；discardCards 由 UI 选牌后填 */
+  readonly uid?: EntityId;
+  /** announceAbility / buyUpgrade */
+  readonly abilityId?: EntityId;
+  /** buyUpgrade 目标等级 */
+  readonly tier?: 1 | 2 | 3;
+  /** toggleLock 的骰子下标 */
+  readonly index?: number;
+  /** chooseOption 的选项 id */
+  readonly optionId?: string;
+}
+
 export interface PlayerView {
   readonly you: Seat;
   readonly self: SelfPlayerView;
   readonly opponent: OpponentPlayerView;
   readonly shared: SharedView;
+  /** 当前座位可执行/不可执行的动作全集（UI 按此渲染按钮） */
+  readonly legalActions: readonly LegalActionView[];
   readonly winner: Seat | 'draw' | null;
   readonly finished: boolean;
 }
