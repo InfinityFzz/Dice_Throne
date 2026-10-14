@@ -16,9 +16,12 @@
 | **M2** | 联机完整联调（权威校验、重连、持久化恢复） | ✅ **完成**（`npm run e2e` 全绿，见 §阶段 B） |
 | **M3** | 4+ 英雄完整内容 | 🔵 **2/2 已校准，图已备好其余 5 英雄** |
 
-提交历史（8 次）：
+提交历史（10 次）：
 
 ```
+81ac6b1  C2 引擎条件三项全 PASS + C3 矛盾注释清理（单测 165 → 177）
+4660c06  C1 描述层 describe(e, lang) —— 30 种 clause kind 全覆盖 + lint 守门（单测 41 → 165）
+6d6dcf6  M2 联机完整联调 —— MatchActor 串行幂等 + append-only 持久化 + 重连/观战/选人
 dad1abb  引擎条件补全 + 两个 Ultimate 官方值 + 中文包评估
 5bddd0a  可玩闭环 —— legalActions 下发 + 出牌 UI + 本地热座
 5b5cf14  新增 PROGRESS.md（进度/缺口/计划），同步 README 与 AGENTS
