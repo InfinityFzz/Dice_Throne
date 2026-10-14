@@ -304,3 +304,49 @@ Ultimate「枪林弹雨（Fill 'Em With Lead!）」双源一致：5 靶心 → �
 **thenNode 打出窗口缺失**（本轮确认的既有缺口，非本轮引入）：redHot / Get Some! / Eat Lead! 等
 Roll Phase Action 卡当前只能在 main 阶段宽松打出（playCard 不校验 timing），伤害入桶后悬置
 到下一次 flushNow。补 thenNode 窗口是独立的引擎任务（与官方「攻击修正」时序对齐），本轮不做。
+
+# 第七轮：Shadow Thief 实装（2026-10-14 · M3 第二位新英雄）
+
+## 24. 官方数值来源（三源交叉，全部 official ✅ 零推定值）
+
+| 来源 | 覆盖 |
+|---|---|
+| ① TTS 官方图包逐张读图 | panel.webp（骰面 1-2 匕首 / 3-4 钱袋 / 5 卡牌 / 6 阴影、3 个状态与 stack limit）+ card-18..32 共 15 张专属卡（L2 数值、升级 CP、专属行动卡全文） |
+| ② rulespal《Dice Throne S1 ReRolled》规则书 | 英雄面板官方排版全文：全部能力 L1 数值（匕首打击 4/6/8、扒窃 2/3/4、狡诈打击 +3 CP、阴险打击 +3 CP、暗影之舞、卡牌丰饶、暗影防御掷 4、反击掷 5）+ Ultimate 逐字 |
+| ③ namu wiki Shadow Thief 条目 | L1 数值与升级效果逐能力列出，与 ①② 一致 |
+
+L1 与卡图 L2 **完美衔接**（扒窃 2/3/4→3/4/5/6、狡诈/阴险 +3→+4、暗影防御 4→5 骰、
+反击 1→2×匕首）。Ultimate「暗影刺击（Shadow Shank!）」= 5 阴影 → 获得 3 CP + 阴影，
+造成 CP+5 伤害（② rulespal 面板逐字）。
+
+## 25. 实装清单
+
+- **状态**（shadowthief 专属 2 + 通用修订 1）：
+  - `shadowthief:shadows 隐入暗影`（正面，limit 1，Persistent，onAttacked.avoid + discardAtTurnEnd）
+  - `shadowthief:sneakAttack 偷袭`（正面，limit 1，spendEffect = 掷 1 骰加点数伤害）
+  - `common:poison 中毒` **官方化**：stackLimit 5→3、persistent false→true。
+    此前 5/非持续是早期未记录值；官方面板（Shadow Thief 面板 + S1 规则书）均为 3 + Persistent。
+- **能力 10 槽**：匕首打击 / 扒窃 / 狡诈打击 / 阴险打击 / 阴影打击 / 刺伤攻击 / 暗影之舞 /
+  卡牌丰饶 + **双防御**（暗影防御 掷 4、反击 掷 5）+ Ultimate 暗影刺击。
+- **卡组 33 张**：通用 18 + 升级 8 + 专属行动 6 + PROMO 1（暗影融合，Dice Throne Comic #1）。
+  升级卡 8 张是官方卡组构成（读图），非缺漏。
+
+## 26. 为本英雄做的引擎扩展（4 项，全部通用机制、零英雄特判）
+
+| 扩展 | 官方机制 | 实现点 |
+|---|---|---|
+| `StatusDef.onAttacked.avoid` | 阴影「被普通攻击时全部避开；不防 Ultimate 与非攻击伤害」 | dealDamage handler：命中目标状态的 avoid 契约时按 defendable 量全避；`sourceKind==='ultimate'` 与 damageType≠attack 豁免 |
+| `StatusDef.discardAtTurnEnd` + `StatusInstance.sinceTurn` | 阴影「带着它完整结束一个自己回合后弃置」 | inflictStatus 盖 sinceTurn 章；endTurn 时仅弃 `sinceTurn < 当前回合`（本回合内获得的不弃） |
+| `defensiveRoll.abilityId` + `AbilityTier.defenseDiceCount` | 影贼有两个防御能力，官方要求**掷骰前二选一**；暗影防御 L2 掷骰数 4→5 | doDefensiveRoll 按 id 选槽（缺省取第一个，向后兼容）；legal.ts 守方下发全部防御选项并带 abilityId |
+| 注册表校验放宽 | 官方「匕首打击 II」升级价为 **0 CP**（读图） | `upgradeCostCP` 由「严格递增」改为「非递减」，只拦越升越便宜 |
+
+## 27. 已知偏差（全部显式记账，非静默）
+
+| 项 | 官方 | 现状 | 原因 |
+|---|---|---|---|
+| 扒窃偷取 | 玩家选「至多 N CP 改为从对手处偷」 | choose 自动取 default（不偷，保守） | 引擎 choose 无挂起（诚实桩） |
+| 阴影打击 / 刺伤攻击 | 需先购入对应 II 级升级才解锁 | 常驻 L1 | 引擎能力槽无「随升级解锁」机制 |
+| 狂野暗影 | 玩家选骰并改面值 | `playIf` 恒 false 诚实灰显，仅 log | 需要「选骰 + 选面值」挂起窗口，不做虚假自动改骰 |
+| 毒伤（Poison Wound!） | 「选一名玩家」（可含自己） | 固定对手 | 与 Roulette 同款，目标选择入口就绪后改 choose |
+| 偷袭 / 装填 / 闪避 的 spend | 玩家任意时机消耗 | 状态数据完备、无法主动消耗 | 引擎无 spendStatus 玩家入口（既有缺口，与 Gunslinger 轮一致） |
+| thenNode 打出窗口 | Roll Phase Action 卡须在特定时机打出 | 只能在 main 宽松打出、伤害悬桶 | 独立引擎任务，见第六轮 §23 |
