@@ -9,8 +9,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  createDefaultRegistry, createMatch, reduce, reduceAuto, projectState,
-  getLegalActions, toAction, type ContentRegistry, type GameState, type Seat,
+  createDefaultRegistry, createMatch, reduce, reduceAuto, projectState, projectSpectator,
+  filterEvents, getLegalActions, toAction, type ContentRegistry, type GameState, type Seat,
   type ActionEnvelope, type LegalActionView,
 } from '../index.js';
 
@@ -174,4 +174,57 @@ test('主要阶段能拿到出牌与买升级动作', () => {
   }
   assert.ok(sawPlay, '主要阶段应能拿到 playCard 动作');
   assert.ok(sawUpgrade, '主要阶段应能拿到 buyUpgrade 动作');
+});
+
+/**
+ * T14（观战位）：SpectatorView 是第三个投影视角，必须同样无泄漏 ——
+ * 而且比 PlayerView 更严：**任何一方**的手牌 uid 都不能出现，两侧都只见张数。
+ */
+function assertNoSpectatorLeak(s: GameState): void {
+  const view = projectSpectator(s, content);
+  const blob = JSON.stringify(view);
+  const hasUid = (uid: string): boolean => blob.includes(`"uid":"${uid}"`);
+  for (const seat of [0, 1] as Seat[]) {
+    for (const c of s.players[seat].hand) {
+      assert.ok(!hasUid(c.uid), `T14 泄漏：观战视图出现 seat${seat} 手牌 uid ${c.uid}`);
+    }
+    for (const c of s.players[seat].deck) {
+      assert.ok(!hasUid(c.uid), `T14 泄漏：观战视图出现 seat${seat} 牌库 uid ${c.uid}`);
+    }
+    assert.equal(view.players[seat].handCount, s.players[seat].hand.length);
+  }
+  for (const forbidden of ['"rng"', '"bucket"', 'pendingRecoils', 'remainingDeckCounts']) {
+    assert.ok(!blob.includes(forbidden), `T14 泄漏：观战视图出现 ${forbidden}`);
+  }
+  assert.equal(view.legalActions.length, 0, '观战者不应拿到任何可执行动作');
+  assert.equal(view.you, null);
+}
+
+test('T14：观战投影不含任一方手牌 uid / rng / bucket，且无可执行动作', () => {
+  let s = createMatch(content, { seed: 'spec', heroes: ['barbarian', 'pyromancer'] });
+  assertNoSpectatorLeak(s);
+  for (let i = 0; i < 60 && !s.finished; i++) {
+    const env = pick(s, getLegalActions(s, content, actorOf(s)));
+    if (!env) break;
+    const r = reduce(s, env, content);
+    if (!r.ok) break;
+    s = r.state;
+    if (i % 5 === 0) assertNoSpectatorLeak(s);
+  }
+  assertNoSpectatorLeak(s);
+});
+
+test('事件按 visibility 过滤：server 事件永不下发，seat 事件只给本人', () => {
+  const serverOnly = { seq: 1, type: 'note' as const, turn: 0, phase: 'main1',
+    visibility: { v: 'server' } as const, payload: {} };
+  const forSeat0 = { seq: 2, type: 'note' as const, turn: 0, phase: 'main1',
+    visibility: { v: 'seat', seat: 0 } as const, payload: {} };
+  const publicEv = { seq: 3, type: 'note' as const, turn: 0, phase: 'main1',
+    visibility: { v: 'public' } as const, payload: {} };
+  const all = [serverOnly, forSeat0, publicEv];
+
+  assert.deepEqual(filterEvents(all, 0).map((e) => e.seq), [2, 3]);
+  assert.deepEqual(filterEvents(all, 1).map((e) => e.seq), [3]);
+  // 观战者只能看 public
+  assert.deepEqual(filterEvents(all, null).map((e) => e.seq), [3]);
 });

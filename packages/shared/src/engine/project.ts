@@ -5,8 +5,10 @@
  * rng / deck 顺序 / bucket 字段，客户端代码写不出读取它们的代码。
  */
 import type { PlayerView, CardView, AbilityView } from '../types/view.js';
+import type { SpectatorView } from '../types/spectator.js';
 import type { CardInstance, GameState } from '../types/state.js';
 import type { Seat } from '../types/core.js';
+import type { GameEvent } from '../types/action.js';
 import type { ContentRegistry } from '../content/registry.js';
 import { computeCandidates } from './engine.js';
 import { computeLegalActions } from './legal.js';
@@ -102,4 +104,57 @@ export function projectState(state: GameState, content: ContentRegistry, seat: S
     winner: state.winner,
     finished: state.finished,
   };
+}
+
+/** 观战投影：两个座位都按「对手」口径构造（手牌只见张数），且不带 legalActions。 */
+export function projectSpectator(state: GameState, content: ContentRegistry): SpectatorView {
+  const d = new Draft(state, content);
+  const face = (seat: Seat) => ({
+    seat,
+    heroId: state.players[seat].heroId,
+    hp: state.players[seat].hp,
+    cp: state.players[seat].cp,
+    handCount: state.players[seat].hand.length,
+    deckCount: state.players[seat].deck.length,
+    discard: state.players[seat].discard.map((c) => cardView(content, c)),
+    statuses: state.players[seat].statuses.map((s) => ({ id: s.id, stacks: s.stacks })),
+    abilities: abilityViews(content, state, seat),
+    isThinking: state.pending?.seat === seat,
+  });
+  return {
+    you: null,
+    shared: {
+      turn: state.turn,
+      phase: state.phase,
+      ladderStep: state.ladderStep,
+      activeSeat: state.activeSeat,
+      // 骰子是公开信息，取当前行动方的
+      diceValues: [...state.players[state.activeSeat].diceValues],
+      diceLocked: [...state.players[state.activeSeat].diceLocked],
+      rollAttemptsLeft: state.players[state.activeSeat].rollAttemptsLeft,
+      candidates: computeCandidates(d, state.activeSeat).map((c) => ({
+        abilityId: c.abilityId,
+        matchedIndices: [...c.matchedIndices],
+        ...(c.tier !== undefined ? { tier: c.tier } : {}),
+      })),
+      pendingKind: state.pending?.kind ?? null,
+      pendingOptions: (state.pending?.options ?? []).map((o) => ({ id: o.id, label: o.label })),
+    },
+    players: [face(0), face(1)],
+    legalActions: [],
+    winner: state.winner,
+    finished: state.finished,
+  };
+}
+
+/**
+ * 事件按 visibility 过滤后下发。`seat = null` 表示观战者，只能看 public。
+ * `server` 可见性的事件（内部记账）永远不下发。
+ */
+export function filterEvents(events: readonly GameEvent[], seat: Seat | null): readonly GameEvent[] {
+  return events.filter((e) => {
+    if (e.visibility.v === 'public') return true;
+    if (e.visibility.v === 'server') return false;
+    return seat !== null && e.visibility.seat === seat;
+  });
 }

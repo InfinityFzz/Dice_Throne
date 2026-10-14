@@ -4,17 +4,20 @@
 > 所有英雄/卡牌数据均为**机制自洽的自制数值**，不含官方卡面文本（flavor text）与美术资产。
 > 符号 id 使用机制名而非官方专名，便于将来重皮主题化。
 
-## 当前进度：M0 已通过 ✅
+## 当前进度：M2 已通过 ✅
 
-M0 的验收标准是「规则引擎跑通单局脚本对战」——从固定种子喂动作序列，跑完整局到分出胜负，且事件序列稳定。
+M0 规则引擎 → M1 本地可玩闭环 → **M2 联机完整联调**（权威校验 / 幂等 / 断线重连 / kill 重启恢复 / 观战）。
 
 ```
-✅ 18 个引擎单测全通过
-✅ 脚本对战跑完整局（约 15 回合 / 110 步）
+✅ 41 个单测全通过（引擎 37 + MatchActor 4）
+✅ npm run e2e：真起服务端 + 两个客户端打完整局
+   · 每步只用服务端下发的 legalActions，全程零「合法动作被拒」
+   · 同一 clientSeq 重发 → duplicate，状态不动
+   · 座位 0 掉线 → 新连接凭令牌重连，视图逐字节一致
+   · kill 服务端 → 重启 → 从 JSONL 恢复，视图与死前逐字节一致
+   · 第三个连接进观战位，SpectatorView 无任一方手牌
+✅ TypeScript strict 三包零错误 · vite build 通过
 ✅ 同 seed 两次运行输出逐字节一致（确定性）
-✅ 6 个不同种子均正常结束，无卡死
-✅ TypeScript strict 类型检查零错误
-✅ 联机服务端可启动（Socket.IO，端口 3001）
 ```
 
 ## 快速开始
@@ -22,10 +25,12 @@ M0 的验收标准是「规则引擎跑通单局脚本对战」——从固定�
 ```bash
 npm install
 
-npm run match          # 跑一局脚本对战（M0 验收）
-npm test               # 引擎单测
-npm run dev:server     # 启动联机服务端 :3001
-npm run dev:web        # 启动前端 :5173
+npm run dev:server     # 联机服务端 :3001（JSONL 持久化到 ./.matches）
+npm run dev:web        # 前端 :5173（默认本地热座，切「联机」页签进房间）
+
+npm run e2e            # M2 端到端联调（起真实服务端 + 两个客户端 + 故障注入）
+npm run match          # 脚本对战（M0 验收）
+npm test               # 引擎 + MatchActor 单测
 ```
 
 ## 目录结构
@@ -39,11 +44,19 @@ packages/shared/          规则引擎 + 类型 + 内容数据（前后端同构
     bucket.ts             伤害分桶与 flush（P6）
     effects.ts            EFFECT_HANDLERS 注册表 + 效果执行队列
     engine.ts             阶段状态机 + 结算阶梯 P1–P8 + reduce
-    project.ts            per-seat 视图投影（信息隐藏）
+    legal.ts              合法动作集（与 reduce 同守卫）+ toAction
+    persistence.ts        纯 append-only 日志（meta/room/snapshot/act）+ 回放重建
+    project.ts            per-seat 视图投影 + 观战投影 + 事件可见性过滤
   src/content/            状态库 / 卡牌库 / 英雄定义 / 注册表与校验
+  src/types/net.ts        联机协议（双方共用同一份契约类型）
 packages/server/          Socket.IO 服务端（服务端权威）
+  src/matchActor.ts       一个房间唯一写入者：串行队列 + clientSeq 幂等
+  src/matchLog.ts         对局日志的文件后端（append-only）
+  src/roomManager.ts      大厅选人 / 准备 / 重连令牌 / 观战 / 启动恢复
 packages/web/             React 前端
-scripts/                  M0 脚本对战
+  src/local.ts            本地热座（浏览器内跑引擎）
+  src/online.ts           联机 hook（令牌持久化 / 自动重连 / clientSeq）
+scripts/                  脚本对战、资产管线、M2 端到端联调
 ```
 
 ## 关键设计
@@ -57,24 +70,23 @@ scripts/                  M0 脚本对战
 | **可序列化** | `EffectDef` 禁止闭包，行为通过注册表查找 —— 这是挂起/持久化/回放的前提 |
 | **数据驱动** | 新增英雄 = 新增一个 `HeroDef`，引擎零改动 |
 | **回合制不限时** | 用户拍板：取消一切操作倒计时，断线不判负，持久化因此升至 P1 |
+| **每个房间一个 MatchActor** | 所有状态推进排队串行执行，写盘发生在队内，顺序与推进顺序严格一致 |
+| **clientSeq 幂等** | 同一 (座位, 序号) 重发只结算一次；序号倒退判为过期，客户端重连补发不会重复结算 |
+| **append-only 持久化** | JSONL = meta / room 元信息 / 周期快照 / 动作；从不覆盖写，半行自动丢弃，重启可回放重建 |
+| **观战投影** | `SpectatorView` 两侧都只见手牌张数、无 legalActions —— 信息在字段层面就不生成 |
 
 ## 尚未实现（后续里程碑）
 
 进度、缺口与计划的完整清单见 **[docs/PROGRESS.md](docs/PROGRESS.md)**，要点：
-
-**P0（阻塞「能玩起来」）**
-- 前端出牌闭环缺失：引擎已支持 `playCard / buyUpgrade / sellCard / chooseOption`，但 UI 无入口 —— 33 张牌库一张打不出、CP 无处消费
-- `legalActions` 未由服务端下发，前端靠 `pendingKind` 猜按钮
-- T14 投影泄漏属性测试（架构 §2.2.2 明列 M1 前必做）未落地
-
-**P1（阻塞「联机可靠」）**
-- `MatchActor` 串行命令队列；持久化当前只写摘要行、不可恢复；断线重连无 `rejoin` 校验；房间无选人界面
 
 **P2（阻塞「内容完整」）**
 - `describe(e, lang)` 描述层与 lint 守门
 - 引擎条件补全：4-of-a-kind（Smack 不可防御）、3-of-a-kind（Fortitude 移除状态）、防御重掷窗口（Better D!）
 - 双英雄 L1 / Ultimate 官方数值仍为占位
 - M3 其余 5 英雄（Gunslinger / ShadowThief / MoonElf / Ninja / Raveness）
+
+联机已可用的部分（M2）：房间大厅选人 / 准备开局、断线保留座位并凭令牌重连、
+进程重启自动恢复、观战位、每步动作由服务端 `legalActions` 驱动。
 
 ## 官方数值校准现状
 

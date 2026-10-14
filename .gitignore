@@ -5,6 +5,9 @@ dist/
 
 # ── 运行期数据 ──
 .matches/
+# 端到端联调脚本 / MatchActor 单测的临时持久化目录
+.e2e-*/
+.actortest-*/
 
 # ── 真实美术素材（绝不入库）──
 # TTS 导入的真图 + 图集本地缓存。manifest.json（清单）入库，图片本体不入库。

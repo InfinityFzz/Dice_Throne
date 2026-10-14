@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "test": "node --import tsx --test packages/shared/src/**/*.test.ts",
+    "test": "node --import tsx --test packages/shared/src/**/*.test.ts packages/server/src/**/*.test.ts",
     "match": "node --import tsx scripts/play-scripted-match.ts",
     "dev:server": "npm run dev -w @dt/server",
     "dev:web": "npm run dev -w @dt/web",
@@ -19,7 +19,8 @@
     "assets:check": "node --import tsx scripts/gen-asset-catalog.ts --check",
     "assets:import": "node --import tsx scripts/import-tts-assets.ts",
     "assets:confirm": "node --import tsx scripts/confirm-tts-mapping.ts",
-    "test:assets": "node --import tsx --test packages/web/src/assets/assets.test.ts"
+    "test:assets": "node --import tsx --test packages/web/src/assets/assets.test.ts",
+    "e2e": "node --import tsx scripts/e2e-online.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
